@@ -1,6 +1,7 @@
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.List;
 
 class Location {
     int x;
@@ -55,14 +56,27 @@ class Location {
         return res;
     }
 
+    ArrayList<Location> getAdjacentSides() { return getAdjacentSides( this ); };
+
+    ArrayList<Location> getAdjacentSides( Location loc ) { return getAdjacentSides( loc, null ); };
+
     ArrayList<Location> getAdjacentSides( Location loc, Location exclude ) {
         ArrayList<Location> res = new ArrayList<>();
         if (loc.type == Types.CORNER) {
-            return null;
+            Location side1 = new Location( loc.x / 2 * 3 + 1, loc.y, Types.SIDE );
+            if( loc.x % 2 == 0 ) {
+                res.add( side1.translated(-1, 0));
+                res.add( side1.translated( -2, 0 ));
+            } else {
+                res.add( side1.translated( 1, 0 ));
+                res.add( side1.translated( -1, -1 ));
+            }
+            res.add( side1 );
         } else if (loc.type == Types.SIDE) {
             ArrayList<Location> corners = getAdjacentCorners(loc);
             for (Location l : corners) {
-                res.addAll(getAdjacentSides(l, loc));
+                List<Location> sides = getAdjacentSides(l, loc);
+                res.addAll( sides );
             }
         }
         return res;
