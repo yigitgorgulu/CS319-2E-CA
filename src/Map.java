@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -45,11 +47,25 @@ class Map {
                 }
             }
         }
+        ArrayList<MapTile.Types> tileStack = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            if( i < 3 ) {
+                tileStack.add(MapTile.Types.MOUNTAIN);
+                tileStack.add(MapTile.Types.HILL);
+            }
+            if( i < 4) {
+                tileStack.add(MapTile.Types.PASTURE);
+                tileStack.add(MapTile.Types.FIELD);
+                tileStack.add(MapTile.Types.FOREST);
+            }
+        }
+        tileStack.add(MapTile.Types.DESERT);
+        Collections.shuffle(tileStack);
         tiles = new MapTile[5][5];
         for( int y  = 0; y < tiles.length; y++ ) {
             for( int x = 0; x < tiles[y].length; x++ ) {
                 if ( x >= y - 2 && x <= y + 2 ) {
-                    MapElement tile = new MapTile(new Location(x, y, Location.Types.TILE), MapTile.Types.DESERT);
+                    MapElement tile = new MapTile(new Location(x, y, Location.Types.TILE), tileStack.remove(0) );
                     tiles[y][x] = tile;
                 }
             }
