@@ -6,7 +6,7 @@ import java.util.List;
 class Location {
     int x;
     int y;
-    enum Types { CORNER, SIDE, TILE }
+    enum Types { CORNER, SIDE, TILE };
     Types type;
 
     Location() {
