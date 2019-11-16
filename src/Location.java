@@ -1,3 +1,4 @@
+import javax.lang.model.element.TypeElement;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -6,7 +7,7 @@ import java.util.List;
 class Location {
     int x;
     int y;
-    enum Types { CORNER, SIDE, TILE }
+    enum Types { CORNER, SIDE, TILE };
     Types type;
 
     Location() {
@@ -123,8 +124,8 @@ class Location {
     Point2D getRawDisplayPosition( Location loc ) {
         double x = 0;
         double y = 0;
-        double xOffset = 60.0;
-        double yOffset = 60.0;
+        double xOffset = 0.0;
+        double yOffset = 0.0;
         double spread = 0;
         if ( loc.type == Types.CORNER ) {
             spread = 10.0;
@@ -141,8 +142,9 @@ class Location {
             x = ( pos1.getX() + pos2.getX() ) / 2.0;
             y = ( pos1.getY() + pos2.getY() ) / 2.0;
         } else if (type == Types.TILE ) {
-            x = loc.x * Math.sqrt(3) * 2;
-            y = loc.y * 4;
+            Point2D pos = ( new Location( loc.x * 2, loc.y, Types.CORNER ) ).getRawDisplayPosition();
+            //x = pos.getX() + 10.0;
+            //y = pos.getY() + 10.0;
         }
         return new Point2D.Double( x , y );
     }

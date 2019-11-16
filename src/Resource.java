@@ -46,4 +46,6 @@ public class Resource {
     int totalCount() {
         return brick + wood + sheep + wheat + ore;
     }
+
+    boolean isZero() { return this.totalCount() == 0; }
 }
