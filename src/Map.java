@@ -45,6 +45,15 @@ class Map {
                 }
             }
         }
+        tiles = new MapTile[5][5];
+        for( int y  = 0; y < tiles.length; y++ ) {
+            for( int x = 0; x < tiles[y].length; x++ ) {
+                if ( x >= y - 2 && x <= y + 2 ) {
+                    MapElement tile = new MapTile(new Location(x, y, Location.Types.TILE), MapTile.Types.DESERT);
+                    tiles[y][x] = tile;
+                }
+            }
+        }
     }
 
     boolean build(Location loc ) {
@@ -115,7 +124,7 @@ class Map {
         return res;
     }
 
-    List<MapElement>  getAllCorners() {
+    List<MapElement> getAllElements() {
         List<MapElement> res = new ArrayList<>();
         for( MapElement[] c : corners ) {
             for (MapElement cx : c) {
@@ -129,6 +138,12 @@ class Map {
                     res.add(sx);
             }
         }
+        /*for( MapElement[] t : tiles ) {
+            for (MapElement tx : t) {
+                if(tx != null)
+                    res.add(tx);
+            }
+        }*/
         return res;
     }
 }

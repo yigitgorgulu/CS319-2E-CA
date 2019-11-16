@@ -3,7 +3,8 @@ public class MapTile implements MapElement {
     Types type;
     Location loc;
 
-    MapTile(Types t ) {
+    MapTile(Location l, Types t ) {
+        this.loc = l;
         this.type = t;
     }
 

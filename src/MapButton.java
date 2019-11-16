@@ -6,9 +6,8 @@ class MapButton extends Circle {
     Location loc;
     MapElement me;
 
-    MapButton( MapElement me) {
-        super( me.getLocation().getRawDisplayPosition().getX(), me.getLocation().getRawDisplayPosition().getY(),
-                me.getLocation().type == Location.Types.CORNER ? 4.0D : 3.0D );
+    MapButton( double x, double y, double r, MapElement me) {
+        super( x, y, r );
         this.loc = loc;
         this.me = me;
     }
