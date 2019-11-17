@@ -11,7 +11,7 @@ public class Player {
     Resource res;
     int armySize = 0;
     int roadLength = 0;
-    int victortPoints = 0;
+    int victoryPoints = 0;
 
     public Player() {
         res = new Resource( 4, 4, 4, 4, 4);
@@ -71,6 +71,6 @@ public class Player {
     }
 
     int getVictoryPoints() {
-        return victortPoints;
+        return victoryPoints;
     }
 }
