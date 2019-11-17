@@ -55,7 +55,7 @@ public class Player {
         return this.res;
     }
 
-    int getVictoryPoints() {
+    public int getVictoryPoints() {
         return victortPoints;
     }
 
