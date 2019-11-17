@@ -1,6 +1,7 @@
 package Game.Map;
 
 import Display.DefaultUISpecifications;
+import Display.GameScene;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -142,11 +143,11 @@ public class Location {
     Point2D getRawDisplayPosition( Location loc ) {
         double x = 0;
         double y = 0;
-        double xOffset = DefaultUISpecifications.SCREEN_WIDTH/4;
-        double yOffset = DefaultUISpecifications.SCREEN_HEIGHT/4;
+        double xOffset = (DefaultUISpecifications.SCREEN_WIDTH / 2 - (3 * GameScene.hexagon_edge_length * Math.sqrt(3) / 2));
+        double yOffset = GameScene.hexagon_edge_length / 2 + 5;
         double spread;
         if ( loc.type == Types.CORNER ) {
-            spread = 50.0;
+            spread = DefaultUISpecifications.SCREEN_HEIGHT / 19;
             x = (loc.x - loc.y) * Math.sqrt(3) * spread;
             y = ( ( loc.y * 3 ) - (loc.x % 2 == 0 ? 0 : 1 ) ) * spread;
             x += xOffset;

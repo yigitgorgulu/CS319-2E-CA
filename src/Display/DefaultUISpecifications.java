@@ -10,10 +10,10 @@ public class DefaultUISpecifications {
 
     public void setScreenDimensions(Stage stage) {
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+        System.out.println(primaryScreenBounds.getHeight() + " FJKSLAGPŞASGAG");
 
         SCREEN_HEIGHT = primaryScreenBounds.getHeight();
         SCREEN_WIDTH = primaryScreenBounds.getWidth();
-
         stage.setX(primaryScreenBounds.getMinX());
         stage.setY(primaryScreenBounds.getMinY());
 
