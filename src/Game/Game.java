@@ -46,4 +46,8 @@ public class Game {
         currentPlayer = players.get( currentPlayerNo);
         map.generateResource( rollDice() );
     }
+
+    boolean checkVictory() {
+        return currentPlayer.getVictoryPoints() >= 10;
+    }
 }
