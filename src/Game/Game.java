@@ -27,11 +27,14 @@ public class Game {
             developmentCards.add(DevelopmentCards.ROAD_BUILDING);
         for ( int i = 28; i < 31; i++ )
             developmentCards.add(DevelopmentCards.YEAR_OF_PLENTY);
+
+        shuffleDevelopmentCards(5);
     }
 
-    public boolean shuffleDevelopmentCards(){
-        Collections.shuffle(developmentCards);
-        return true;
+    public void shuffleDevelopmentCards(int time){
+        int count = 0;
+        while ( count < time )
+            Collections.shuffle(developmentCards);
     }
 
     public Game( Map m, ArrayList<Player> p ) {
