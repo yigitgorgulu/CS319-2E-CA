@@ -113,6 +113,14 @@ public class Location {
                 res.add( cor1.translated( 1, 0));
                 res.add( cor1.translated( 2, 0));
             }
+        } else if ( loc.type == Types.TILE ) {
+            Location cor1 = new Location( loc.x * 2, loc.y, Types.CORNER );
+            res.add( cor1 );
+            res.add( cor1.translated(1,0) );
+            res.add( cor1.translated(2,0) );
+            res.add( cor1.translated(1,1) );
+            res.add( cor1.translated(2,1) );
+            res.add( cor1.translated(3,1) );
         }
         return res;
     }

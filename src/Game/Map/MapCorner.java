@@ -19,8 +19,9 @@ public class MapCorner implements MapElement, Buildable {
         return type == Types.EMPTY;
     }
 
-    public void build() {
+    public void build( Player player) {
         type = type == Types.EMPTY ? Types.VILLAGE : Types.CITY;
+        this.player = player;
     }
 
     public Player.Actions getCost() {

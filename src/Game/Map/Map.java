@@ -1,11 +1,13 @@
 package Game.Map;
 
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import Game.Player.Player;
+import Game.Resource;
 
 
 public class Map {
@@ -102,15 +104,38 @@ public class Map {
         return directions.get( ( i + 1 ) % directions.size() );
     }
 
-    public boolean build(Location loc) {
+    public boolean build(Location loc, Player currentPlayer) {
         MapElement me = getMapElement( loc );
         if( loc.type == Location.Types.CORNER && noAdjacentSettlements(me)
             || loc.type == Location.Types.SIDE && isConnected(me) )
         {
-            ( (Buildable) me).build();
+            ( (Buildable) me).build( currentPlayer );
             return true;
         }
         return false;
+    }
+    
+    public void generateResource( int dice) {
+        for( MapElement[] t : tiles ) {
+            for( MapElement tx : t ) {
+                MapTile tile = (MapTile) tx;
+                if( tile.number == dice ) {
+                    List<MapElement> els = getMapElement(tile.loc.getAdjacentCorners());
+                    Resource res = tile.getResource();
+                    for( MapElement e : els) {
+                        MapCorner cor = (MapCorner) e;
+                        if( cor.player != null ) {
+                            if( cor.type == MapCorner.Types.VILLAGE)
+                                cor.player.addResource( res );
+                            if( cor.type == MapCorner.Types.CITY) {
+                                cor.player.addResource( res );
+                                cor.player.addResource( res );
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public Player.Actions getCost(Location loc) {
@@ -123,7 +148,7 @@ public class Map {
     boolean noAdjacentSettlements( MapElement cor ) {
         var res = true;
         ArrayList<Location> locs = cor.getLocation().getAdjacentCorners();
-        List<MapElement> cors = getMapElements( locs );
+        List<MapElement> cors = getMapElement( locs );
         for( MapElement c : cors ) {
             if( !c.isEmpty() )
                 res = false;
@@ -134,9 +159,9 @@ public class Map {
     boolean isConnected( MapElement el ) {
         boolean res = false;
         Location loc = el.getLocation();
-        List<MapElement> els = getMapElements( loc.getAdjacentSides() );
+        List<MapElement> els = getMapElement( loc.getAdjacentSides() );
         if ( loc.type == Location.Types.SIDE ) {
-            els.addAll( getMapElements( loc.getAdjacentCorners() ) );
+            els.addAll( getMapElement( loc.getAdjacentCorners() ) );
         }
         for ( MapElement e : els )
             if( !e.isEmpty() )
@@ -147,13 +172,13 @@ public class Map {
     MapElement getMapElement(Location loc ) {
         ArrayList<Location> locs = new ArrayList<>();
         locs.add( loc );
-        List<MapElement> me = getMapElements( locs );
+        List<MapElement> me = getMapElement( locs );
         if ( me.isEmpty() )
             return null;
         return me.get(0);
     }
 
-    List<MapElement> getMapElements(ArrayList<Location> locs ) {
+    List<MapElement> getMapElement(ArrayList<Location> locs ) {
         ArrayList<MapElement> res = new ArrayList<>();
         MapElement[][] arr = new MapCorner[0][0];
         for( Location l : locs ) {

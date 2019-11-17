@@ -45,6 +45,11 @@ public class Player {
         return res;
     }
 
+    public Resource addResource( Resource res ) {
+        this.res.add( res );
+        return this.res;
+    }
+
     int getVictoryPoints() {
         return victortPoints;
     }
