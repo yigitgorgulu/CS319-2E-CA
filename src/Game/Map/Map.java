@@ -20,10 +20,16 @@ public class Map {
             new Point(-1,-1), new Point(-1,0)
     ));
 
+    boolean settlingPhase = true;
+
 
 
     public Map() {
         generateMap( 3);
+    }
+
+    public void setSettlingPhase(boolean settlingPhase) {
+        this.settlingPhase = settlingPhase;
     }
 
     private void generateMap(int noOfPlayers) {
@@ -106,8 +112,9 @@ public class Map {
 
     public boolean build(Location loc, Player currentPlayer) {
         MapElement me = getMapElement( loc );
-        if( loc.type == Location.Types.CORNER && noAdjacentSettlements(me)
-            || loc.type == Location.Types.SIDE && isConnected(me) )
+        boolean canBuildSettlement = loc.type == Location.Types.CORNER && noAdjacentSettlements(me) && ( settlingPhase || isConnected(me) );
+        boolean canBuildRoad = loc.type == Location.Types.SIDE && isConnected(me);
+        if (canBuildRoad || canBuildSettlement)
         {
             ( (Buildable) me).build( currentPlayer );
             return true;
@@ -129,7 +136,7 @@ public class Map {
                                 cor.player.addResource( res );
                             if( cor.type == MapCorner.Types.CITY) {
                                 cor.player.addResource( res );
-                                cor.player.addResource( res );
+                                cor.player.multiplyResource( res );
                             }
                         }
                     }
@@ -146,7 +153,7 @@ public class Map {
     }
 
     boolean noAdjacentSettlements( MapElement cor ) {
-        var res = true;
+        boolean res = true;
         ArrayList<Location> locs = cor.getLocation().getAdjacentCorners();
         List<MapElement> cors = getMapElement( locs );
         for( MapElement c : cors ) {

@@ -50,7 +50,12 @@ public class Player {
         return this.res;
     }
 
-    int getVictoryPoints() {
+    public Resource multiplyResource( Resource res ){
+        this.res.multiply( res );
+        return this.res;
+    }
+
+    public int getVictoryPoints() {
         return victortPoints;
     }
 

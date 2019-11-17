@@ -7,9 +7,9 @@ public class Resource {
     int wheat;
     int ore;
 
-    public Resource() {
-        this( 0, 0, 0, 0, 0);
-    }
+    public Resource() { this( 0); }
+
+    public Resource( int all ) { this( all, all, all, all, all); }
 
     public Resource( int brick, int wood, int sheep, int wheat, int ore ) {
         this.brick = brick;
@@ -34,6 +34,15 @@ public class Resource {
         sheep -= rsc.sheep;
         wheat -= rsc.wheat;
         ore -= rsc.ore;
+        return this;
+    }
+
+    public Resource multiply( Resource rsc ){
+        brick *= rsc.brick;
+        wood *= rsc.wood;
+        sheep *= rsc.sheep;
+        wheat *= rsc.wheat;
+        ore *= rsc.ore;
         return this;
     }
 

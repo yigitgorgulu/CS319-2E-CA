@@ -44,20 +44,16 @@ public class Location {
     }
 
     ArrayList<Location> getAdjacentTiles() {
-        return getAdjacentTiles( this, null);
+        return getAdjacentTiles( null);
     }
 
-    ArrayList<Location> getAdjacentTiles( Location loc ) {
-        return getAdjacentTiles( loc, null);
-    }
-
-    ArrayList<Location> getAdjacentTiles ( Location loc, Location exclude ) {
+    ArrayList<Location> getAdjacentTiles ( Location exclude ) {
         //only for corners
         ArrayList<Location> res = new ArrayList<Location>();
         Location tile1;
         tile1 = new Location( x / 2, y, Types.TILE );
         res.add(tile1);
-        if ( loc.x % 2 == 0 ) {
+        if ( this.x % 2 == 0 ) {
             res.add( tile1.translated( -1, 0));
             res.add( tile1.translated( -1, -1));
         } else {
@@ -67,15 +63,13 @@ public class Location {
         return res;
     }
 
-    ArrayList<Location> getAdjacentSides() { return getAdjacentSides( this ); };
+    ArrayList<Location> getAdjacentSides() { return getAdjacentSides( null ); };
 
-    ArrayList<Location> getAdjacentSides( Location loc ) { return getAdjacentSides( loc, null ); };
-
-    ArrayList<Location> getAdjacentSides( Location loc, Location exclude ) {
+    ArrayList<Location> getAdjacentSides( List<Location> exclude ) {
         ArrayList<Location> res = new ArrayList<>();
-        if (loc.type == Types.CORNER) {
-            Location side1 = new Location( loc.x / 2 * 3 + 1, loc.y, Types.SIDE );
-            if( loc.x % 2 == 0 ) {
+        if (this.type == Types.CORNER) {
+            Location side1 = new Location( this.x / 2 * 3 + 1, this.y, Types.SIDE );
+            if( this.x % 2 == 0 ) {
                 res.add( side1.translated(-1, 0));
                 res.add( side1.translated( -2, 0 ));
             } else {
@@ -83,10 +77,10 @@ public class Location {
                 res.add( side1.translated( -1, -1 ));
             }
             res.add( side1 );
-        } else if (loc.type == Types.SIDE) {
-            ArrayList<Location> corners = getAdjacentCorners(loc);
+        } else if (this.type == Types.SIDE) {
+            ArrayList<Location> corners = this.getAdjacentCorners();
             for (Location l : corners) {
-                List<Location> sides = getAdjacentSides(l, loc);
+                List<Location> sides = l.getAdjacentSides();
                 res.addAll( sides );
             }
         }
@@ -94,16 +88,12 @@ public class Location {
     }
 
     ArrayList<Location> getAdjacentCorners() {
-        return getAdjacentCorners( this );
+        return getAdjacentCorners( null );
     }
 
-    ArrayList<Location> getAdjacentCorners( Location loc ) {
-        return getAdjacentCorners( loc, null);
-    }
-
-    ArrayList<Location> getAdjacentCorners( Location loc, ArrayList<Location> exclude ) {
+    ArrayList<Location> getAdjacentCorners( List<Location> exclude ) {
         ArrayList<Location> res = new ArrayList<>();
-        if (loc.type == Types.CORNER) {
+        if (this.type == Types.CORNER) {
             res.add( translated( -1, 0) );
             res.add( translated( 1, 0 ) );
             if( x % 2 == 0 ) {
@@ -111,20 +101,20 @@ public class Location {
             } else {
                 res.add(translated(-1, -1));
             }
-        } else if ( loc.type == Types.SIDE ) {
-            Location cor1 = new Location( loc.x / 3 * 2, loc.y, Types.CORNER );
-            if ( loc.x % 3 == 0 ) {
+        } else if ( this.type == Types.SIDE ) {
+            Location cor1 = new Location( this.x / 3 * 2, this.y, Types.CORNER );
+            if ( this.x % 3 == 0 ) {
                 res.add( cor1 );
                 res.add( cor1.translated( 1, 1 ) );
-            } else if ( loc.x % 3 == 1 ) {
+            } else if ( this.x % 3 == 1 ) {
                 res.add( cor1 );
                 res.add( cor1.translated(  1, 0 ));
             } else {
                 res.add( cor1.translated( 1, 0));
                 res.add( cor1.translated( 2, 0));
             }
-        } else if ( loc.type == Types.TILE ) {
-            Location cor1 = new Location( loc.x * 2, loc.y, Types.CORNER );
+        } else if ( this.type == Types.TILE ) {
+            Location cor1 = new Location( this.x * 2, this.y, Types.CORNER );
             res.add( cor1 );
             res.add( cor1.translated(1,0) );
             res.add( cor1.translated(2,0) );
@@ -136,23 +126,19 @@ public class Location {
     }
 
     public Point2D getRawDisplayPosition() {
-        return getRawDisplayPosition(this );
-    }
-
-    Point2D getRawDisplayPosition( Location loc ) {
         double x = 0;
         double y = 0;
         double xOffset = DefaultUISpecifications.SCREEN_WIDTH/4;
         double yOffset = DefaultUISpecifications.SCREEN_HEIGHT/4;
         double spread;
-        if ( loc.type == Types.CORNER ) {
+        if ( type == Types.CORNER ) {
             spread = 50.0;
-            x = (loc.x - loc.y) * Math.sqrt(3) * spread;
-            y = ( ( loc.y * 3 ) - (loc.x % 2 == 0 ? 0 : 1 ) ) * spread;
+            x = (this.x - this.y) * Math.sqrt(3) * spread;
+            y = ( ( this.y * 3 ) - (this.x % 2 == 0 ? 0 : 1 ) ) * spread;
             x += xOffset;
             y += yOffset;
-        } else if ( loc.type == Types.SIDE ) {
-            ArrayList<Location> cors = getAdjacentCorners( loc );
+        } else if ( this.type == Types.SIDE ) {
+            ArrayList<Location> cors = this.getAdjacentCorners();
             Location cor1 = cors.get(0);
             Location cor2 = cors.get(1);
             Point2D pos1 = cors.get(0).getRawDisplayPosition();
@@ -160,7 +146,7 @@ public class Location {
             x = ( pos1.getX() + pos2.getX() ) / 2.0;
             y = ( pos1.getY() + pos2.getY() ) / 2.0;
         } else if (type == Types.TILE ) {
-            Point2D pos = ( new Location( loc.x * 2, loc.y, Types.CORNER ) ).getRawDisplayPosition();
+            Point2D pos = ( new Location( this.x * 2, this.y, Types.CORNER ) ).getRawDisplayPosition();
             x = pos.getX();
             y = pos.getY();
         }
