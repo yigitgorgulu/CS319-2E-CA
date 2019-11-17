@@ -146,7 +146,7 @@ public class Map {
     }
 
     boolean noAdjacentSettlements( MapElement cor ) {
-        var res = true;
+        boolean res = true;
         ArrayList<Location> locs = cor.getLocation().getAdjacentCorners();
         List<MapElement> cors = getMapElement( locs );
         for( MapElement c : cors ) {
