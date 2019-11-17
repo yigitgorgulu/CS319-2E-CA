@@ -169,7 +169,7 @@ public class Map {
         return res;
     }
 
-    MapElement getMapElement(Location loc ) {
+    public MapElement getMapElement(Location loc ) {
         ArrayList<Location> locs = new ArrayList<>();
         locs.add( loc );
         List<MapElement> me = getMapElement( locs );
@@ -211,12 +211,44 @@ public class Map {
                     res.add(sx);
             }
         }
-        /*for( MapElement[] t : tiles ) {
+        for( MapElement[] t : tiles ) {
             for (MapElement tx : t) {
                 if(tx != null)
                     res.add(tx);
             }
-        }*/
+        }
+        return res;
+    }
+
+    public MapElement getTile(int x, int y){
+        return tiles[x][y];
+    }
+
+    public List<MapTile> getTileElements() {
+        List<MapTile> res = new ArrayList<>();
+        for( MapElement[] c : tiles ) {
+            for (MapElement cx : c) {
+                if(cx != null)
+                    res.add((MapTile) cx);
+            }
+        }
+        return res;
+    }
+
+    public List<MapElement> getNonTileElements() {
+        List<MapElement> res = new ArrayList<>();
+        for( MapElement[] c : corners ) {
+            for (MapElement cx : c) {
+                if(cx != null)
+                    res.add(cx);
+            }
+        }
+        for( MapElement[] s : sides ) {
+            for (MapElement sx : s) {
+                if(sx != null)
+                    res.add(sx);
+            }
+        }
         return res;
     }
 }

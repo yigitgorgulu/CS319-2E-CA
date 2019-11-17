@@ -2,7 +2,7 @@ package Game.Map;
 import Game.Resource;
 
 public class MapTile implements MapElement {
-    enum Types { FOREST, MOUNTAIN, HILL, FIELD, DESERT, PASTURE };
+    public enum Types { FOREST, MOUNTAIN, HILL, FIELD, DESERT, PASTURE };
     Types type;
     Location loc;
     int number = -1;
@@ -36,4 +36,11 @@ public class MapTile implements MapElement {
         return false;
     }
 
+    public Types getType(){
+        return type;
+    }
+
+    public int getNumber() {
+        return number;
+    }
 }

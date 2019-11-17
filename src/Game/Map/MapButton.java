@@ -14,7 +14,9 @@ public class MapButton extends Circle {
     }
 
     public void update() {
-        if( !me.isEmpty() )
-            this.setFill(Color.DARKSLATEBLUE);
+        if( !me.isEmpty() ){
+            this.setFill(Color.WHITESMOKE);
+            this.setOpacity(0.7);
+        }
     }
 }

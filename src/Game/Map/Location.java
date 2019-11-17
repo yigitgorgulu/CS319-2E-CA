@@ -1,5 +1,7 @@
 package Game.Map;
 
+import Display.DefaultUISpecifications;
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,14 +9,22 @@ import java.util.List;
 public class Location {
     int x;
     int y;
-    enum Types { CORNER, SIDE, TILE };
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+    public enum Types { CORNER, SIDE, TILE };
     Types type;
 
     Location() {
         this(0,0,null);
     }
 
-    Location( int x, int y, Types type) {
+    public Location(int x, int y, Types type) {
         this.x = x;
         this.y = y;
         this.type = type;
@@ -132,11 +142,11 @@ public class Location {
     Point2D getRawDisplayPosition( Location loc ) {
         double x = 0;
         double y = 0;
-        double xOffset = 0.0;
-        double yOffset = 0.0;
-        double spread = 0;
+        double xOffset = DefaultUISpecifications.SCREEN_WIDTH/4;
+        double yOffset = DefaultUISpecifications.SCREEN_HEIGHT/4;
+        double spread;
         if ( loc.type == Types.CORNER ) {
-            spread = 10.0;
+            spread = 50.0;
             x = (loc.x - loc.y) * Math.sqrt(3) * spread;
             y = ( ( loc.y * 3 ) - (loc.x % 2 == 0 ? 0 : 1 ) ) * spread;
             x += xOffset;
@@ -151,8 +161,8 @@ public class Location {
             y = ( pos1.getY() + pos2.getY() ) / 2.0;
         } else if (type == Types.TILE ) {
             Point2D pos = ( new Location( loc.x * 2, loc.y, Types.CORNER ) ).getRawDisplayPosition();
-            //x = pos.getX() + 10.0;
-            //y = pos.getY() + 10.0;
+            x = pos.getX();
+            y = pos.getY();
         }
         return new Point2D.Double( x , y );
     }
