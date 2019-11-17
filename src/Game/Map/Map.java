@@ -119,7 +119,7 @@ public class Map {
         {
             ( (Buildable) me).build( currentPlayer );
             if(canRoad) {
-                System.out.println(roadLength(loc, new ArrayList<>()));
+                System.out.println(roadLength(loc, new ArrayList<>(), currentPlayer));
             }
             return true;
         }
@@ -189,16 +189,17 @@ public class Map {
         return me.get(0);
     }
 
-    public int roadLength( Location location, List<Location> exclude) {
+    public int roadLength( Location location, List<Location> exclude, Player currentPlayer) {
         exclude.add(location);
         List<Location> newExclude = new ArrayList<>(exclude);
         int max = 0;
         int temp;
         for (Location loc: location.getAdjacentSides(exclude) ) {
-            MapSide x = (MapSide) getMapElement(loc);
-            if( x != null) {
-                if (x.hasRoad) {
-                    temp = roadLength(loc, newExclude);
+            MapSide adjacentRoad = (MapSide) getMapElement(loc);
+            if( adjacentRoad != null) {
+                if (adjacentRoad.hasRoad
+                        && adjacentRoad.player.equals(currentPlayer)) {
+                    temp = roadLength(loc, newExclude, currentPlayer);
                     if (temp > max) {
                         max = temp;
                     }

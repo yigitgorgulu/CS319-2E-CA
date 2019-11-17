@@ -47,7 +47,7 @@ public class Game {
                 if( cost == Player.Actions.BUILD_ROAD ) {
                     builtRoad = true;
                 } else {
-                    currentPlayer.incrementVictoryPoints(1);
+                    //currentPlayer.incrementVictoryPoints(1);
                 }
                 return true;
             }
@@ -95,7 +95,7 @@ public class Game {
         return gameTurns == players.size() * 2;
     }
 
-    boolean checkVictory () {
-        return currentPlayer.getVictoryPoints() >= 10;
-    }
+   // boolean checkVictory () {
+     //   return currentPlayer.getVictoryPoints() >= 10;
+    //}
 }

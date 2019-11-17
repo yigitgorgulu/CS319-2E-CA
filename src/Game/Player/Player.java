@@ -81,8 +81,8 @@ public class Player {
         return victoryPoints;
     }
 
-    public int incrementVictoryPoints( int i) {
-        victortPoints += i;
-        return victortPoints;
-    }
+    //public int incrementVictoryPoints( int i) {
+      //  victortPoints += i;
+        //return victortPoints;
+    //}
 }
