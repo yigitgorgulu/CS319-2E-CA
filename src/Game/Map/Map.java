@@ -117,6 +117,9 @@ public class Map {
         if( canSettle || canRoad )
         {
             ( (Buildable) me).build( currentPlayer );
+            if(canRoad) {
+                System.out.println(roadLength(loc, new ArrayList<>()));
+            }
             return true;
         }
         return false;
@@ -184,6 +187,26 @@ public class Map {
             return null;
         return me.get(0);
     }
+
+    public int roadLength( Location location, List<Location> exclude) {
+        exclude.add(location);
+        List<Location> newExclude = new ArrayList<>(exclude);
+        int max = 0;
+        int temp;
+        for (Location loc: location.getAdjacentSides(exclude) ) {
+            MapSide x = (MapSide) getMapElement(loc);
+            if( x != null) {
+                if (x.hasRoad) {
+                    temp = roadLength(loc, newExclude);
+                    if (temp > max) {
+                        max = temp;
+                    }
+                }
+            }
+        }
+        return ++max;
+    }
+
 
     List<MapElement> getMapElement(ArrayList<Location> locs ) {
         ArrayList<MapElement> res = new ArrayList<>();

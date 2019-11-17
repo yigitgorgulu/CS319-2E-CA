@@ -19,11 +19,17 @@ public class Location {
     public int getY() {
         return y;
     }
-    public enum Types { CORNER, SIDE, TILE };
+    public enum Types { CORNER, SIDE, TILE }
     Types type;
 
     Location() {
         this(0,0,null);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Location location = (Location)obj;
+        return (y == location.y && x == location.x);
     }
 
     public Location(int x, int y, Types type) {
@@ -65,10 +71,11 @@ public class Location {
         return res;
     }
 
-    ArrayList<Location> getAdjacentSides() { return getAdjacentSides(Collections.emptyList()); };
+    ArrayList<Location> getAdjacentSides() { return getAdjacentSides(new ArrayList<>()); };
 
     ArrayList<Location> getAdjacentSides( List<Location> exclude ) {
         ArrayList<Location> res = new ArrayList<>();
+        exclude.add(this);
         if (this.type == Types.CORNER) {
             Location side1 = new Location( this.x / 2 * 3 + 1, this.y, Types.SIDE );
             if( this.x % 2 == 0 ) {
@@ -90,14 +97,17 @@ public class Location {
                     res.add(temp);
                 }
             }
-            res.add( side1 );
+            if(!exclude.contains(side1)) {
+                res.add(side1);
+            }
         } else if (this.type == Types.SIDE) {
             ArrayList<Location> corners = this.getAdjacentCorners();
             for (Location l : corners) {
-                List<Location> sides = l.getAdjacentSides();
+                List<Location> sides = l.getAdjacentSides(exclude);
                 res.addAll( sides );
             }
         }
+        
         return res;
     }
 
