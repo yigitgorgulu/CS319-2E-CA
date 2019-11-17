@@ -31,6 +31,7 @@ public class GameScene{
     public static double hexagon_edge_length;
     private Group root;
     private Scene scene;
+    Game game;
     Map map;
     private double differenceX;
     private double differenceY;
@@ -57,6 +58,7 @@ public class GameScene{
         endTurn = new Button("End Button");
         endTurn.setOnAction(e->{
             System.out.println("SONAT ROCKS!");
+            game.endTurn();
         });
         root.getChildren().add(endTurn);
     }
@@ -96,7 +98,7 @@ public class GameScene{
     private void createGameAndTiles() throws FileNotFoundException {
         player1 = new Player();
         player2 = new Player();
-        Game game = new Game(map, new ArrayList<Player>(Arrays.asList(player1, player2)));
+        game = new Game(map, new ArrayList<Player>(Arrays.asList(player1, player2)));
 
         font = javafx.scene.text.Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), 30);
         differenceX = map.getTile(0,1).getLocation().getRawDisplayPosition().getX() - map.getTile(0,0).getLocation().getRawDisplayPosition().getX();

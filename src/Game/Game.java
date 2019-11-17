@@ -59,7 +59,7 @@ public class Game {
 
     public void endTurn () {
         int gameDir = 1;
-        map.setSettlingPhase(inSettlingPhase());
+        map.setInSettlingPhase(inSettlingPhase());
         if (inReverseSettilingPhase()) {
             gameDir = -1;
         }
