@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="24a4aa59-db41-46b5-802f-2a65e22d3888" name="Default Changelist" comment="I hope this does't break anything">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Game/Game.java" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="MERGE" />
+  </component>
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="C:\Users\Sonat\IdeaProjects\CS319-2E-CA\.idea" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectId" id="1TYVTt0xuzX9PYHop7yI1NXL5gG" />
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="C:/AProjects/Java/Catan Test/Catan Test.iml" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="CS319-2E-CA" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="24a4aa59-db41-46b5-802f-2a65e22d3888" name="Default Changelist" comment="" />
+      <created>1573637026948</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1573637026948</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Cool work on locations and map">
+      <created>1573818974988</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1573818974988</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Cool work on locations and map">
+      <created>1573821854451</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1573821854451</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Connection and proximity checks on the map&#10;Began writing some other classes">
+      <created>1573831748300</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1573831748300</updated>
+    </task>
+    <task id="LOCAL-00004" summary="MVC, resource checking and spending&#10;Some new classes and interfaces">
+      <created>1573940802088</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1573940802088</updated>
+    </task>
+    <task id="LOCAL-00005" summary="MVC, resource checking and spending&#10;Some new classes and interfaces">
+      <created>1573943036609</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1573943036609</updated>
+    </task>
+    <task id="LOCAL-00006" summary="tile types in the map">
+      <created>1573944785433</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1573944785433</updated>
+    </task>
+    <task id="LOCAL-00007" summary="package structure">
+      <created>1573978884688</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1573978884688</updated>
+    </task>
+    <task id="LOCAL-00008" summary="package structure">
+      <created>1573989224773</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1573989224773</updated>
+    </task>
+    <task id="LOCAL-00009" summary="resource production">
+      <created>1573994550341</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1573994550341</updated>
+    </task>
+    <task id="LOCAL-00010" summary="settling phase">
+      <created>1574011233129</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1574011233129</updated>
+    </task>
+    <task id="LOCAL-00011" summary="I hope this does't break anything">
+      <created>1574017009363</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1574017009363</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Some work on locations and map" />
+    <MESSAGE value="Cool work on locations and map" />
+    <MESSAGE value="Connection and proximity checks on the map&#10;Began writing some other classes" />
+    <MESSAGE value="MVC, resource checking and spending&#10;Some new classes and interfaces" />
+    <MESSAGE value="tile types in the map" />
+    <MESSAGE value="package structure" />
+    <MESSAGE value="resource production" />
+    <MESSAGE value="settling phase" />
+    <MESSAGE value="I hope this does't break anything" />
+    <option name="LAST_COMMIT_MESSAGE" value="I hope this does't break anything" />
+  </component>
+</project>

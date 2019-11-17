@@ -20,6 +20,8 @@ public class Map {
             new Point(-1,-1), new Point(-1,0)
     ));
 
+    boolean inSettlingPhase = true;
+
 
 
     public Map() {
@@ -99,6 +101,10 @@ public class Map {
         }
     }
 
+    public void setInSettlingPhase(boolean b) {
+        inSettlingPhase = b;
+    }
+
     private Point getNextDirection( Point p ) {
         int i = directions.indexOf( p );
         return directions.get( ( i + 1 ) % directions.size() );
@@ -106,8 +112,9 @@ public class Map {
 
     public boolean build(Location loc, Player currentPlayer) {
         MapElement me = getMapElement( loc );
-        if( loc.type == Location.Types.CORNER && noAdjacentSettlements(me)
-            || loc.type == Location.Types.SIDE && isConnected(me) )
+        boolean canSettle = loc.type == Location.Types.CORNER && noAdjacentSettlements(me) && ( inSettlingPhase || isConnected(me) );
+        boolean canRoad = loc.type == Location.Types.SIDE && isConnected(me);
+        if( canSettle || canRoad )
         {
             ( (Buildable) me).build( currentPlayer );
             return true;
