@@ -1,21 +1,27 @@
 package Game;
 
+import java.util.ArrayList;
+
 public class Resource {
+    int resourcesTypes = 5;
     int brick;
     int wood;
     int sheep;
     int wheat;
     int ore;
-
-    public Resource() { this( 0); }
-
-    public Resource( int all ) { this( all, all, all, all, all); }
+    public Resource() {
+        this( 0, 0, 0, 0, 0);
+    }
 
     public Resource( int brick, int wood, int sheep, int wheat, int ore ) {
         this.brick = brick;
+
         this.wood = wood;
+
         this.sheep = sheep;
+
         this.wheat = wheat;
+
         this.ore = ore;
     }
 
@@ -28,21 +34,33 @@ public class Resource {
         return this;
     }
 
+
+    public int getBrick() {
+        return brick;
+    }
+
+    public int getWood() {
+        return wood;
+    }
+
+    public int getSheep() {
+        return sheep;
+    }
+
+    public int getWheat() {
+        return wheat;
+    }
+
+    public int getOre() {
+        return ore;
+    }
+
     public Resource substract( Resource rsc ) {
         brick -= rsc.brick;
         wood -= rsc.wood;
         sheep -= rsc.sheep;
         wheat -= rsc.wheat;
         ore -= rsc.ore;
-        return this;
-    }
-
-    public Resource multiply( Resource rsc ){
-        brick *= rsc.brick;
-        wood *= rsc.wood;
-        sheep *= rsc.sheep;
-        wheat *= rsc.wheat;
-        ore *= rsc.ore;
         return this;
     }
 

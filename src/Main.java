@@ -32,8 +32,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         DefaultUISpecifications specifications = new DefaultUISpecifications();
-        GameScene gameScene = new GameScene();
         specifications.setScreenDimensions(primaryStage);
+        GameScene gameScene = new GameScene();
         Pane root = new Pane();
         root.setPrefSize(DefaultUISpecifications.SCREEN_WIDTH,DefaultUISpecifications.SCREEN_HEIGHT);
 
@@ -47,7 +47,7 @@ public class Main extends Application {
     }
 
     private Node getImgView() throws IOException {
-        InputStream is = Files.newInputStream(Paths.get("res/images/background.png"));
+        InputStream is = Files.newInputStream(Paths.get("res/images/MainMenu/background.png"));
         Image img = new Image(is);
         is.close();
 

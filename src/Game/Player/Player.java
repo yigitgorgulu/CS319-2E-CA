@@ -50,14 +50,27 @@ public class Player {
         return this.res;
     }
 
-    public Resource multiplyResource( Resource res ){
-        this.res.multiply( res );
-        return this.res;
+    public int getWood(){
+        return res.getWood();
+    }
+
+    public int getSheep(){
+        return res.getSheep();
+    }
+
+    public int getWheat(){
+        return res.getWheat();
+    }
+
+    public int getOre(){
+        return res.getOre();
+    }
+
+    public int getBrick(){
+        return res.getBrick();
     }
 
     public int getVictoryPoints() {
         return victortPoints;
     }
-
-
 }
