@@ -1,10 +1,12 @@
+package Game.Map;
+
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import Game.Player.Player;
 
 
-class Map {
+public class Map {
     MapElement[][] corners;
     MapElement[][] sides;
     MapElement[][] tiles;
@@ -12,7 +14,7 @@ class Map {
 
 
 
-    Map() {
+    public Map() {
         generateMap( 3);
     }
 
@@ -72,7 +74,7 @@ class Map {
         }
     }
 
-    boolean build(Location loc ) {
+    public boolean build(Location loc) {
         MapElement me = getMapElement( loc );
         if( loc.type == Location.Types.CORNER && noAdjacentSettlements(me)
             || loc.type == Location.Types.SIDE && isConnected(me) )
@@ -83,7 +85,7 @@ class Map {
         return false;
     }
 
-    Player.Actions getCost( Location loc ) {
+    public Player.Actions getCost(Location loc) {
         if ( loc.type == Location.Types.TILE)
             return null;
         Buildable b = (Buildable) getMapElement( loc );
@@ -114,7 +116,7 @@ class Map {
         return res;
     }
 
-    MapElement getMapElement( Location loc ) {
+    MapElement getMapElement(Location loc ) {
         ArrayList<Location> locs = new ArrayList<>();
         locs.add( loc );
         List<MapElement> me = getMapElements( locs );
@@ -140,7 +142,7 @@ class Map {
         return res;
     }
 
-    List<MapElement> getAllElements() {
+    public List<MapElement> getAllElements() {
         List<MapElement> res = new ArrayList<>();
         for( MapElement[] c : corners ) {
             for (MapElement cx : c) {

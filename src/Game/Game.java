@@ -1,3 +1,9 @@
+package Game;
+
+import Game.Map.Location;
+import Game.Map.Map;
+import Game.Player.Player;
+
 import java.util.ArrayList;
 
 public class Game {
@@ -6,13 +12,13 @@ public class Game {
     Player currentPlayer;
     Map map;
 
-    Game( Map m, ArrayList<Player> p ) {
+    public Game( Map m, ArrayList<Player> p ) {
         map = m;
         players = p;
         currentPlayer = players.get( currentPlayerNo);
     }
 
-    boolean build( Location loc ) {
+    public boolean build( Location loc ) {
         Player.Actions cost = map.getCost(loc);
         if( currentPlayer.canAfford(cost) ) {
             if( map.build(loc) ) {
@@ -23,7 +29,7 @@ public class Game {
         return false;
     }
 
-    void endTurn() {
+    public void endTurn() {
         currentPlayerNo = ( currentPlayerNo + 1 ) % players.size();
         currentPlayer = players.get( currentPlayerNo);
     }

@@ -1,10 +1,10 @@
-import javax.lang.model.element.TypeElement;
-import java.awt.Point;
+package Game.Map;
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-class Location {
+public class Location {
     int x;
     int y;
     enum Types { CORNER, SIDE, TILE };
@@ -117,7 +117,7 @@ class Location {
         return res;
     }
 
-    Point2D getRawDisplayPosition() {
+    public Point2D getRawDisplayPosition() {
         return getRawDisplayPosition(this );
     }
 
