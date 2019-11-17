@@ -1,3 +1,6 @@
+package Game.Map;
+import Game.Player.Player;
+
 public class MapSide implements MapElement, Buildable {
     Location loc;
     boolean hasRoad;

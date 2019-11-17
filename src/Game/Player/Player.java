@@ -1,8 +1,10 @@
+package Game.Player;
+
+import Game.Resource;
 import javafx.scene.paint.Color;
-import java.util.ArrayList;
 
 public class Player {
-    enum Actions { BUILD_ROAD, BUILD_VILLAGE, BUILD_CITY, BUY_DEV_CARD };
+    public enum Actions { BUILD_ROAD, BUILD_VILLAGE, BUILD_CITY, BUY_DEV_CARD };
     String name;
     Color color = Color.RED;
     Civilization civ = new Civilization();
@@ -11,11 +13,11 @@ public class Player {
     int roadLength = 0;
     int victortPoints = 0;
 
-    Player() {
+    public Player() {
         res = new Resource( 4, 4, 4, 4, 4);
     }
 
-    boolean canAfford( Actions a ) {
+    public boolean canAfford(Actions a) {
         switch(a) {
             case BUILD_ROAD:
                 return res.biggerEquals(civ.roadCost);
@@ -29,7 +31,7 @@ public class Player {
         return false;
     }
 
-    Resource makeAction( Actions a ) {
+    public Resource makeAction(Actions a) {
         switch(a) {
             case BUILD_ROAD:
                 return res.substract(civ.roadCost);

@@ -1,3 +1,6 @@
+package Game.Map;
+import Game.Player.Player;
+
 public class MapCorner implements MapElement, Buildable {
     enum Types { EMPTY, VILLAGE, CITY }
     Types type = Types.EMPTY;

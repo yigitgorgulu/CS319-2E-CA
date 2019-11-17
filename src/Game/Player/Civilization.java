@@ -1,3 +1,6 @@
+package Game.Player;
+import Game.Resource;
+
 public class Civilization {
     Resource roadCost;
     Resource villageCost;
