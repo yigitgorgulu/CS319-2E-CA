@@ -1,19 +1,29 @@
-import Game.Game;
-import Game.Map.Map;
-import Game.Map.MapButton;
-import Game.Map.MapCorner;
-import Game.Map.MapSide;
-import Game.Player.Player;
+import Display.DefaultUISpecifications;
+import Display.GameScene;
+import Display.MainMenu;
 import javafx.application.Application;
-import javafx.scene.Group;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
+import javafx.scene.image.Image;
 
 public class Main extends Application {
+    private static Font flarge;
+    private MainMenu gameMenu;
+    private Text text;
 
     public static void main(String[] args) {
         launch(args);
@@ -21,29 +31,38 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Map map = new Map();
-        Game game = new Game(map, new ArrayList<Player>( Arrays.asList( new Player(), new Player() )));
-        Group root = new Group();
-        map.getAllElements().forEach(a -> {
-            double x = a.getLocation().getRawDisplayPosition().getX() * 2.0 + 80.0;
-            double y = a.getLocation().getRawDisplayPosition().getY() * 2.0 + 60.0;
-            double r = 0.0;
-            if ( a instanceof MapCorner)
-                r = 8.0;
-            if ( a instanceof MapSide)
-                r = 6.0;
-            MapButton mb = new MapButton(x, y, r, a);
-            mb.setOnMouseClicked(e -> {
-                game.build( a.getLocation() );
-                mb.update();
-            });
-            root.getChildren().add(mb);
-        });
-        Scene s = new Scene(root, 500 ,500);
-        primaryStage.setScene(s);
+        DefaultUISpecifications specifications = new DefaultUISpecifications();
+        GameScene gameScene = new GameScene();
+        specifications.setScreenDimensions(primaryStage);
+        Pane root = new Pane();
+        root.setPrefSize(DefaultUISpecifications.SCREEN_WIDTH,DefaultUISpecifications.SCREEN_HEIGHT);
+
+        //Set an Image here
+        gameMenu = new MainMenu(primaryStage, gameScene.getScene());
+        root.getChildren().addAll(getImgView(), createText(), gameMenu);
+
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 
+    private Node getImgView() throws IOException {
+        InputStream is = Files.newInputStream(Paths.get("res/images/background.png"));
+        Image img = new Image(is);
+        is.close();
 
+        return new ImageView(img);
+    }
 
+    private Node createText() throws FileNotFoundException {
+        flarge = Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), 120);
+        text = new Text("SETTLERS OF\nCATAN!");
+        text.setFill(Color.WHITE);
+        text.setFont(flarge);
+        text.setTextAlignment(TextAlignment.CENTER);
+        text.setStyle("-fx-line-spacing: 1px;");
+        text.setTranslateX(DefaultUISpecifications.SCREEN_WIDTH / 2 - text.getLayoutBounds().getWidth()/ 2);
+        text.setTranslateY(DefaultUISpecifications.SCREEN_HEIGHT / 3 - 50);
+        return text;
+    }
 }
