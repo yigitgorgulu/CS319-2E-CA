@@ -4,13 +4,18 @@ import Game.Game;
 import Game.Map.*;
 import Game.Player.Player;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -59,6 +64,7 @@ public class GameScene{
         endTurn.setOnAction(e->{
             System.out.println("SONAT ROCKS!");
             game.endTurn();
+            updateResources();
         });
         root.getChildren().add(endTurn);
     }
@@ -96,8 +102,8 @@ public class GameScene{
     }
 
     private void createGameAndTiles() throws FileNotFoundException {
-        player1 = new Player();
-        player2 = new Player();
+        player1 = new Player(Color.RED);
+        player2 = new Player(Color.GREEN);
         game = new Game(map, new ArrayList<Player>(Arrays.asList(player1, player2)));
 
         font = javafx.scene.text.Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), 30);
@@ -127,8 +133,8 @@ public class GameScene{
             if (a instanceof MapSide)
                 r = 11.0;
             MapButton mb = new MapButton(x, y, r, a);
-            mb.setOpacity(0.4);
             mb.setFill(Color.GRAY);
+            mb.setOpacity(0.0);
             mb.setOnMouseClicked(e -> {
                 game.build(a.getLocation());
                 mb.update();
@@ -138,21 +144,24 @@ public class GameScene{
         });
 
         map.getTileElements().forEach(a->{
-            if(a.getNumber() > 0){
-                double radius = 25;
+            if(a.getNumber() > 0) {
+                double radius = 35;
                 double x = a.getLocation().getRawDisplayPosition().getX();
                 double y = a.getLocation().getRawDisplayPosition().getY();
                 x = x + differenceX / 2;
                 y = y + (differenceX / (2 * Math.sqrt(3)));
-                Circle circle = new Circle(x, y, radius);
-                circle.setOpacity(0.7);
-                Text number = new Text(Integer.toString(a.getNumber()));
-                number.setFill(Color.BLACK);
-                number.setTranslateX(x - 15);
-                number.setTranslateY(y);
-                number.setFont(font);
-                circle.setFill(Color.WHITESMOKE);
-                root.getChildren().addAll(circle, number);
+                MapToken nextToken = null;
+                try {
+                    nextToken = new MapToken(radius, x, y, a.getNumber());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                VBox vBox = (VBox) nextToken.getVBox();
+                vBox.setTranslateX(x - radius);
+                vBox.setPrefWidth(radius * 2);
+                vBox.setPrefHeight(radius* 2);
+                vBox.setTranslateY(y - radius);
+                root.getChildren().addAll(nextToken, vBox);
             }
         });
     }

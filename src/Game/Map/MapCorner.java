@@ -28,4 +28,8 @@ public class MapCorner implements MapElement, Buildable {
         return type == Types.EMPTY ? Player.Actions.BUILD_VILLAGE : Player.Actions.BUILD_CITY;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
 }
