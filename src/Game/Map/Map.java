@@ -1,6 +1,8 @@
 package Game.Map;
 
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import Game.Player.Player;
@@ -11,6 +13,10 @@ public class Map {
     MapElement[][] sides;
     MapElement[][] tiles;
     Location robber;
+    ArrayList<Point> directions = new ArrayList<>( Arrays.asList(
+            new Point(0,1), new Point(1,1), new Point( 1, 0), new Point(0, -1),
+            new Point(-1,-1), new Point(-1,0)
+    ));
 
 
 
@@ -19,9 +25,6 @@ public class Map {
     }
 
     private void generateMap(int noOfPlayers) {
-        int mapHeight = 10;
-        int[] leftCornerLimits = new int[6];
-        int[] rightCornerLimits = new int[6];
         corners = new MapCorner[6][12];
         for( int y  = 0; y < corners.length; y++ ) {
             for( int x = 0; x < corners[y].length; x++ ) {
@@ -72,6 +75,31 @@ public class Map {
                 }
             }
         }
+        ArrayList<Integer> numberTokens = new ArrayList<>( Arrays.asList( 5, 2, 6, 3, 8, 10,
+                9, 12, 11, 4, 8, 10,
+                9, 4, 5, 6, 3, 11 ) );
+        Location startLoc = new Location( 0, 0, Location.Types.TILE);
+        Location currLoc = startLoc;
+        Point dir = new Point( 0, 1 );
+        MapTile currTile;
+        while( !numberTokens.isEmpty() ) {
+            currTile = (MapTile) getMapElement( currLoc );
+            if ( currTile.type == MapTile.Types.DESERT )
+                currTile.number = 0;
+            else
+                currTile.number = numberTokens.remove(0);
+                MapTile nextTile = (MapTile) getMapElement(currLoc.translated(dir.x, dir.y));
+                while ( ( nextTile == null || nextTile.number != -1 ) && !numberTokens.isEmpty() ) {
+                    dir = getNextDirection(dir);
+                    nextTile = (MapTile) getMapElement(currLoc.translated(dir.x, dir.y));
+                }
+            currLoc = currLoc.translated( dir.x, dir.y );
+        }
+    }
+
+    private Point getNextDirection( Point p ) {
+        int i = directions.indexOf( p );
+        return directions.get( ( i + 1 ) % directions.size() );
     }
 
     public boolean build(Location loc) {
@@ -135,6 +163,8 @@ public class Map {
                 arr = corners;
             else if ( l.type == Location.Types.SIDE )
                 arr = sides;
+            else if ( l.type == Location.Types.TILE )
+                arr = tiles;
             if( l.y >= arr.length  || l.x >= arr[0].length || arr[l.y][l.x] == null)
                 continue;
             res.add( arr[l.y][l.x] );

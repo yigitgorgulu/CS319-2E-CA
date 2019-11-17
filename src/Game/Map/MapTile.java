@@ -5,6 +5,7 @@ public class MapTile implements MapElement {
     enum Types { FOREST, MOUNTAIN, HILL, FIELD, DESERT, PASTURE };
     Types type;
     Location loc;
+    int number = -1;
 
     MapTile(Location l, Types t ) {
         this.loc = l;
