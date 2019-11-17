@@ -112,8 +112,9 @@ public class Map {
 
     public boolean build(Location loc, Player currentPlayer) {
         MapElement me = getMapElement( loc );
-        boolean canSettle = loc.type == Location.Types.CORNER && noAdjacentSettlements(me) && ( inSettlingPhase || isConnected(me) );
-        boolean canRoad = loc.type == Location.Types.SIDE && isConnected(me);
+        boolean canSettle = loc.type == Location.Types.CORNER && noAdjacentSettlements(me)
+                && ( inSettlingPhase || isConnected(me, currentPlayer) );
+        boolean canRoad = loc.type == Location.Types.SIDE && isConnected(me, currentPlayer);
         if( canSettle || canRoad )
         {
             ( (Buildable) me).build( currentPlayer );
@@ -126,7 +127,7 @@ public class Map {
         for( MapElement[] t : tiles ) {
             for( MapElement tx : t ) {
                 MapTile tile = (MapTile) tx;
-                if( tile.number == dice ) {
+                if( tile != null && ( tile.number == dice || dice == 12 ) ) {
                     List<MapElement> els = getMapElement(tile.loc.getAdjacentCorners());
                     Resource res = tile.getResource();
                     for( MapElement e : els) {
@@ -163,7 +164,7 @@ public class Map {
         return res;
     }
 
-    boolean isConnected( MapElement el ) {
+    boolean isConnected( MapElement el, Player p ) {
         boolean res = false;
         Location loc = el.getLocation();
         List<MapElement> els = getMapElement( loc.getAdjacentSides() );
@@ -171,7 +172,7 @@ public class Map {
             els.addAll( getMapElement( loc.getAdjacentCorners() ) );
         }
         for ( MapElement e : els )
-            if( !e.isEmpty() )
+            if( ( (Buildable) e).getPlayer() == p )
                 res = true;
         return res;
     }

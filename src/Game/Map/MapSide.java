@@ -26,4 +26,8 @@ public class MapSide implements MapElement, Buildable {
 
     public Player.Actions getCost() { return Player.Actions.BUILD_ROAD; };
 
+    public Player getPlayer() {
+        return player;
+    }
+
 }

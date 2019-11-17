@@ -1,5 +1,6 @@
 package Game.Map;
 
+import Game.Player.Player;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
@@ -15,8 +16,10 @@ public class MapButton extends Circle {
 
     public void update() {
         if( !me.isEmpty() ){
-            this.setFill(Color.WHITESMOKE);
+            /*this.setFill(Color.WHITESMOKE);*/
             this.setOpacity(0.7);
+            Player p = ( (Buildable) me ).getPlayer();
+            this.setFill(p.getColor());
         }
     }
 }

@@ -59,6 +59,7 @@ public class GameScene{
         endTurn.setOnAction(e->{
             System.out.println("SONAT ROCKS!");
             game.endTurn();
+            updateResources();
         });
         root.getChildren().add(endTurn);
     }
@@ -96,8 +97,8 @@ public class GameScene{
     }
 
     private void createGameAndTiles() throws FileNotFoundException {
-        player1 = new Player();
-        player2 = new Player();
+        player1 = new Player(Color.RED);
+        player2 = new Player(Color.GREEN);
         game = new Game(map, new ArrayList<Player>(Arrays.asList(player1, player2)));
 
         font = javafx.scene.text.Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), 30);

@@ -6,15 +6,22 @@ import javafx.scene.paint.Color;
 public class Player {
     public enum Actions { BUILD_ROAD, BUILD_VILLAGE, BUILD_CITY, BUY_DEV_CARD };
     String name;
-    Color color = Color.RED;
+
+
+    Color color;
     Civilization civ = new Civilization();
     Resource res;
     int armySize = 0;
     int roadLength = 0;
     int victortPoints = 0;
 
-    public Player() {
+    public Player( Color c) {
+        color = c;
         res = new Resource( 4, 4, 4, 4, 4);
+    }
+
+    public Color getColor() {
+        return color;
     }
 
     public boolean canAfford(Actions a) {
@@ -71,6 +78,11 @@ public class Player {
     }
 
     public int getVictoryPoints() {
+        return victortPoints;
+    }
+
+    public int incrementVictoryPoints( int i) {
+        victortPoints += i;
         return victortPoints;
     }
 }

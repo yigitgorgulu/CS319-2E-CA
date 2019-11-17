@@ -35,12 +35,20 @@ public class Game {
     public boolean build(Location loc) {
         Player.Actions cost = map.getCost(loc);
         boolean settle = inSettlingPhase() &&
-                ((cost == Player.Actions.BUILD_ROAD && !builtRoad)
-                        || (cost == Player.Actions.BUILD_VILLAGE && !builtVillage));
-        if (currentPlayer.canAfford(cost) || settle) {
+                ( ((cost == Player.Actions.BUILD_ROAD && !builtRoad)
+                        || (cost == Player.Actions.BUILD_VILLAGE && !builtVillage)) );
+        if ( ( currentPlayer.canAfford(cost) && !inSettlingPhase() ) || settle) {
             if (map.build(loc, currentPlayer)) {
                 if (!settle)
                     currentPlayer.makeAction(cost);
+                if( cost == Player.Actions.BUILD_VILLAGE ) {
+                    builtVillage = true;
+                }
+                if( cost == Player.Actions.BUILD_ROAD ) {
+                    builtRoad = true;
+                } else {
+                    currentPlayer.incrementVictoryPoints(1);
+                }
                 return true;
             }
         }
@@ -64,9 +72,13 @@ public class Game {
             gameDir = -1;
         }
         gameTurns++;
-        currentPlayerNo = (currentPlayerNo + gameDir) % players.size();
+        System.out.println(gameTurns);
+        currentPlayerNo = (currentPlayerNo + gameDir + players.size() ) % players.size();
         currentPlayer = players.get(currentPlayerNo);
-        map.generateResource(rollDice());
+        if ( !inSettlingPhase() )
+            map.generateResource(rollDice());
+        if ( endOfSettlingPhase() )
+            map.generateResource(12);
         builtRoad = false;
         builtVillage = false;
     }
@@ -76,7 +88,11 @@ public class Game {
     }
 
     public boolean inReverseSettilingPhase() {
-        return gameTurns > players.size() / 2 && gameTurns <= players.size();
+        return gameTurns > players.size() && gameTurns <= players.size() * 2;
+    }
+
+    public boolean endOfSettlingPhase() {
+        return gameTurns == players.size() * 2;
     }
 
     boolean checkVictory () {
