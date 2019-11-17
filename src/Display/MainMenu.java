@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import java.io.FileNotFoundException;
 
 public class MainMenu extends Parent {
-    public MainMenu( Stage gameVıew, Scene gameScene) throws FileNotFoundException {
+    public MainMenu( Stage gameView, Scene gameScene) throws FileNotFoundException {
         VBox menu0 = new VBox(15);
 
         menu0.setTranslateX(DefaultUISpecifications.SCREEN_WIDTH / 2 - MenuButton.RECTANGLE_WIDTH / 2);
@@ -22,7 +22,7 @@ public class MainMenu extends Parent {
         MenuButton btnSettingsCredits = new MenuButton("Settings and Credits");
         MenuButton btnQuit = new MenuButton("Quit Game");
         btnQuit.setOnMouseClicked(e->System.exit(0));
-        btnCreateAGame.setOnMouseClicked(e->gameVıew.setScene(gameScene));
+        btnCreateAGame.setOnMouseClicked(e->gameView.setScene(gameScene));
         menu0.setAlignment(Pos.CENTER);
         menu0.getChildren().addAll(btnCreateAGame,btnJoinAGame,btnProfile,btnSettingsCredits,btnQuit);
 

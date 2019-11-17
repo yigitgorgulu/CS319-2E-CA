@@ -43,7 +43,7 @@ public class ResourceBox extends StackPane {
                 break;
             case "ORE":
                 is = Files.newInputStream(Paths.get("res/images/cards/ore.png"));
-                itemQuantity.setText(Integer.toString(player.getBrick()));
+                itemQuantity.setText(Integer.toString(player.getOre()));
                 break;
             case "SHEEP":
                 is = Files.newInputStream(Paths.get("res/images/cards/sheep.png"));
