@@ -13,7 +13,7 @@ public class Player {
     Resource res;
     int armySize = 0;
     int roadLength = 0;
-    int victortPoints = 0;
+    int victoryPoints = 0;
 
     public Player( Color c) {
         color = c;
@@ -77,8 +77,8 @@ public class Player {
         return res.getBrick();
     }
 
-    public int getVictoryPoints() {
-        return victortPoints;
+    int getVictoryPoints() {
+        return victoryPoints;
     }
 
     public int incrementVictoryPoints( int i) {
