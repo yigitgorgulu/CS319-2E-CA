@@ -4,6 +4,8 @@ import Display.DefaultUISpecifications;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Location {
@@ -63,18 +65,30 @@ public class Location {
         return res;
     }
 
-    ArrayList<Location> getAdjacentSides() { return getAdjacentSides( null ); };
+    ArrayList<Location> getAdjacentSides() { return getAdjacentSides(Collections.emptyList()); };
 
     ArrayList<Location> getAdjacentSides( List<Location> exclude ) {
         ArrayList<Location> res = new ArrayList<>();
         if (this.type == Types.CORNER) {
             Location side1 = new Location( this.x / 2 * 3 + 1, this.y, Types.SIDE );
             if( this.x % 2 == 0 ) {
-                res.add( side1.translated(-1, 0));
-                res.add( side1.translated( -2, 0 ));
+                Location temp = side1.translated(-1, 0);
+                if( !exclude.contains(temp)) {
+                    res.add(temp);
+                }
+                temp = side1.translated( -2, 0 );
+                if( !exclude.contains(temp)) {
+                    res.add(temp);
+                }
             } else {
-                res.add( side1.translated( 1, 0 ));
-                res.add( side1.translated( -1, -1 ));
+                Location temp = side1.translated( 1, 0 );
+                if( !exclude.contains(temp)) {
+                    res.add(temp);
+                }
+                temp = side1.translated( -1, -1 );
+                if( !exclude.contains(temp)) {
+                    res.add(temp);
+                }
             }
             res.add( side1 );
         } else if (this.type == Types.SIDE) {
