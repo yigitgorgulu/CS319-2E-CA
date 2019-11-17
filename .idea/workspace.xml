@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="24a4aa59-db41-46b5-802f-2a65e22d3888" name="Default Changelist" comment="" />
+    <list default="true" id="24a4aa59-db41-46b5-802f-2a65e22d3888" name="Default Changelist" comment="I hope this does't break anything">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Game/Game.java" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,7 +146,14 @@
       <option name="project" value="LOCAL" />
       <updated>1574011233129</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="I hope this does't break anything">
+      <created>1574017009363</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1574017009363</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -167,6 +178,7 @@
     <MESSAGE value="package structure" />
     <MESSAGE value="resource production" />
     <MESSAGE value="settling phase" />
-    <option name="LAST_COMMIT_MESSAGE" value="settling phase" />
+    <MESSAGE value="I hope this does't break anything" />
+    <option name="LAST_COMMIT_MESSAGE" value="I hope this does't break anything" />
   </component>
 </project>

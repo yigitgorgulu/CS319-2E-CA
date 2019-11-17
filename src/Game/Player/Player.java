@@ -70,7 +70,7 @@ public class Player {
         return res.getBrick();
     }
 
-    int getVictoryPoints() {
+    public int getVictoryPoints() {
         return victortPoints;
     }
 }
