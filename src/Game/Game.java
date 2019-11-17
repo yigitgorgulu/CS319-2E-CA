@@ -12,6 +12,7 @@ public class Game {
     ArrayList<Player> players;
     private int currentPlayerNo = 0;
     Player currentPlayer;
+    int gameTurns = 0;
     Map map;
     ArrayList<DevelopmentCards> developmentCards = new ArrayList<DevelopmentCards>();;
     int die1 = 0;
@@ -36,7 +37,7 @@ public class Game {
     public Game( Map m, ArrayList<Player> p ) {
         map = m;
         players = p;
-        currentPlayer = players.get( currentPlayerNo );
+        currentPlayer = players.get(currentPlayerNo);
     }
 
     public boolean build( Location loc ) {
@@ -61,8 +62,19 @@ public class Game {
     }
 
     public void endTurn() {
-        currentPlayerNo = ( currentPlayerNo + 1 ) % players.size();
+        int gameDir = 1;
+        map.setSettlingPhase(false);
+        if (gameTurns > players.size() / 2 && gameTurns <= players.size() ) {
+            gameDir = -1;
+            map.setSettlingPhase(true);
+        }
+        gameTurns++;
+        currentPlayerNo = ( currentPlayerNo + gameDir ) % players.size();
         currentPlayer = players.get( currentPlayerNo);
         map.generateResource( rollDice() );
+    }
+
+    boolean checkVictory() {
+        return currentPlayer.getVictoryPoints() >= 10;
     }
 }
