@@ -14,7 +14,7 @@ public class Game {
     Player currentPlayer;
     int gameTurns = 0;
     Map map;
-    ArrayList<DevelopmentCards> developmentCards = new ArrayList<DevelopmentCards>();;
+    ArrayList<DevelopmentCards> developmentCards = new ArrayList<>();
     int die1 = 0;
     int die2 = 0;
 
