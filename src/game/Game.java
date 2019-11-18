@@ -3,24 +3,29 @@ package game;
 import game.map.Location;
 import game.map.Map;
 import game.player.Player;
-
+import game.player.DevelopmentCards;
+import java.util.Collections;
 import java.util.ArrayList;
 
 public class Game {
     ArrayList<Player> players;
     private int currentPlayerNo = 0;
     Player currentPlayer;
+    int noOfPlayers;
     public int gameTurns = 0;
     boolean builtRoad = false;
     boolean builtVillage = false;
     Map map;
     int die1 = 0;
     int die2 = 0;
+    ArrayList<DevelopmentCards> developmentCards;
 
     public Game(Map m, ArrayList<Player> p) {
         map = m;
         players = p;
         currentPlayer = players.get(currentPlayerNo);
+        noOfPlayers = p.size();
+        setDevelopmentCards();
     }
 
     public int getDie1() {
@@ -29,6 +34,39 @@ public class Game {
 
     public int getDie2() {
         return die2;
+    }
+
+
+    public void setDevelopmentCards(){
+        developmentCards = new ArrayList<>();
+        if ( noOfPlayers < 5 ){
+            for ( int i = 0; i < 14; i++ )
+                developmentCards.add(DevelopmentCards.KNIGHT);
+            for ( int i = 14; i < 19; i++)
+                developmentCards.add(DevelopmentCards.VICTORY_POINT);
+            for ( int i = 19; i < 21; i++ )
+                developmentCards.add(DevelopmentCards.ROAD_BUILDING);
+            for ( int i = 21; i < 23; i++ )
+                developmentCards.add(DevelopmentCards.YEAR_OF_PLENTY);
+        }
+        else if ( noOfPlayers > 4 ) {
+            for (int i = 0; i < 5; i++)
+                developmentCards.add(DevelopmentCards.VICTORY_POINT);
+            for (int i = 5; i < 8; i++)
+                developmentCards.add(DevelopmentCards.KNIGHT);
+            for (int i = 8; i < 28; i++)
+                developmentCards.add(DevelopmentCards.ROAD_BUILDING);
+            for (int i = 28; i < 31; i++)
+                developmentCards.add(DevelopmentCards.YEAR_OF_PLENTY);
+        }
+        shuffleDevelopmentCards(20);
+    }
+
+    public void shuffleDevelopmentCards(int time){
+        int count = 0;
+        while ( count < time )
+            count++;
+            Collections.shuffle(developmentCards);
     }
 
 
@@ -78,7 +116,7 @@ public class Game {
         if ( !inSettlingPhase() )
             map.generateResource(rollDice());
         if ( endOfSettlingPhase() )
-            map.generateResource(12);
+            map.generateResource(1);
         builtRoad = false;
         builtVillage = false;
     }
