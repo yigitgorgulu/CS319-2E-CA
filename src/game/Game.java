@@ -78,7 +78,7 @@ public class Game {
         if ( !inSettlingPhase() )
             map.generateResource(rollDice());
         if ( endOfSettlingPhase() )
-            map.generateResource(12);
+            map.generateResource(1);
         builtRoad = false;
         builtVillage = false;
     }
