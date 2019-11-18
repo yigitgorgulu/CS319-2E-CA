@@ -32,6 +32,15 @@ public class Resource {
         return this;
     }
 
+    public Resource multiply( Resource rsc ){
+        brick *= rsc.brick;
+        wood *= rsc.wood;
+        sheep *= rsc.sheep;
+        wheat *= rsc.wheat;
+        ore *= rsc.ore;
+        return this;
+    }
+
 
     public int getBrick() {
         return brick;
