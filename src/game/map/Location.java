@@ -17,6 +17,13 @@ public class Location {
     public int getY() {
         return y;
     }
+    public void setX(int num){
+        x = num;
+    };
+    public void setY(int num){
+        y = num;
+    };
+
     public enum Types { CORNER, SIDE, TILE }
     Types type;
 
