@@ -20,6 +20,9 @@ public class Game {
     int die1 = 0;
     int die2 = 0;
     ArrayList<DevelopmentCards> developmentCards;
+    Player longestRoadOwner;
+    Player largestArmyOwner;
+    Location robber; // default ayarlanmali
 
     public Game(Map m, ArrayList<Player> p) {
         map = m;
@@ -37,6 +40,12 @@ public class Game {
         return die2;
     }
 
+    public void moveRobber(Location loc){
+        if ( currentPlayer.playKnightCard() ){
+            robber.setX(loc.getX());
+            robber.setY(loc.getY());
+        }
+    }
 
     public void setDevelopmentCards(){
         developmentCards = new ArrayList<>();
