@@ -139,7 +139,7 @@ public class Map {
                                 cor.player.addResource( res );
                             if( cor.type == MapCorner.Types.CITY) {
                                 cor.player.addResource( res );
-                                cor.player.addResource( res );
+                                cor.player.multiplyResource( res );
                             }
                         }
                     }

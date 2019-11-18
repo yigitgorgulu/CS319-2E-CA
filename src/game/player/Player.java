@@ -57,6 +57,11 @@ public class Player {
         return this.res;
     }
 
+    public Resource multiplyResource( Resource res ){
+        this.res.multiply( res );
+        return this.res; 
+    }
+
     public int getWood(){
         return res.getWood();
     }
