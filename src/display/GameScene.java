@@ -36,6 +36,7 @@ public class GameScene{
     Font font;
     Player player1;
     Player player2;
+    Player player3;
     ResourceBox box1;
     ResourceBox box2;
     ResourceBox box3;
@@ -87,7 +88,7 @@ public class GameScene{
         endTurn = new Button("End Turn");
         endTurn.setOnAction(e->{
             game.endTurn();
-            updateResources(game.gameTurns % 2 == 0 ? player1 : player2);
+            updateResources(game.getCurrentPlayer());
             dice();
         });
 
@@ -115,7 +116,8 @@ public class GameScene{
     private void createGameAndTiles() throws FileNotFoundException {
         player1 = new Player(Color.RED, Civilization.CivilizationEnum.OTTOMANS, "Player 1");
         player2 = new Player(Color.GREEN, Civilization.CivilizationEnum.SPAIN, "Player 2");
-        game = new Game(map, new ArrayList<Player>(Arrays.asList(player1, player2)));
+        player3 = new Player(Color.BLUE, Civilization.CivilizationEnum.GB, "Player 3");
+        game = new Game(map, new ArrayList<Player>(Arrays.asList(player1, player2, player3)));
 
         font = javafx.scene.text.Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), 30);
         differenceX = map.getTile(0,1).getLocation().getRawDisplayPosition().getX() - map.getTile(0,0)
@@ -149,7 +151,7 @@ public class GameScene{
             mb.setOnMouseClicked(e -> {
                 game.build(a.getLocation());
                 mb.update();
-                updateResources(game.gameTurns % 2 == 0 ? player1 : player2);
+                updateResources(game.getCurrentPlayer());
             });
             root.getChildren().add(mb);
         });
@@ -183,7 +185,7 @@ public class GameScene{
         box3.update(player);
         box4.update(player);
         box5.update(player);
-        turnOfPlayer.setText("Turn of player " + (game.gameTurns % 2 == 0 ? 1 : 2));
+        turnOfPlayer.setText("Turn of player " + game.getCurrentPlayerNo());
     }
 
 

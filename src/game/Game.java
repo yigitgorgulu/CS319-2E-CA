@@ -110,7 +110,7 @@ public class Game {
     public void endTurn () {
         int gameDir = 1;
         map.setInSettlingPhase(inSettlingPhase());
-        if (inReverseSettilingPhase()) {
+        if (inReverseSettlingPhase()) {
             gameDir = -1;
         }
         gameTurns++;
@@ -129,7 +129,7 @@ public class Game {
         return gameTurns <= players.size();
     }
 
-    public boolean inReverseSettilingPhase() {
+    public boolean inReverseSettlingPhase() {
         return gameTurns > players.size() && gameTurns <= players.size() * 2;
     }
 
@@ -137,4 +137,11 @@ public class Game {
         return gameTurns == players.size() * 2;
     }
 
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public int getCurrentPlayerNo() {
+        return currentPlayerNo;
+    }
 }
