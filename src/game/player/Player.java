@@ -9,15 +9,16 @@ public class Player {
 
 
     Color color;
-    Civilization civ = new Civilization();
+    Civilization civ;
     Resource res;
     int armySize = 0;
     int roadLength = 0;
     int victoryPoints = 0;
 
-    public Player( Color c) {
+    public Player(Color c, Civilization.CivilizationEnum civilizationEnum) {
         color = c;
         res = new Resource( 4, 4, 4, 4, 4);
+        civ = new Civilization(civilizationEnum);
     }
 
     public Color getColor() {

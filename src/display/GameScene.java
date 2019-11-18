@@ -2,6 +2,7 @@ package display;
 
 import game.Game;
 import game.map.*;
+import game.player.Civilization;
 import game.player.Player;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
@@ -104,8 +105,8 @@ public class GameScene{
     }
 
     private void createGameAndTiles() throws FileNotFoundException {
-        player1 = new Player(Color.RED);
-        player2 = new Player(Color.GREEN);
+        player1 = new Player(Color.RED, Civilization.CivilizationEnum.OTTOMANS);
+        player2 = new Player(Color.GREEN, Civilization.CivilizationEnum.SPAIN);
         game = new Game(map, new ArrayList<Player>(Arrays.asList(player1, player2)));
 
         font = javafx.scene.text.Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), 30);
