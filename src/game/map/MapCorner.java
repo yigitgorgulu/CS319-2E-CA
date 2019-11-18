@@ -1,5 +1,5 @@
-package Game.Map;
-import Game.Player.Player;
+package game.map;
+import game.player.Player;
 
 public class MapCorner implements MapElement, Buildable {
     enum Types { EMPTY, VILLAGE, CITY }

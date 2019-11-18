@@ -1,13 +1,12 @@
-package Game.Map;
+package game.map;
 
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import Game.Player.Player;
-import Game.Resource;
+import game.player.Player;
+import game.Resource;
 
 
 public class Map {

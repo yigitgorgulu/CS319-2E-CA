@@ -1,27 +1,19 @@
-package Display;
+package display;
 
-import Game.Game;
-import Game.Map.*;
-import Game.Player.Player;
+import game.Game;
+import game.map.*;
+import game.player.Player;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
 
 import javafx.scene.control.Button;
 import java.io.*;
@@ -55,7 +47,7 @@ public class GameScene{
         root = new Group();
         addBackground();
         createGameAndTiles();
-        addPlayerResourcesMenu();
+        addPlayerResourcesMenu(player1);
         endTurnButton();
     }
 
@@ -64,12 +56,18 @@ public class GameScene{
         endTurn.setOnAction(e->{
             System.out.println("SONAT ROCKS!");
             game.endTurn();
-            updateResources();
+            //updateResources();
+            try {
+                addPlayerResourcesMenu(game.gameTurns % 2 == 0 ? player1 : player2);
+            }
+            catch (Exception ex) {
+                ex.printStackTrace();
+            }
         });
         root.getChildren().add(endTurn);
     }
 
-    private void addPlayerResourcesMenu() throws IOException {
+    private void addPlayerResourcesMenu(Player player) throws IOException {
         double widthOfRectangle = DefaultUISpecifications.SCREEN_WIDTH / 3;
         double heightOfRectangle = DefaultUISpecifications.SCREEN_HEIGHT / 7;
         double leftUpperCornerOfTheRectangleX = DefaultUISpecifications.SCREEN_WIDTH / 2 - widthOfRectangle / 2;
@@ -80,19 +78,23 @@ public class GameScene{
         resourcesBackground.setFill(Color.WHITESMOKE);
         root.getChildren().add(resourcesBackground);
 
-        box1 = new ResourceBox(player1, "BRICK");
-        box2 = new ResourceBox(player1, "WOOD");
-        box3 = new ResourceBox(player1, "SHEEP");
-        box4 = new ResourceBox(player1, "WHEAT");
-        box5 = new ResourceBox(player1, "ORE");
+        box1 = new ResourceBox(player, "BRICK");
+        box2 = new ResourceBox(player, "WOOD");
+        box3 = new ResourceBox(player, "SHEEP");
+        box4 = new ResourceBox(player, "WHEAT");
+        box5 = new ResourceBox(player, "ORE");
 
         HBox hBox = new HBox();
         hBox.getChildren().addAll(box1,box2,box3,box4,box5);
-        hBox.setTranslateX(leftUpperCornerOfTheRectangleX);
-        hBox.setTranslateY(leftUpperCornerOfTheRectangleY);
 
-        hBox.setPadding(new Insets(4,4,4,4));
-        root.getChildren().add(hBox);
+        Label label = new Label("Turn of player " + (player.getColor() == Color.RED ? 1 : 2));
+        VBox vBox = new VBox();
+        vBox.getChildren().addAll(label, hBox);
+        vBox.setTranslateX(leftUpperCornerOfTheRectangleX);
+        vBox.setTranslateY(leftUpperCornerOfTheRectangleY);
+
+        vBox.setPadding(new Insets(4,4,4,4));
+        root.getChildren().add(vBox);
     }
 
     private void addBackground(){

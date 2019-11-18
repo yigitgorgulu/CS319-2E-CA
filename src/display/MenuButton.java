@@ -1,4 +1,4 @@
-package Display;
+package display;
 
 import javafx.geometry.Pos;
 import javafx.scene.effect.DropShadow;

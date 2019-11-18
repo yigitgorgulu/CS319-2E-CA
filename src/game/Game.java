@@ -1,8 +1,8 @@
-package Game;
+package game;
 
-import Game.Map.Location;
-import Game.Map.Map;
-import Game.Player.Player;
+import game.map.Location;
+import game.map.Map;
+import game.player.Player;
 
 import java.util.ArrayList;
 
@@ -10,7 +10,7 @@ public class Game {
     ArrayList<Player> players;
     private int currentPlayerNo = 0;
     Player currentPlayer;
-    int gameTurns = 0;
+    public int gameTurns = 0;
     boolean builtRoad = false;
     boolean builtVillage = false;
     Map map;

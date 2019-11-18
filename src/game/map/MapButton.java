@@ -1,7 +1,6 @@
-package Game.Map;
+package game.map;
 
-import Game.Player.Player;
-import javafx.scene.paint.Color;
+import game.player.Player;
 import javafx.scene.shape.Circle;
 
 public class MapButton extends Circle {

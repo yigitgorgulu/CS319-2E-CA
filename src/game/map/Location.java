@@ -1,11 +1,9 @@
-package Game.Map;
+package game.map;
 
-import Display.DefaultUISpecifications;
+import display.DefaultUISpecifications;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class Location {
@@ -152,8 +150,8 @@ public class Location {
     public Point2D getRawDisplayPosition() {
         double x = 0;
         double y = 0;
-        double xOffset = DefaultUISpecifications.SCREEN_WIDTH/4;
-        double yOffset = DefaultUISpecifications.SCREEN_HEIGHT/4;
+        double xOffset = DefaultUISpecifications.SCREEN_WIDTH/3;
+        double yOffset = DefaultUISpecifications.SCREEN_HEIGHT/8;
         double spread;
         if ( type == Types.CORNER ) {
             spread = 50.0;

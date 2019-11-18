@@ -1,4 +1,4 @@
-package Display;
+package display;
 
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;

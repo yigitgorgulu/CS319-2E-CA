@@ -1,5 +1,5 @@
-package Game.Map;
-import Game.Player.Player;
+package game.map;
+import game.player.Player;
 
 public interface Buildable {
     public void build( Player player );

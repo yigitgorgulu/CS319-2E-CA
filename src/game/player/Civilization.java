@@ -1,5 +1,5 @@
-package Game.Player;
-import Game.Resource;
+package game.player;
+import game.Resource;
 
 public class Civilization {
     Resource roadCost;

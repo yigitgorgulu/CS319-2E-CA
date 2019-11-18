@@ -1,4 +1,4 @@
-package Game.Map;
+package game.map;
 
 public interface MapElement {
     public Location getLocation();

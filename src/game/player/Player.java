@@ -1,6 +1,6 @@
-package Game.Player;
+package game.player;
 
-import Game.Resource;
+import game.Resource;
 import javafx.scene.paint.Color;
 
 public class Player {

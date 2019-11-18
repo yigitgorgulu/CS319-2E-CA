@@ -1,5 +1,5 @@
-package Game.Map;
-import Game.Resource;
+package game.map;
+import game.Resource;
 
 public class MapTile implements MapElement {
     public enum Types { FOREST, MOUNTAIN, HILL, FIELD, DESERT, PASTURE };

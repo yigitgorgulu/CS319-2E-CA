@@ -1,4 +1,4 @@
-package Game.Map;
+package game.map;
 
 public class MapPort {
 
