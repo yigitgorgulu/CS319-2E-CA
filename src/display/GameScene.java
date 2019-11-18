@@ -54,7 +54,6 @@ public class GameScene{
         createGameAndTiles();
         addPlayerResourcesMenu();
         dice();
-        endTurnButton();
     }
 
     private void dice() {
@@ -66,16 +65,6 @@ public class GameScene{
         diceBox.setTranslateX(200);
         diceBox.setTranslateY(200);
         root.getChildren().add(diceBox);
-    }
-
-    private void endTurnButton() {
-        endTurn = new Button("End Turn");
-        endTurn.setOnAction(e->{
-            game.endTurn();
-            updateResources(game.gameTurns % 2 == 0 ? player1 : player2);
-            dice();
-        });
-        root.getChildren().add(endTurn);
     }
 
     private void addPlayerResourcesMenu() throws IOException {
@@ -95,8 +84,15 @@ public class GameScene{
         box4 = new ResourceBox(player1, "WHEAT");
         box5 = new ResourceBox(player1, "ORE");
 
+        endTurn = new Button("End Turn");
+        endTurn.setOnAction(e->{
+            game.endTurn();
+            updateResources(game.gameTurns % 2 == 0 ? player1 : player2);
+            dice();
+        });
+
         HBox hBox = new HBox();
-        hBox.getChildren().addAll(box1,box2,box3,box4,box5);
+        hBox.getChildren().addAll(box1,box2,box3,box4,box5,endTurn);
         turnOfPlayer = new Label("Turn of player 1");
         turnOfPlayer.setFont(new Font("Calibri", 14));
         turnOfPlayer.setTextFill(Color.BROWN);
