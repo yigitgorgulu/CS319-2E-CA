@@ -2,10 +2,11 @@ package game;
 
 import game.map.Location;
 import game.map.Map;
-import game.player.Player;
 import game.player.DevelopmentCards;
-import java.util.Collections;
+import game.player.Player;
+
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Game {
     ArrayList<Player> players;
@@ -85,7 +86,10 @@ public class Game {
                 if( cost == Player.Actions.BUILD_ROAD ) {
                     builtRoad = true;
                 } else {
-                    //currentPlayer.incrementVictoryPoints(1);
+                    if(currentPlayer.checkVictory()) {
+                        System.out.println( currentPlayer.name + " Won");
+                    }
+                    currentPlayer.incrementVictoryPoints(1);
                 }
                 return true;
             }
@@ -133,7 +137,4 @@ public class Game {
         return gameTurns == players.size() * 2;
     }
 
-   // boolean checkVictory () {
-     //   return currentPlayer.getVictoryPoints() >= 10;
-    //}
 }

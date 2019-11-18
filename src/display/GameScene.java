@@ -117,8 +117,8 @@ public class GameScene{
     }
 
     private void createGameAndTiles() throws FileNotFoundException {
-        player1 = new Player(Color.RED, Civilization.CivilizationEnum.OTTOMANS);
-        player2 = new Player(Color.GREEN, Civilization.CivilizationEnum.SPAIN);
+        player1 = new Player(Color.RED, Civilization.CivilizationEnum.OTTOMANS, "Player 1");
+        player2 = new Player(Color.GREEN, Civilization.CivilizationEnum.SPAIN, "Player 2");
         game = new Game(map, new ArrayList<Player>(Arrays.asList(player1, player2)));
 
         font = javafx.scene.text.Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), 30);
@@ -228,7 +228,6 @@ public class GameScene{
         tile.setY(y - hexagon_edge_length / 2);
         tile.setOpacity(1);
         root.getChildren().add(tile);
-        return;
     }
 
 }

@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 
 public class Player {
     public enum Actions { BUILD_ROAD, BUILD_VILLAGE, BUILD_CITY, BUY_DEV_CARD };
-    String name;
+    public String name;
 
 
     Color color;
@@ -15,7 +15,7 @@ public class Player {
     int roadLength = 0;
     int victoryPoints = 0;
 
-    public Player(Color c, Civilization.CivilizationEnum civilizationEnum) {
+    public Player(Color c, Civilization.CivilizationEnum civilizationEnum, String name) {
         color = c;
         res = new Resource( 4, 4, 4, 4, 4);
         civ = new Civilization(civilizationEnum);
@@ -83,12 +83,12 @@ public class Player {
         return res.getBrick();
     }
 
-    public int getVictoryPoints() {
+    public int incrementVictoryPoints( int i) {
+        victoryPoints += i;
         return victoryPoints;
     }
 
-    //public int incrementVictoryPoints( int i) {
-      //  victoryPoints += i;
-        //return victoryPoints;
-    //}
+    public boolean checkVictory () {
+        return victoryPoints >= 10;
+    }
 }
