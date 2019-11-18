@@ -129,7 +129,7 @@ public class Map {
         for( MapElement[] t : tiles ) {
             for( MapElement tx : t ) {
                 MapTile tile = (MapTile) tx;
-                if( tile != null && ( tile.number == dice || dice == 12 ) ) {
+                if( tile != null && ( tile.number == dice || dice == 1 ) ) {
                     List<MapElement> els = getMapElement(tile.loc.getAdjacentCorners());
                     Resource res = tile.getResource();
                     for( MapElement e : els) {
@@ -139,7 +139,7 @@ public class Map {
                                 cor.player.addResource( res );
                             if( cor.type == MapCorner.Types.CITY) {
                                 cor.player.addResource( res );
-                                cor.player.addResource( res );
+                                cor.player.multiplyResource( res );
                             }
                         }
                     }
