@@ -77,12 +77,12 @@ public class Player {
         return res.getBrick();
     }
 
-    int getVictoryPoints() {
+    public int getVictoryPoints() {
         return victoryPoints;
     }
 
     //public int incrementVictoryPoints( int i) {
-      //  victortPoints += i;
-        //return victortPoints;
+      //  victoryPoints += i;
+        //return victoryPoints;
     //}
 }
