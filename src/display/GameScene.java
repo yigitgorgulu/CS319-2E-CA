@@ -71,7 +71,6 @@ public class GameScene{
     private void endTurnButton() {
         endTurn = new Button("End Turn");
         endTurn.setOnAction(e->{
-            //System.out.println("SONAT ROCKS!");
             game.endTurn();
             updateResources(game.gameTurns % 2 == 0 ? player1 : player2);
             dice();
@@ -99,6 +98,9 @@ public class GameScene{
         HBox hBox = new HBox();
         hBox.getChildren().addAll(box1,box2,box3,box4,box5);
         turnOfPlayer = new Label("Turn of player 1");
+        turnOfPlayer.setFont(new Font("Calibri", 14));
+        turnOfPlayer.setTextFill(Color.BROWN);
+
         VBox vBox = new VBox();
         vBox.getChildren().addAll(turnOfPlayer, hBox);
         vBox.setTranslateX(leftUpperCornerOfTheRectangleX);
@@ -120,7 +122,8 @@ public class GameScene{
         game = new Game(map, new ArrayList<Player>(Arrays.asList(player1, player2)));
 
         font = javafx.scene.text.Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), 30);
-        differenceX = map.getTile(0,1).getLocation().getRawDisplayPosition().getX() - map.getTile(0,0).getLocation().getRawDisplayPosition().getX();
+        differenceX = map.getTile(0,1).getLocation().getRawDisplayPosition().getX() - map.getTile(0,0)
+                .getLocation().getRawDisplayPosition().getX();
 
         hexagon_edge_length = (differenceX / Math.sqrt(3));
         hexagon_short_diagonal_length = differenceX;
