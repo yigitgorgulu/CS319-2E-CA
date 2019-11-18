@@ -1,20 +1,16 @@
-import Display.DefaultUISpecifications;
-import Display.GameScene;
-import Display.MainMenu;
-import Sound.Sound;
+import display.DefaultUISpecifications;
+import display.GameScene;
+import display.MainMenu;
+import sound.Sound;
 import javafx.application.Application;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.*;
