@@ -41,7 +41,7 @@ public class Main extends Application {
 
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
-        new Sound();
+        new Sound(root);
         primaryStage.show();
     }
 
