@@ -41,33 +41,44 @@ public class GameScene{
     ResourceBox box4;
     ResourceBox box5;
     Button endTurn;
+    Label turnOfPlayer;
+    Die die1;
+    Die die2;
+    HBox diceBox;
 
     public GameScene() throws IOException {
         map = new Map();
         root = new Group();
         addBackground();
         createGameAndTiles();
-        addPlayerResourcesMenu(player1);
+        addPlayerResourcesMenu();
+        dice();
         endTurnButton();
     }
 
+    private void dice() {
+        if ( game.gameTurns != 0 ) root.getChildren().remove(diceBox);
+        die1 = new Die(game.getDie1());
+        die2 = new Die(game.getDie2());
+
+        diceBox = new HBox(die1, die2);
+        diceBox.setTranslateX(200);
+        diceBox.setTranslateY(200);
+        root.getChildren().add(diceBox);
+    }
+
     private void endTurnButton() {
-        endTurn = new Button("End Button");
+        endTurn = new Button("End Turn");
         endTurn.setOnAction(e->{
-            System.out.println("SONAT ROCKS!");
+            //System.out.println("SONAT ROCKS!");
             game.endTurn();
-            //updateResources();
-            try {
-                addPlayerResourcesMenu(game.gameTurns % 2 == 0 ? player1 : player2);
-            }
-            catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            updateResources(game.gameTurns % 2 == 0 ? player1 : player2);
+            dice();
         });
         root.getChildren().add(endTurn);
     }
 
-    private void addPlayerResourcesMenu(Player player) throws IOException {
+    private void addPlayerResourcesMenu() throws IOException {
         double widthOfRectangle = DefaultUISpecifications.SCREEN_WIDTH / 3;
         double heightOfRectangle = DefaultUISpecifications.SCREEN_HEIGHT / 7;
         double leftUpperCornerOfTheRectangleX = DefaultUISpecifications.SCREEN_WIDTH / 2 - widthOfRectangle / 2;
@@ -78,18 +89,17 @@ public class GameScene{
         resourcesBackground.setFill(Color.WHITESMOKE);
         root.getChildren().add(resourcesBackground);
 
-        box1 = new ResourceBox(player, "BRICK");
-        box2 = new ResourceBox(player, "WOOD");
-        box3 = new ResourceBox(player, "SHEEP");
-        box4 = new ResourceBox(player, "WHEAT");
-        box5 = new ResourceBox(player, "ORE");
+        box1 = new ResourceBox(player1, "BRICK");
+        box2 = new ResourceBox(player1, "WOOD");
+        box3 = new ResourceBox(player1, "SHEEP");
+        box4 = new ResourceBox(player1, "WHEAT");
+        box5 = new ResourceBox(player1, "ORE");
 
         HBox hBox = new HBox();
         hBox.getChildren().addAll(box1,box2,box3,box4,box5);
-
-        Label label = new Label("Turn of player " + (player.getColor() == Color.RED ? 1 : 2));
+        turnOfPlayer = new Label("Turn of player 1");
         VBox vBox = new VBox();
-        vBox.getChildren().addAll(label, hBox);
+        vBox.getChildren().addAll(turnOfPlayer, hBox);
         vBox.setTranslateX(leftUpperCornerOfTheRectangleX);
         vBox.setTranslateY(leftUpperCornerOfTheRectangleY);
 
@@ -129,7 +139,6 @@ public class GameScene{
             double x = a.getLocation().getRawDisplayPosition().getX();
             double y = a.getLocation().getRawDisplayPosition().getY();
             double r = 0.0;
-            //System.out.println("notSure               "+x + "\n");
             if (a instanceof MapCorner)
                 r = 13.0;
             if (a instanceof MapSide)
@@ -140,7 +149,7 @@ public class GameScene{
             mb.setOnMouseClicked(e -> {
                 game.build(a.getLocation());
                 mb.update();
-                updateResources();
+                updateResources(game.gameTurns % 2 == 0 ? player1 : player2);
             });
             root.getChildren().add(mb);
         });
@@ -168,12 +177,13 @@ public class GameScene{
         });
     }
 
-    private void updateResources() {
-        box1.update();
-        box2.update();
-        box3.update();
-        box4.update();
-        box5.update();
+    private void updateResources(Player player) {
+        box1.update(player);
+        box2.update(player);
+        box3.update(player);
+        box4.update(player);
+        box5.update(player);
+        turnOfPlayer.setText("Turn of player " + (game.gameTurns % 2 == 0 ? 1 : 2));
     }
 
 

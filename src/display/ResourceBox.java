@@ -69,7 +69,7 @@ public class ResourceBox extends StackPane {
         System.out.println(itemQuantity.getText());
     }
 
-    public void update(){
+    public void update(Player player) {
         switch (itemName) {
             case "BRICK":
                 itemQuantity.setText(Integer.toString(player.getBrick()));
