@@ -20,7 +20,6 @@ public class Sound {
         (scene).getChildren().add(mediaView);
 
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        
         mediaPlayer.play();
     }
 }
