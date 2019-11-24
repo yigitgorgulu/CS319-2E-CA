@@ -42,6 +42,7 @@ public class GameScene{
     ResourceBox box3;
     ResourceBox box4;
     ResourceBox box5;
+    Rectangle seperatorRectangle;
     Button endTurn;
     Label turnOfPlayer;
     Die die1;
@@ -75,7 +76,7 @@ public class GameScene{
         double leftUpperCornerOfTheRectangleY = DefaultUISpecifications.SCREEN_HEIGHT - heightOfRectangle;
         Rectangle resourcesBackground = new Rectangle(widthOfRectangle, heightOfRectangle);
         resourcesBackground.setTranslateX(leftUpperCornerOfTheRectangleX);
-        resourcesBackground.setTranslateY(leftUpperCornerOfTheRectangleY);
+        resourcesBackground.setTranslateY(leftUpperCornerOfTheRectangleY - 20);
         resourcesBackground.setFill(Color.WHITESMOKE);
         root.getChildren().add(resourcesBackground);
 
@@ -85,6 +86,8 @@ public class GameScene{
         box4 = new ResourceBox(player1, "WHEAT");
         box5 = new ResourceBox(player1, "ORE");
 
+        seperatorRectangle = new Rectangle(20,0);
+
         endTurn = new Button("End Turn");
         endTurn.setOnAction(e->{
             game.endTurn();
@@ -93,7 +96,8 @@ public class GameScene{
         });
 
         HBox hBox = new HBox();
-        hBox.getChildren().addAll(box1,box2,box3,box4,box5,endTurn);
+
+        hBox.getChildren().addAll(box1,box2,box3,box4,box5, seperatorRectangle,endTurn);
         turnOfPlayer = new Label("Turn of player 1");
         turnOfPlayer.setFont(new Font("Calibri", 14));
         turnOfPlayer.setTextFill(Color.BROWN);
@@ -101,9 +105,9 @@ public class GameScene{
         VBox vBox = new VBox();
         vBox.getChildren().addAll(turnOfPlayer, hBox);
         vBox.setTranslateX(leftUpperCornerOfTheRectangleX);
-        vBox.setTranslateY(leftUpperCornerOfTheRectangleY);
+        vBox.setTranslateY(leftUpperCornerOfTheRectangleY - 20);
 
-        vBox.setPadding(new Insets(4,4,4,4));
+        vBox.setPadding(new Insets(4,4,60,4));
         root.getChildren().add(vBox);
     }
 
