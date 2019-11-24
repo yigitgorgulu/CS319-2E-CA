@@ -135,11 +135,11 @@ public class Game {
     }
 
     public boolean inSettlingPhase () {
-        return gameTurns <= players.size();
+        return gameTurns < players.size() * 2;
     }
 
     public boolean inReverseSettlingPhase() {
-        return gameTurns > players.size() && gameTurns <= players.size() * 2;
+        return gameTurns >= players.size() && gameTurns < players.size() * 2;
     }
 
     public boolean endOfSettlingPhase() {

@@ -7,49 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4f3e89fd-e61b-4e79-85eb-6d15b3a69185" name="Default Changelist" comment="Added display of dice.">
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/MinionPro-BoldCn.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/MainMenu/background.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/background.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/brick.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/cards/back.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/cards/brick.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/cards/ore.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/cards/sheep.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/cards/wheat.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/cards/wood.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/desert.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/field.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/forest.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/mountain.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/pasture.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/sea.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/ships/31.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/ships/brick.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/ships/lumber.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/ships/ore.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/ships/sheep.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/ships/wheat.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/tiles/brick.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/tiles/desert.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/tiles/field.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/tiles/forest.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/tiles/lumber.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/tiles/mountain.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/tiles/ore.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/tiles/pasture.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/tiles/sea.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/tiles/sea_tiles.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/tiles/sea_tiles.psd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/tiles/sheep.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/images/tiles/wheat.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/res/sound/gymnopedie.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/run.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/settlers/settlers.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/lib.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Game.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -76,7 +35,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/res" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
@@ -198,16 +157,5 @@
     <MESSAGE value="Added JAR file." />
     <MESSAGE value="Removed JAR, did not work." />
     <option name="LAST_COMMIT_MESSAGE" value="Removed JAR, did not work." />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/game/Game.java</url>
-          <line>27</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
