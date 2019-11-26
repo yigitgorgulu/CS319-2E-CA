@@ -116,6 +116,16 @@ public class Player implements Serializable {
         return this.res;
     }
 
+    public boolean resourceGiveAway(){ // randomly removes cards
+        if ( res.totalCount() > 7 ) {
+            for ( int i = 0; i < res.totalCount()/2; i++){
+
+            }
+            return true;
+        }
+        return false;
+    }
+
     public int getWood(){
         return res.getWood();
     }

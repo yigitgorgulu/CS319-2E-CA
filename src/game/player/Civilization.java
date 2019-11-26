@@ -31,8 +31,14 @@ public class Civilization implements Serializable {
         else if ( civilizationEnum == CivilizationEnum.MAYA ){
             roadCost.add(new Resource(0,0,1,0,0));
         }
+
+        else if ( civilizationEnum == CivilizationEnum.SPAIN){
+            roadCost.substract(new Resource(1,0,0,0,0));
+            roadCost.add(new Resource(0,1,0,0,0));
+
+        }
     }
 
-    public enum CivilizationEnum {OTTOMANS, ENGLAND, FRANCE, MAYA};
+    public enum CivilizationEnum {OTTOMANS, ENGLAND, FRANCE, MAYA, SPAIN};
 
 }

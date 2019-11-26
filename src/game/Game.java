@@ -46,6 +46,14 @@ public class Game implements Serializable {
             robber.setX(loc.getX());
             robber.setY(loc.getY());
         }
+
+        else if ( getDiceValue() == 7 ){
+
+            // every player who has more than 7 resource should give half
+            // move the robber
+            // steal one card from other robber-adj players
+
+        }
     }
 
     public void setDevelopmentCards(){
@@ -71,6 +79,15 @@ public class Game implements Serializable {
                 developmentCards.add(DevelopmentCards.YEAR_OF_PLENTY);
         }
         shuffleDevelopmentCards(20);
+    }
+
+    public boolean getDevelopmentCards(){
+        if ( currentPlayer.canAfford(Player.Actions.BUY_DEV_CARD) ){
+            currentPlayer.getDevelopmentCard(developmentCards.get(0));
+            developmentCards.remove(0);
+            return true;
+        }
+        return false;
     }
 
     public void shuffleDevelopmentCards(int time){
@@ -153,5 +170,16 @@ public class Game implements Serializable {
 
     public int getCurrentPlayerNo() {
         return currentPlayerNo;
+    }
+
+    public boolean getEvent(){
+        if ( getDiceValue() == 7 ){ // this will move the robber
+
+        }
+        else if ( getDiceValue() == 12 ){
+            // maya event
+        }
+
+        return false;
     }
 }
