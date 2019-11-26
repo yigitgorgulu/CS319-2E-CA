@@ -8,6 +8,7 @@ public class Civilization implements Serializable {
     Resource villageCost;
     Resource cityCost;
     Resource devCardCost;
+    CivilizationEnum cEnum;
 
     Civilization(CivilizationEnum civilizationEnum){
         roadCost = new Resource(1,1,0,0,0);

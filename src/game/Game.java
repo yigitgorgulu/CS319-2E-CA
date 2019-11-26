@@ -2,6 +2,7 @@ package game;
 
 import game.map.Location;
 import game.map.Map;
+import game.player.Civilization;
 import game.player.DevelopmentCards;
 import game.player.Player;
 
@@ -176,7 +177,7 @@ public class Game implements Serializable {
         if ( getDiceValue() == 7 ){ // this will move the robber
 
         }
-        else if ( getDiceValue() == 12 ){
+        else if ( getDiceValue() == 12 && (currentPlayer.getCivilizationType() == Civilization.CivilizationEnum.MAYA )) {
             // maya event
         }
 
