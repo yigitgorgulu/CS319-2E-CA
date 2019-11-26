@@ -5,10 +5,11 @@ import game.map.Map;
 import game.player.DevelopmentCards;
 import game.player.Player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Game {
+public class Game implements Serializable {
     ArrayList<Player> players;
     private int currentPlayerNo = 0;
     Player currentPlayer;

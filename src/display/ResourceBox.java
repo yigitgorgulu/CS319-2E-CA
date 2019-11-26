@@ -66,7 +66,6 @@ public class ResourceBox extends StackPane {
         itemQuantity.setTranslateY(cardImg.getFitHeight() / 4);
         getChildren().add(cardImg);
         getChildren().add(itemQuantity);
-        System.out.println(itemQuantity.getText());
     }
 
     public void update(Player player) {

@@ -1,7 +1,9 @@
 package game.player;
 import game.Resource;
 
-public class Civilization {
+import java.io.Serializable;
+
+public class Civilization implements Serializable {
     Resource roadCost;
     Resource villageCost;
     Resource cityCost;

@@ -1,6 +1,7 @@
 package game.map;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -9,7 +10,7 @@ import game.player.Player;
 import game.Resource;
 
 
-public class Map {
+public class Map implements Serializable {
     MapElement[][] corners;
     MapElement[][] sides;
     MapElement[][] tiles;
@@ -22,6 +23,10 @@ public class Map {
     boolean inSettlingPhase = true;
 
 
+    @Override
+    public String toString() {
+        return "Map";
+    }
 
     public Map() {
         generateMap( 3);
