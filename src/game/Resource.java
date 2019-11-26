@@ -1,6 +1,8 @@
 package game;
 
-public class Resource {
+import java.io.Serializable;
+
+public class Resource implements Serializable {
     int resourcesTypes = 5;
     int brick;
     int wood;

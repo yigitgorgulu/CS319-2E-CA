@@ -1,7 +1,9 @@
 package game.map;
 import game.player.Player;
 
-public class MapSide implements MapElement, Buildable {
+import java.io.Serializable;
+
+public class MapSide implements MapElement, Buildable, Serializable {
     Location loc;
     boolean hasRoad;
     Player player = null;

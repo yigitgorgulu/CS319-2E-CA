@@ -1,7 +1,9 @@
 package game.map;
 import game.Resource;
 
-public class MapTile implements MapElement {
+import java.io.Serializable;
+
+public class MapTile implements MapElement, Serializable {
     public enum Types { FOREST, MOUNTAIN, HILL, FIELD, DESERT, PASTURE };
     Types type;
     Location loc;

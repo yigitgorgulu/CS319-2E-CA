@@ -1,7 +1,9 @@
 package game.map;
 import game.player.Player;
 
-public class MapCorner implements MapElement, Buildable {
+import java.io.Serializable;
+
+public class MapCorner implements MapElement, Buildable, Serializable {
     enum Types { EMPTY, VILLAGE, CITY }
     Types type = Types.EMPTY;
     Location loc;

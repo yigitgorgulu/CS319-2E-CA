@@ -1,5 +1,7 @@
 package game.map;
 
-public class MapPort {
+import java.io.Serializable;
+
+public class MapPort implements Serializable {
 
 }

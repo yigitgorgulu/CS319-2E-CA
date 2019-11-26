@@ -1,10 +1,14 @@
 package game.player;
 
+import display.networkDisplay.requests.PlayerInfo;
 import game.Resource;
+import javafx.application.Platform;
 import javafx.scene.paint.Color;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Player {
+public class Player implements Serializable {
     public enum Actions { BUILD_ROAD, BUILD_VILLAGE, BUILD_CITY, BUY_DEV_CARD };
     public String name;
 
@@ -20,11 +24,27 @@ public class Player {
     int victoryPoints = 0;
     //ArrayList<DevelopmentCards> playerCards;
 
+    public Player(PlayerInfo playerInfo) {
+        color = Color.rgb(playerInfo.r,playerInfo.g,playerInfo.b);
+        res = new Resource( 4, 4, 4, 4, 4);
+        civ = playerInfo.civilization;
+        this.name = playerInfo.name;
+    }
 
     public Player(Color c, Civilization.CivilizationEnum civilizationEnum, String name) {
         color = c;
         res = new Resource( 4, 4, 4, 4, 4);
         civ = new Civilization(civilizationEnum);
+        this.name = name;
+    }
+
+    public Civilization getCivilization() {
+        return civ;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        return name.equals(((Player)object).name);
     }
 
     public Color getColor() {

@@ -3,13 +3,17 @@ package game.map;
 import game.player.Player;
 import javafx.scene.shape.Circle;
 
-public class MapButton extends Circle {
-    Location loc;
+import java.io.Serializable;
+
+public class MapButton extends Circle implements Serializable {
+    public int x;
+    public int y;
     MapElement me;
 
     public MapButton(double x, double y, double r, MapElement me) {
         super( x, y, r );
-        this.loc = loc;
+        this.x = (int) x;
+        this.y = (int) y;
         this.me = me;
     }
 
@@ -21,4 +25,10 @@ public class MapButton extends Circle {
             this.setFill(p.getColor());
         }
     }
+    public void clientUpdate(Player player) {
+        this.setOpacity(0.7);
+        this.setFill(player.getColor());
+
+    }
+
 }

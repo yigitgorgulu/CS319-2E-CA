@@ -15,8 +15,8 @@ import java.io.FileNotFoundException;
 
 public class MenuButton extends StackPane{
     private Text text;
-    protected static final double RECTANGLE_WIDTH = 200;
-    protected static final double RECTANGLE_HEIGHT = 30;
+    public static final double RECTANGLE_WIDTH = 200;
+    public static final double RECTANGLE_HEIGHT = 30;
 
     public static Font fsmall;
 
