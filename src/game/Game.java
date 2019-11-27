@@ -143,6 +143,24 @@ public class Game implements Serializable {
         return false;
     }
 
+    public boolean playDevelopmentCard(DevelopmentCards card){
+        if ( card == DevelopmentCards.KNIGHT){
+            return currentPlayer.playKnightCard();
+        }
+
+        else if ( card == DevelopmentCards.VICTORY_POINT){
+            return currentPlayer.playVictoryPointCard();
+        }
+
+        else if ( card == DevelopmentCards.MONOPOLY ){
+            if ( currentPlayer.playMonopolyCard() ){
+                // player should choose a resource type and every other players should give their resources
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
     public int getDiceValue () {
         return die1 + die2;
     }

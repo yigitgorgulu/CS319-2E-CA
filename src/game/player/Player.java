@@ -24,7 +24,7 @@ public class Player implements Serializable {
     int monopolyCards = 0;
     int victoryPointCard = 0;
     int victoryPoints = 0;
-    int diceCounter = 0; // the event occurs if the needed # of dice comes 2 times
+    int diceCounter = 0; // the event occurs if the needed # of dice comes 3 times
 
     public Player(PlayerInfo playerInfo) {
         color = Color.rgb(playerInfo.r,playerInfo.g,playerInfo.b);
@@ -105,6 +105,14 @@ public class Player implements Serializable {
         return false;
     }
 
+    public boolean playMonopolyCard(){
+        if ( monopolyCards > 0 ){
+            monopolyCards--;
+            return true;
+        }
+        return false;
+    }
+
     public Resource makeAction(Actions a) {
         switch(a) {
             case BUILD_ROAD:
@@ -149,9 +157,7 @@ public class Player implements Serializable {
         return res.getWheat();
     }
 
-    public int getOre(){
-        return res.getOre();
-    }
+    public int getOre(){ return res.getOre(); }
 
     public int getBrick(){
         return res.getBrick();
