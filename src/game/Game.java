@@ -22,8 +22,8 @@ public class Game implements Serializable {
     int die1 = 0;
     int die2 = 0;
     ArrayList<DevelopmentCards> developmentCards;
-    Player longestRoadOwner;
-    Player largestArmyOwner;
+    Player longestRoadOwner = null;
+    Player largestArmyOwner = null;
 
     public Game(Map m, ArrayList<Player> p) {
         map = m;
@@ -44,6 +44,16 @@ public class Game implements Serializable {
     public void moveRobber(int x, int y){
         if ( currentPlayer.playKnightCard() ){
             map.setRoberLocation(x, y);
+            if ( currentPlayer.getArmySize() >= 3 && (largestArmyOwner == null) ){
+                largestArmyOwner = currentPlayer;
+                currentPlayer.incrementVictoryPoints(2);
+            }
+            else if ( currentPlayer.getArmySize() > largestArmyOwner.getArmySize() ){
+                largestArmyOwner.decreaseVictoryPoints(2);
+                currentPlayer.incrementVictoryPoints(2);
+                largestArmyOwner = currentPlayer;
+
+            }
         }
 
         else if ( getDiceValue() == 7 ){
@@ -58,7 +68,6 @@ public class Game implements Serializable {
             map.setRoberLocation(x, y); // move the robber to the given loc
 
             // steal one card from other robber-adj players
-
         }
     }
 
@@ -73,6 +82,8 @@ public class Game implements Serializable {
                 developmentCards.add(DevelopmentCards.ROAD_BUILDING);
             for ( int i = 21; i < 23; i++ )
                 developmentCards.add(DevelopmentCards.YEAR_OF_PLENTY);
+            for ( int i = 23; i < 24; i++ )
+                developmentCards.add(DevelopmentCards.MONOPOLY);
         }
         else if ( noOfPlayers > 4 ) {
             for (int i = 0; i < 5; i++)
@@ -83,6 +94,8 @@ public class Game implements Serializable {
                 developmentCards.add(DevelopmentCards.ROAD_BUILDING);
             for (int i = 28; i < 31; i++)
                 developmentCards.add(DevelopmentCards.YEAR_OF_PLENTY);
+            for ( int i = 31; i < 31; i++ )
+                developmentCards.add(DevelopmentCards.MONOPOLY);
         }
         shuffleDevelopmentCards(20);
     }
@@ -181,7 +194,7 @@ public class Game implements Serializable {
     public boolean getEvent(){ // this function checks the dice number
         if ( getDiceValue() == 7 ){ // this will move the robber
             //moveRobber(x,y);
-            // how to get location 
+            // how to get location
         }
         else if ( getDiceValue() == 12 && (currentPlayer.getCivilizationType() == Civilization.CivilizationEnum.MAYA )) {
             currentPlayer.increaseDiceCounter();
