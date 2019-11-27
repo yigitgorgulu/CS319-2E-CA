@@ -34,4 +34,8 @@ public class MapCorner implements MapElement, Buildable, Serializable {
         return player;
     }
 
+    public Types getType(){
+        return type;
+    }
+
 }

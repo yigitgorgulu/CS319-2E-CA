@@ -1,6 +1,7 @@
 package game;
 
 import java.io.Serializable;
+import java.util.Random;
 
 public class Resource implements Serializable {
     int resourcesTypes = 5;
@@ -43,7 +44,6 @@ public class Resource implements Serializable {
         return this;
     }
 
-
     public int getBrick() {
         return brick;
     }
@@ -65,11 +65,14 @@ public class Resource implements Serializable {
     }
 
     public Resource substract( Resource rsc ) {
-        brick -= rsc.brick;
-        wood -= rsc.wood;
-        sheep -= rsc.sheep;
-        wheat -= rsc.wheat;
-        ore -= rsc.ore;
+        if ( getBrick() > rsc.getBrick() && getOre() > rsc.getOre() && getWheat() > rsc.getWheat()
+                && getWood() > rsc.getWood() && getSheep() > rsc.getSheep() ) {
+            brick -= rsc.brick;
+            wood -= rsc.wood;
+            sheep -= rsc.sheep;
+            wheat -= rsc.wheat;
+            ore -= rsc.ore;
+        }
         return this;
     }
 
@@ -85,5 +88,31 @@ public class Resource implements Serializable {
         return brick + wood + sheep + wheat + ore;
     }
 
+    public void removeRandom( int removeNo ){
+        for ( int i = 0; i < removeNo; i++ ){
+            int which = new Random().nextInt(5);
+
+            if ( which == 0 && getBrick() > 0 ){
+                brick--;
+            }
+            else if ( which == 1 && getWood() > 0 ){
+                wood--;
+            }
+            else if ( which == 2 && getSheep() > 0 ){
+                sheep--;
+            }
+            else if ( which == 3 && getWheat() > 0 ){
+                wheat--;
+            }
+            else if ( which == 4 && getOre() > 0 ){
+                ore--;
+            }
+        }
+    }
+
     boolean isZero() { return this.totalCount() == 0; }
+
+    int totalResource(){
+        return  this.totalCount();
+    }
 }

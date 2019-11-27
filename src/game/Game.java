@@ -24,7 +24,6 @@ public class Game implements Serializable {
     ArrayList<DevelopmentCards> developmentCards;
     Player longestRoadOwner;
     Player largestArmyOwner;
-    Location robber; // default ayarlanmali
 
     public Game(Map m, ArrayList<Player> p) {
         map = m;
@@ -42,16 +41,22 @@ public class Game implements Serializable {
         return die2;
     }
 
-    public void moveRobber(Location loc){
+    public void moveRobber(int x, int y){
         if ( currentPlayer.playKnightCard() ){
-            robber.setX(loc.getX());
-            robber.setY(loc.getY());
+            map.setRoberLocation(x, y);
         }
 
         else if ( getDiceValue() == 7 ){
-
             // every player who has more than 7 resource should give half
-            // move the robber
+            for ( int i = 0; i < players.size(); i++ ){
+                boolean remove = (players.get(i)).totalResource() > 7;
+                if ( remove ){
+                    players.get(i).looseResource(players.get(i).totalResource()/2);
+                }
+            }
+
+            map.setRoberLocation(x, y); // move the robber to the given loc
+
             // steal one card from other robber-adj players
 
         }
@@ -173,12 +178,17 @@ public class Game implements Serializable {
         return currentPlayerNo;
     }
 
-    public boolean getEvent(){
+    public boolean getEvent(){ // this function checks the dice number
         if ( getDiceValue() == 7 ){ // this will move the robber
-
+            //moveRobber(x,y);
+            // how to get location 
         }
         else if ( getDiceValue() == 12 && (currentPlayer.getCivilizationType() == Civilization.CivilizationEnum.MAYA )) {
-            // maya event
+            currentPlayer.increaseDiceCounter();
+            if ( currentPlayer.getDiceCounter() > 2 ){ // APOCALYPSE
+                for ( int i = 0; i < players.size(); i++)
+                    map.destroy(players.get(i));
+            }
         }
 
         return false;
