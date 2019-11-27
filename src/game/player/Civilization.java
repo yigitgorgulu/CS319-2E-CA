@@ -40,6 +40,6 @@ public class Civilization implements Serializable {
         }
     }
 
-    public enum CivilizationEnum {OTTOMANS, ENGLAND, FRANCE, MAYA, SPAIN};
+    public enum CivilizationEnum {OTTOMANS, ENGLAND, FRANCE, MAYA, SPAIN, TURKEY};
 
 }

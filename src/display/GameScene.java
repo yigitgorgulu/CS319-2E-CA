@@ -69,6 +69,10 @@ public class GameScene{
         root.getChildren().add(diceBox);
     }
 
+    private void robber() {
+
+    }
+
     private void addPlayerResourcesMenu() throws IOException {
         double widthOfRectangle = DefaultUISpecifications.SCREEN_WIDTH / 3;
         double heightOfRectangle = DefaultUISpecifications.SCREEN_HEIGHT / 7;
@@ -120,7 +124,7 @@ public class GameScene{
     private void createGameAndTiles() throws FileNotFoundException {
         player1 = new Player(Color.RED, Civilization.CivilizationEnum.OTTOMANS, "Player 1");
         player2 = new Player(Color.GREEN, Civilization.CivilizationEnum.SPAIN, "Player 2");
-        player3 = new Player(Color.BLUE, Civilization.CivilizationEnum.GB, "Player 3");
+        player3 = new Player(Color.BLUE, Civilization.CivilizationEnum.ENGLAND, "Player 3");
         game = new Game(map, new ArrayList<Player>(Arrays.asList(player1, player2, player3)));
 
         font = javafx.scene.text.Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), 30);
@@ -189,6 +193,7 @@ public class GameScene{
         box3.update(player);
         box4.update(player);
         box5.update(player);
+
         turnOfPlayer.setText("Turn of player " + game.getCurrentPlayerNo());
     }
 

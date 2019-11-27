@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Player implements Serializable {
+
     public enum Actions { BUILD_ROAD, BUILD_VILLAGE, BUILD_CITY, BUY_DEV_CARD };
     public String name;
 
@@ -22,6 +23,8 @@ public class Player implements Serializable {
     int yearOfPlentyCards = 0;
     int knightCards = 0;
     int victoryPoints = 0;
+    int diceCounter = 0; // the event occurs if the needed # of dice comes 2 times
+
     //ArrayList<DevelopmentCards> playerCards;
 
     public Player(PlayerInfo playerInfo) {
@@ -106,6 +109,10 @@ public class Player implements Serializable {
         return res;
     }
 
+    public void looseResource( int removed ){
+        res.removeRandom(removed);
+    }
+
     public Resource addResource( Resource res ) {
         this.res.add( res );
         return this.res;
@@ -154,7 +161,16 @@ public class Player implements Serializable {
         return victoryPoints;
     }
 
+    public int getDiceCounter(){
+        return diceCounter;
+    }
+
+    public void increaseDiceCounter(){
+        diceCounter++;
+    }
     public boolean checkVictory () {
         return victoryPoints >= 10;
     }
+
+    public int totalResource(){ return res.totalCount();}
 }
