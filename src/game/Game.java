@@ -71,7 +71,7 @@ public class Game implements Serializable {
         }
     }
 
-    public void setDevelopmentCards(){
+    public void setDevelopmentCards(){ // creates development cards array list considering the # of players
         developmentCards = new ArrayList<>();
         if ( noOfPlayers < 5 ){
             for ( int i = 0; i < 14; i++ )
@@ -100,7 +100,7 @@ public class Game implements Serializable {
         shuffleDevelopmentCards(20);
     }
 
-    public boolean getDevelopmentCards(){
+    public boolean getDevelopmentCards(){ // assigns the DC on the top to the currentPlayer if it is affordable
         if ( currentPlayer.canAfford(Player.Actions.BUY_DEV_CARD) ){
             currentPlayer.getDevelopmentCard(developmentCards.get(0));
             developmentCards.remove(0);

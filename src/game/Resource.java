@@ -3,6 +3,10 @@ package game;
 import java.io.Serializable;
 import java.util.Random;
 
+/*
+ Resource class consists of all 5 resource types in the game. It has the counts of the resources as integers.
+ */
+
 public class Resource implements Serializable {
     int resourcesTypes = 5;
     int brick;
@@ -26,7 +30,7 @@ public class Resource implements Serializable {
         this.ore = ore;
     }
 
-    public Resource add( Resource rsc ) {
+    public Resource add( Resource rsc ) { // increase the resources by adding the given resource
         brick += rsc.brick;
         wood += rsc.wood;
         sheep += rsc.sheep;
@@ -35,7 +39,7 @@ public class Resource implements Serializable {
         return this;
     }
 
-    public Resource multiply( Resource rsc ){
+    public Resource multiply( Resource rsc ){ // increase the resources bu multiplying them with the given resource
         brick *= rsc.brick;
         wood *= rsc.wood;
         sheep *= rsc.sheep;
@@ -64,7 +68,7 @@ public class Resource implements Serializable {
         return ore;
     }
 
-    public Resource substract( Resource rsc ) {
+    public Resource substract( Resource rsc ) { // if the given resource is smaller than this.resource, this is decreased
         if ( getBrick() > rsc.getBrick() && getOre() > rsc.getOre() && getWheat() > rsc.getWheat()
                 && getWood() > rsc.getWood() && getSheep() > rsc.getSheep() ) {
             brick -= rsc.brick;
@@ -88,7 +92,7 @@ public class Resource implements Serializable {
         return brick + wood + sheep + wheat + ore;
     }
 
-    public void removeRandom( int removeNo ){
+    public void removeRandom( int removeNo ){ // removes given # of resources randomly
         for ( int i = 0; i < removeNo; i++ ){
             int which = new Random().nextInt(5);
 
@@ -111,8 +115,4 @@ public class Resource implements Serializable {
     }
 
     boolean isZero() { return this.totalCount() == 0; }
-
-    int totalResource(){
-        return  this.totalCount();
-    }
 }
