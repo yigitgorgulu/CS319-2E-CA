@@ -1,9 +1,5 @@
 import display.DefaultUISpecifications;
-import display.GameScene;
-import display.MainMenu;
-import display.networkDisplay.ClientScene;
 import display.networkDisplay.NetworkMainMenu;
-import display.networkDisplay.ServerScene;
 import javafx.application.Application;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -15,32 +11,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import sound.Sound;
+import game.Sound;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
-import display.DefaultUISpecifications;
-        import display.GameScene;
-        import display.MainMenu;
-        import sound.Sound;
-        import javafx.application.Application;
-        import javafx.scene.Node;
-        import javafx.scene.Scene;
-        import javafx.scene.image.ImageView;
-        import javafx.scene.layout.Pane;
-        import javafx.scene.paint.Color;
-        import javafx.scene.text.Font;
-        import javafx.scene.text.Text;
-        import javafx.scene.text.TextAlignment;
-        import javafx.stage.Stage;
-
-        import java.io.*;
-        import java.nio.file.Files;
-        import java.nio.file.Paths;
-
-        import javafx.scene.image.Image;
 
 public class NetworkMain extends Application {
     private static Font flarge;

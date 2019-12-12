@@ -210,6 +210,16 @@
     <MESSAGE value="Added lan-multiplayer gaming. Not fully working" />
     <option name="LAST_COMMIT_MESSAGE" value="Added lan-multiplayer gaming. Not fully working" />
   </component>
+  <component name="WindowStateProjectService">
+    <state x="724" y="424" width="408" height="240" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1576176476449">
+      <screen x="0" y="0" width="1857" height="1080" />
+    </state>
+    <state x="724" y="424" width="408" height="240" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1857.1080@0.0.1857.1080" timestamp="1576176476449" />
+    <state x="554" y="132" key="CommitChangelistDialog2" timestamp="1576176485017">
+      <screen x="0" y="0" width="1857" height="1080" />
+    </state>
+    <state x="554" y="132" key="CommitChangelistDialog2/0.0.1857.1080@0.0.1857.1080" timestamp="1576176485017" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>

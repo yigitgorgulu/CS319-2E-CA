@@ -1,4 +1,4 @@
-package sound;
+package game;
 
 import display.GameScene;
 import javafx.scene.Group;
