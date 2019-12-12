@@ -6,6 +6,7 @@ import display.MapToken;
 import display.ResourceBox;
 import display.networkDisplay.requests.BuildRequest;
 import display.networkDisplay.requests.PlayerInfo;
+import display.networkDisplay.requests.Requests;
 import game.Game;
 import game.map.*;
 import game.player.Civilization;
@@ -69,18 +70,17 @@ public class ClientGameScene{
         addBackground();
         createGameAndTiles();
         addPlayerResourcesMenu();
-        dice();
     }
 
-    private void dice() {
-        //if ( game.gameTurns != 0 ) root.getChildren().remove(diceBox);
-        //die1 = new Die(game.getDie1());
-        //die2 = new Die(game.getDie2());
+    public void dice(int dieNum1, int dieNum2) {
+        root.getChildren().remove(diceBox);
+        die1 = new Die(dieNum1);
+        die2 = new Die(dieNum2);
 
-//        diceBox = new HBox(die1, die2);
-//        diceBox.setTranslateX(200);
-//        diceBox.setTranslateY(200);
-//        root.getChildren().add(diceBox);
+        diceBox = new HBox(die1, die2);
+        diceBox.setTranslateX(200);
+        diceBox.setTranslateY(200);
+        root.getChildren().add(diceBox);
     }
 
     private void addPlayerResourcesMenu() throws IOException {
@@ -103,10 +103,14 @@ public class ClientGameScene{
         seperatorRectangle = new Rectangle(20,0);
 
         endTurn = new Button("End Turn");
+        endTurn.setDisable(true);
         endTurn.setOnAction(e->{
-            //game.endTurn();
-            updateResources(player);
-            dice();
+            try {
+                clientConnection.send(Requests.END_TURN);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            endTurn.setDisable(true);
         });
 
         HBox hBox = new HBox();
@@ -132,7 +136,6 @@ public class ClientGameScene{
     }
 
     private void createGameAndTiles() throws FileNotFoundException {
-        //game = new Game(map, new ArrayList<Player>(Arrays.asList(player1, player2, player3)));
 
         font = javafx.scene.text.Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), 30);
         differenceX = map.getTile(0,1).getLocation().getRawDisplayPosition().getX() - map.getTile(0,0)
@@ -199,13 +202,18 @@ public class ClientGameScene{
         });
     }
 
-    private void updateResources(Player player) {
+    public void updateResources(Player player, String playerName) {
+        System.out.println(player.name);
+        System.out.println("Brick, Ore, Wood, Sheep, Wheat"  + player.getBrick() + " "
+                +player.getOre()+ " " +  player.getWood() + " " + player.getSheep() + " " +
+                + player.getWheat());
+        this.player = player;
         box1.update(player);
         box2.update(player);
         box3.update(player);
         box4.update(player);
         box5.update(player);
-        turnOfPlayer.setText("Turn of player " + player);
+        turnOfPlayer.setText("Turn of player " + playerName);
     }
 
 
