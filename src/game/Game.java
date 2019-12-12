@@ -22,7 +22,7 @@ public class Game implements Serializable {
     int die1 = 0;
     int die2 = 0;
     ArrayList<DevelopmentCards> developmentCards;
-    Player longestRoadOwner = null;
+    Player e = null;
     Player largestArmyOwner = null;
 
     public Game(Map m, ArrayList<Player> p) {
