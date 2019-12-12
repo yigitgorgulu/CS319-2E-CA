@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import game.player.Civilization;
 import game.player.Player;
 import game.Resource;
 
@@ -92,8 +94,10 @@ public class Map implements Serializable {
         MapTile currTile;
         while( !numberTokens.isEmpty() ) {
             currTile = (MapTile) getMapElement( currLoc );
-            if ( currTile.type == MapTile.Types.DESERT )
+            if ( currTile.type == MapTile.Types.DESERT ) {
+                robber = currTile.getLocation();
                 currTile.number = 0;
+            }
             else
                 currTile.number = numberTokens.remove(0);
                 MapTile nextTile = (MapTile) getMapElement(currLoc.translated(dir.x, dir.y));
@@ -126,6 +130,24 @@ public class Map implements Serializable {
                 System.out.println(roadLength(loc, new ArrayList<>(), currentPlayer));
             }
             return true;
+        }
+        return false;
+    }
+
+    public boolean destroy(Player player){
+        for( int y  = 0; y < corners.length; y++ ) {
+            for (int x = 0; x < corners[y].length; x++) {
+                if (((corners[y][x]).getLocation()).type == Location.Types.CORNER) {
+                    Location loc = (corners[y][x]).getLocation();
+                    MapCorner mc = new MapCorner(loc);
+                    if ( !mc.isEmpty() && player.getCivilizationType() != Civilization.CivilizationEnum.TURKEY ){
+                        if ( mc.type == MapCorner.Types.CITY ){
+                            mc.type = MapCorner.Types.EMPTY;
+                            return true;
+                        }
+                    }
+                }
+            }
         }
         return false;
     }
@@ -286,5 +308,10 @@ public class Map implements Serializable {
             }
         }
         return res;
+    }
+
+    public void setRoberLocation(int x, int y ){
+        robber.setY(y);
+        robber.setX(x);
     }
 }

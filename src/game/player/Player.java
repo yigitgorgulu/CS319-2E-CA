@@ -20,7 +20,6 @@ public class Player implements Serializable {
     public enum Actions { BUILD_ROAD, BUILD_VILLAGE, BUILD_CITY, BUY_DEV_CARD };
     public String name;
 
-
     Color color;
     Civilization civ;
     private Resource res;
@@ -29,8 +28,10 @@ public class Player implements Serializable {
     int roadBuildingCards = 0;
     int yearOfPlentyCards = 0;
     int knightCards = 0;
+    int monopolyCards = 0;
+    int victoryPointCard = 0;
     int victoryPoints = 0;
-    //ArrayList<DevelopmentCards> playerCards;
+    int diceCounter = 0; // the event occurs if the needed # of dice comes 3 times
 
     @Override
     public String toString() {
@@ -103,11 +104,30 @@ public class Player implements Serializable {
 
     public boolean playKnightCard(){
         if ( knightCards > 0 ){
+            knightCards--;
             armySize++;
             return true;
         }
         return false;
     }
+
+    public boolean playVictoryPointCard(){
+        if ( victoryPointCard > 0 ){
+            incrementVictoryPoints(1);
+            victoryPointCard--;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean playMonopolyCard(){
+        if ( monopolyCards > 0 ){
+            monopolyCards--;
+            return true;
+        }
+        return false;
+    }
+
     public Resource makeAction(Actions a) {
         switch(a) {
             case BUILD_ROAD:
@@ -122,6 +142,10 @@ public class Player implements Serializable {
         return res;
     }
 
+    public void looseResource( int removed ){
+        res.removeRandom(removed);
+    }
+
     public Resource addResource( Resource res ) {
         this.res.add( res );
         return this.res;
@@ -130,6 +154,10 @@ public class Player implements Serializable {
     public Resource multiplyResource( Resource res ){
         this.res.multiply( res );
         return this.res;
+    }
+
+    public Civilization.CivilizationEnum getCivilizationType(){
+        return civ.cEnum;
     }
 
     public int getWood(){
@@ -144,9 +172,7 @@ public class Player implements Serializable {
         return res.getWheat();
     }
 
-    public int getOre(){
-        return res.getOre();
-    }
+    public int getOre(){ return res.getOre(); }
 
     public int getBrick(){
         return res.getBrick();
@@ -157,7 +183,24 @@ public class Player implements Serializable {
         return victoryPoints;
     }
 
+    public int decreaseVictoryPoints( int i ){
+        victoryPoints -= i;
+        return victoryPoints;
+    }
+
+    public int getDiceCounter(){
+        return diceCounter;
+    }
+    public void increaseDiceCounter(){
+        diceCounter++;
+    }
     public boolean checkVictory () {
         return victoryPoints >= 10;
     }
+    public int totalResource(){ return res.totalCount();}
+    public int getKnightCards(){return knightCards;}
+    public int getArmySize(){return armySize;}
+    public int getMonopolyCards(){return monopolyCards;}
+    public int getRoadLength(){return roadLength;}
+    public int getYearOfPlentyCards(){return yearOfPlentyCards;}
 }

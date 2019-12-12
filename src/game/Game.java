@@ -2,6 +2,7 @@ package game;
 
 import game.map.Location;
 import game.map.Map;
+import game.player.Civilization;
 import game.player.DevelopmentCards;
 import game.player.Player;
 
@@ -21,9 +22,8 @@ public class Game implements Serializable {
     int die1 = 0;
     int die2 = 0;
     ArrayList<DevelopmentCards> developmentCards;
-    Player longestRoadOwner;
-    Player largestArmyOwner;
-    Location robber; // default ayarlanmali
+    Player longestRoadOwner = null;
+    Player largestArmyOwner = null;
 
     public Game(Map m, ArrayList<Player> p) {
         map = m;
@@ -41,14 +41,37 @@ public class Game implements Serializable {
         return die2;
     }
 
-    public void moveRobber(Location loc){
+    public void moveRobber(int x, int y){
         if ( currentPlayer.playKnightCard() ){
-            robber.setX(loc.getX());
-            robber.setY(loc.getY());
+            map.setRoberLocation(x, y);
+            if ( currentPlayer.getArmySize() >= 3 && (largestArmyOwner == null) ){
+                largestArmyOwner = currentPlayer;
+                currentPlayer.incrementVictoryPoints(2);
+            }
+            else if ( currentPlayer.getArmySize() > largestArmyOwner.getArmySize() ){
+                largestArmyOwner.decreaseVictoryPoints(2);
+                currentPlayer.incrementVictoryPoints(2);
+                largestArmyOwner = currentPlayer;
+
+            }
+        }
+
+        else if ( getDiceValue() == 7 ){
+            // every player who has more than 7 resource should give half
+            for ( int i = 0; i < players.size(); i++ ){
+                boolean remove = (players.get(i)).totalResource() > 7;
+                if ( remove ){
+                    players.get(i).looseResource(players.get(i).totalResource()/2);
+                }
+            }
+
+            map.setRoberLocation(x, y); // move the robber to the given loc
+
+            // steal one card from other robber-adj players
         }
     }
 
-    public void setDevelopmentCards(){
+    public void setDevelopmentCards(){ // creates development cards array list considering the # of players
         developmentCards = new ArrayList<>();
         if ( noOfPlayers < 5 ){
             for ( int i = 0; i < 14; i++ )
@@ -59,6 +82,8 @@ public class Game implements Serializable {
                 developmentCards.add(DevelopmentCards.ROAD_BUILDING);
             for ( int i = 21; i < 23; i++ )
                 developmentCards.add(DevelopmentCards.YEAR_OF_PLENTY);
+            for ( int i = 23; i < 24; i++ )
+                developmentCards.add(DevelopmentCards.MONOPOLY);
         }
         else if ( noOfPlayers > 4 ) {
             for (int i = 0; i < 5; i++)
@@ -69,8 +94,19 @@ public class Game implements Serializable {
                 developmentCards.add(DevelopmentCards.ROAD_BUILDING);
             for (int i = 28; i < 31; i++)
                 developmentCards.add(DevelopmentCards.YEAR_OF_PLENTY);
+            for ( int i = 31; i < 31; i++ )
+                developmentCards.add(DevelopmentCards.MONOPOLY);
         }
         shuffleDevelopmentCards(20);
+    }
+
+    public boolean getDevelopmentCards(){ // assigns the DC on the top to the currentPlayer if it is affordable
+        if ( currentPlayer.canAfford(Player.Actions.BUY_DEV_CARD) ){
+            currentPlayer.getDevelopmentCard(developmentCards.get(0));
+            developmentCards.remove(0);
+            return true;
+        }
+        return false;
     }
 
     public void shuffleDevelopmentCards(int time){
@@ -107,6 +143,24 @@ public class Game implements Serializable {
         return false;
     }
 
+    public boolean playDevelopmentCard(DevelopmentCards card){
+        if ( card == DevelopmentCards.KNIGHT){
+            return currentPlayer.playKnightCard();
+        }
+
+        else if ( card == DevelopmentCards.VICTORY_POINT){
+            return currentPlayer.playVictoryPointCard();
+        }
+
+        else if ( card == DevelopmentCards.MONOPOLY ){
+            if ( currentPlayer.playMonopolyCard() ){
+                // player should choose a resource type and every other players should give their resources
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
     public int getDiceValue () {
         return die1 + die2;
     }
@@ -153,5 +207,21 @@ public class Game implements Serializable {
 
     public int getCurrentPlayerNo() {
         return currentPlayerNo;
+    }
+
+    public boolean getEvent(){ // this function checks the dice number
+        if ( getDiceValue() == 7 ){ // this will move the robber
+            //moveRobber(x,y);
+            // how to get location
+        }
+        else if ( getDiceValue() == 12 && (currentPlayer.getCivilizationType() == Civilization.CivilizationEnum.MAYA )) {
+            currentPlayer.increaseDiceCounter();
+            if ( currentPlayer.getDiceCounter() > 2 ){ // APOCALYPSE
+                for ( int i = 0; i < players.size(); i++)
+                    map.destroy(players.get(i));
+            }
+        }
+
+        return false;
     }
 }
