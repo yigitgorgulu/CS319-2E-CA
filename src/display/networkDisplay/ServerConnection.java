@@ -18,15 +18,19 @@ import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.CountDownLatch;
 
 public class ServerConnection extends Thread {
-    final int PLAYER_COUNT = 2;
+    private final int PLAYER_COUNT = 3;
     Client[] clients;
 
     ObjectOutputStream os;
     ObjectInputStream is;
-
+    boolean gameInit = false;
+    List<Serializable> requests;
     ArrayList<Player> players;
     ServerSocket ss;
     Socket s;
@@ -39,6 +43,8 @@ public class ServerConnection extends Thread {
     public ServerConnection(Stage gameView) {
         super();
         clients = new Client[PLAYER_COUNT - 1];
+
+        requests = Collections.synchronizedList(new ArrayList<Serializable>());
         this.gameView = gameView;
         players = new ArrayList<>();
         System.out.println("ADDED OTTOMANS");
@@ -70,7 +76,9 @@ public class ServerConnection extends Thread {
                 ObjectInputStream in = new ObjectInputStream(s.getInputStream());
 
                 System.out.println("Someting Happened");
+
                 clients[playerCount] = new Client(s, out, in);
+
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Problem");
@@ -82,7 +90,15 @@ public class ServerConnection extends Thread {
         while (true) {
             for (Client client : clients) {
                 try {
-                    Serializable data = (Serializable) client.in.readObject();
+                    Serializable data;
+                    System.out.println("AWAITING");
+                    if(!gameInit || client.player.equals(serverGameScene.game.getCurrentPlayer())) {
+                         data = (Serializable) client.in.readObject();
+                    }
+                    else {
+                        continue;
+                    }
+
                     if(data.equals(Requests.GAME_INIT)) {
                         initRequestCount++;
                     }
@@ -90,8 +106,6 @@ public class ServerConnection extends Thread {
 
                         Platform.runLater(() -> {
                             try {
-                                //
-                                //player3 = new Player(Color.BLUE, Civilization.CivilizationEnum.GB, "Player 3");
 
                                 System.out.println("Players:");
                                 for (Player plrr: players) {
@@ -103,6 +117,7 @@ public class ServerConnection extends Thread {
                                 gameView.setScene(serverGameScene.getScene());
                                 this.serverGameScene = serverGameScene;
                                 mapCount.countDown();
+                                gameInit = true;
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -116,9 +131,16 @@ public class ServerConnection extends Thread {
                     }
 
                     else if(data instanceof PlayerInfo) {
-                        players.add(new Player((PlayerInfo)data));
+                        Player plrrx = new Player((PlayerInfo)data);
+                        players.add(plrrx);
                         System.out.println("One player Added");
                         client.os.writeObject(Requests.ADDED);
+                        client.setPlayer(plrrx);
+                    }
+
+                    else if(data.equals(Requests.END_TURN)) {
+                        System.out.println("RECEIVED END TURN REQUEST:");
+                        Platform.runLater(() -> serverGameScene.endTurnProcess());
                     }
 
                     else if(data instanceof BuildRequest) {
@@ -134,12 +156,13 @@ public class ServerConnection extends Thread {
 
                             MapButton mapB = serverGameScene.findMapButton(mb.x, mb.y);
                             mapB.update();
-                            serverGameScene.updateResources(serverGameScene.game.getCurrentPlayer());
+                            serverGameScene.updateResources(serverGameScene.player);
 
                             if (built) {
                                 sendEveryone(data);
                             }
                         }
+                        System.out.println("DONE BUILD");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

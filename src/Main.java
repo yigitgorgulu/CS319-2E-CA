@@ -1,7 +1,7 @@
 import display.DefaultUISpecifications;
 import display.GameScene;
 import display.MainMenu;
-import sound.Sound;
+import game.Sound;
 import javafx.application.Application;
 import javafx.scene.Node;
 import javafx.scene.Scene;

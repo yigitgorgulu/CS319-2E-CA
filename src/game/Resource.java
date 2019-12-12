@@ -1,5 +1,7 @@
 package game;
 
+import display.networkDisplay.requests.ResourceInfo;
+
 import java.io.Serializable;
 import java.util.Random;
 
@@ -9,14 +11,11 @@ import java.util.Random;
 
 public class Resource implements Serializable {
     int resourcesTypes = 5;
-    int brick;
-    int wood;
-    int sheep;
-    int wheat;
-    int ore;
-    public Resource() {
-        this( 0, 0, 0, 0, 0);
-    }
+    private int brick;
+    private int wood;
+    private int sheep;
+    private int wheat;
+    private int ore;
 
     public Resource( int brick, int wood, int sheep, int wheat, int ore ) {
         this.brick = brick;
@@ -28,6 +27,14 @@ public class Resource implements Serializable {
         this.wheat = wheat;
 
         this.ore = ore;
+    }
+
+    public Resource(ResourceInfo resourceInfo) {
+        this.brick = resourceInfo.getBrick();
+        this.wood = resourceInfo.getWood();
+        this.sheep = resourceInfo.getSheep();
+        this.wheat = resourceInfo.getWheat();
+        this.ore = resourceInfo.getOre();
     }
 
     public Resource add( Resource rsc ) { // increase the resources by adding the given resource
@@ -80,7 +87,18 @@ public class Resource implements Serializable {
         return this;
     }
 
-    public boolean biggerEquals( Resource rsc ) {
+    @Override
+    public String toString() {
+        return "Resource{" +
+                ", brick=" + brick +
+                ", wood=" + wood +
+                ", sheep=" + sheep +
+                ", wheat=" + wheat +
+                ", ore=" + ore +
+                '}';
+    }
+
+    public boolean biggerEquals(Resource rsc ) {
         return brick >= rsc.brick &&
         wood >= rsc.wood &&
         sheep >= rsc.sheep &&

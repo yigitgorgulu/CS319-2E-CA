@@ -1,6 +1,7 @@
 package display.networkDisplay;
 
 import display.networkDisplay.requests.BuildRequest;
+import display.networkDisplay.requests.EndTurnInfo;
 import display.networkDisplay.requests.PlayerInfo;
 import display.networkDisplay.requests.Requests;
 import game.map.Map;
@@ -42,7 +43,8 @@ public class ClientConnection extends Thread {
 
         try (Socket s = new Socket("localhost", 19999);
              ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
-             ObjectInputStream in = new ObjectInputStream(s.getInputStream())) {
+             ObjectInputStream in = new ObjectInputStream(s.getInputStream())
+        ) {
 
             os = out;
 
@@ -56,8 +58,6 @@ public class ClientConnection extends Thread {
                     Serializable data = (Serializable) in.readObject();
                     System.out.println(data.toString());
                     if(data instanceof Map) {
-                        System.out.println("DIDIT");
-
                         Platform.runLater(() -> {
                             try {
 
@@ -79,6 +79,23 @@ public class ClientConnection extends Thread {
                             MapButton mapB = clientGameScene.findMapButton(mb.x, mb.y);
                             mapB.clientUpdate(new Player(((BuildRequest)data).playerInfo));
                         });
+
+                    }
+
+                    else if(data instanceof EndTurnInfo) {
+                        EndTurnInfo endTurnInfo = (EndTurnInfo) data;
+
+                        Platform.runLater(() ->{
+                            clientGameScene.dice(endTurnInfo.getDie1(), endTurnInfo.getDie2());
+
+                            clientGameScene.updateResources(new Player(endTurnInfo.getPlayerInfo()),endTurnInfo.getCurrentPlayerInfo().name);
+                            System.out.println(endTurnInfo.getCurrentPlayerInfo().name + "\n" +
+                                    endTurnInfo.getPlayerInfo().name + "\n" +
+                                    clientGameScene.player.name);
+                            if(new Player(endTurnInfo.getCurrentPlayerInfo()).equals(clientGameScene.player))
+                                clientGameScene.endTurn.setDisable(false);
+                        });
+
 
                     }
                     else if(data.equals(Requests.ADDED)) {
