@@ -1,5 +1,6 @@
 package display.networkDisplay.requests;
 
+import game.Resource;
 import game.player.Civilization;
 import game.player.Player;
 
@@ -9,6 +10,7 @@ public class PlayerInfo implements Serializable {
     public String name;
     public int r,g,b;
     public Civilization civilization;
+    public ResourceInfo resourceInfo;
 
     public PlayerInfo(Player player) {
         this.name = player.name;
@@ -16,5 +18,6 @@ public class PlayerInfo implements Serializable {
         this.g = (int)(player.getColor().getGreen() * 255);
         this.b = (int)(player.getColor().getBlue() * 255);
         this.civilization = player.getCivilization();
+        this.resourceInfo = new ResourceInfo(player.getRes());
     }
 }

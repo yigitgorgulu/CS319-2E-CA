@@ -5,6 +5,7 @@ import display.Die;
 import display.MapToken;
 import display.ResourceBox;
 import display.networkDisplay.requests.BuildRequest;
+import display.networkDisplay.requests.EndTurnInfo;
 import display.networkDisplay.requests.PlayerInfo;
 import game.Game;
 import game.map.*;
@@ -82,6 +83,34 @@ public class ServerGameScene{
         root.getChildren().add(diceBox);
     }
 
+    public void endTurnProcess() {
+        game.endTurn();
+        updateResources(player);
+        dice();
+
+        System.out.println("end turn done");
+        System.out.println(game.getCurrentPlayer().name + "\n" + player.name);
+
+        if(game.getCurrentPlayer().equals(player)) {
+            endTurn.setDisable(false);
+        }
+
+        try {
+            Client[] clts = serverConnection.clients;
+            for (Client clt : clts) {
+                System.out.println(clt.player.toString());
+                System.out.println(new Player(new PlayerInfo(clt.player)).toString());
+                EndTurnInfo endTurnInfo = new EndTurnInfo(new PlayerInfo(game.getCurrentPlayer()),
+                        new PlayerInfo(clt.player), game.getDie1(), game.getDie2());
+
+                clt.os.writeObject(endTurnInfo);
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     private void addPlayerResourcesMenu() throws IOException {
         double widthOfRectangle = DefaultUISpecifications.SCREEN_WIDTH / 3;
         double heightOfRectangle = DefaultUISpecifications.SCREEN_HEIGHT / 7;
@@ -103,9 +132,8 @@ public class ServerGameScene{
 
         endTurn = new Button("End Turn");
         endTurn.setOnAction(e->{
-            game.endTurn();
-            updateResources(game.getCurrentPlayer());
-            dice();
+            endTurnProcess();
+            endTurn.setDisable(true);
         });
 
         HBox hBox = new HBox();
@@ -166,14 +194,16 @@ public class ServerGameScene{
                 System.out.println(player.name);
                 System.out.println(game.getCurrentPlayer().name);
                 if( game.getCurrentPlayer().equals(player)) {
-                    game.build(a.getLocation());
+                    boolean built = game.build(a.getLocation());
                     mb.update();
                     updateResources(game.getCurrentPlayer());
-                    try {
-                        System.out.println("SERVER SENDS BUILDINFO:" + player.getColor().toString());
-                        serverConnection.sendEveryone(new BuildRequest(a, mb, new PlayerInfo(player)));
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
+                    if(built) {
+                        try {
+                            System.out.println("SERVER SENDS BUILDINFO:" + player.getColor().toString());
+                            serverConnection.sendEveryone(new BuildRequest(a, mb, new PlayerInfo(player)));
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 }
             });

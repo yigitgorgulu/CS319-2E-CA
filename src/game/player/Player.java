@@ -9,13 +9,21 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Player implements Serializable {
+    public Resource getRes() {
+        return res;
+    }
+
+    public void setRes(Resource res) {
+        this.res = res;
+    }
+
     public enum Actions { BUILD_ROAD, BUILD_VILLAGE, BUILD_CITY, BUY_DEV_CARD };
     public String name;
 
 
     Color color;
     Civilization civ;
-    Resource res;
+    private Resource res;
     int armySize = 0;
     int roadLength = 0;
     int roadBuildingCards = 0;
@@ -24,9 +32,17 @@ public class Player implements Serializable {
     int victoryPoints = 0;
     //ArrayList<DevelopmentCards> playerCards;
 
+    @Override
+    public String toString() {
+        return "Player{" +
+                "name='" + name +
+                ", res=" + res.toString() +
+                '}';
+    }
+
     public Player(PlayerInfo playerInfo) {
         color = Color.rgb(playerInfo.r,playerInfo.g,playerInfo.b);
-        res = new Resource( 4, 4, 4, 4, 4);
+        res = new Resource(playerInfo.resourceInfo);
         civ = playerInfo.civilization;
         this.name = playerInfo.name;
     }

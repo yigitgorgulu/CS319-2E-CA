@@ -6,9 +6,19 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4f3e89fd-e61b-4e79-85eb-6d15b3a69185" name="Default Changelist" comment="Added display of dice.">
+    <list default="true" id="4f3e89fd-e61b-4e79-85eb-6d15b3a69185" name="Default Changelist" comment="Added lan-multiplayer gaming. Not fully working">
+      <change afterPath="$PROJECT_DIR$/src/display/networkDisplay/requests/EndTurnInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/display/networkDisplay/requests/ResourceInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/networkDisplay/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/ClientConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/networkDisplay/ClientConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/ClientGameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/networkDisplay/ClientGameScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/ServerConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/networkDisplay/ServerConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/ServerGameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/networkDisplay/ServerGameScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/requests/PlayerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/networkDisplay/requests/PlayerInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/requests/Requests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/networkDisplay/requests/Requests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/Resource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Resource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/player/Player.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,6 +34,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="unstable" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1TnNTV7fXy3zBrr7eb6ajNLpGu0" />
@@ -35,7 +50,11 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/res" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
@@ -54,7 +73,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.NetworkMain">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="CS319-2E-CA" />
@@ -62,8 +81,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="NetworkMain" type="Application" factoryName="Application" singleton="false">
+      <option name="MAIN_CLASS_NAME" value="NetworkMain" />
+      <module name="CS319-2E-CA" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.NetworkMain" />
+      <item itemvalue="Application.Main" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.Main" />
         <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
@@ -89,6 +121,16 @@
       <workItem from="1574105182739" duration="3353000" />
       <workItem from="1574405841807" duration="240000" />
       <workItem from="1574509963322" duration="3170000" />
+      <workItem from="1574774924750" duration="1061000" />
+      <workItem from="1574794820619" duration="1458000" />
+      <workItem from="1575152361531" duration="11121000" />
+      <workItem from="1575211752007" duration="1315000" />
+      <workItem from="1575232790714" duration="1228000" />
+      <workItem from="1575898776840" duration="4572000" />
+      <workItem from="1575904690408" duration="1896000" />
+      <workItem from="1575924142159" duration="4929000" />
+      <workItem from="1576076284897" duration="347000" />
+      <workItem from="1576145173441" duration="12118000" />
     </task>
     <task id="LOCAL-00002" summary="Added display of dice.">
       <created>1574094483753</created>
@@ -132,7 +174,14 @@
       <option name="project" value="LOCAL" />
       <updated>1574109799932</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Added lan-multiplayer gaming. Not fully working">
+      <created>1574772736046</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1574772736046</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -158,6 +207,34 @@
     <MESSAGE value="Added third player, also JAR file." />
     <MESSAGE value="Added JAR file." />
     <MESSAGE value="Removed JAR, did not work." />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed JAR, did not work." />
+    <MESSAGE value="Added lan-multiplayer gaming. Not fully working" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added lan-multiplayer gaming. Not fully working" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/display/networkDisplay/ClientConnection.java</url>
+          <line>58</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/display/networkDisplay/ServerConnection.java</url>
+          <line>56</line>
+          <option name="timeStamp" value="31" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/display/networkDisplay/ServerConnection.java</url>
+          <line>55</line>
+          <option name="timeStamp" value="32" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="pl" />
+        <watch expression="pl" language="JAVA" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
