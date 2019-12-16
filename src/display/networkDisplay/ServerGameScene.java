@@ -4,12 +4,13 @@ import display.DefaultUISpecifications;
 import display.Die;
 import display.MapToken;
 import display.ResourceBox;
-import display.networkDisplay.requests.BuildRequest;
-import display.networkDisplay.requests.EndTurnInfo;
-import display.networkDisplay.requests.PlayerInfo;
+import network.Client;
+import network.ServerConnection;
+import network.requests.BuildRequest;
+import network.requests.EndTurnInfo;
+import network.requests.PlayerInfo;
 import game.Game;
 import game.map.*;
-import game.player.Civilization;
 import game.player.Player;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
@@ -95,20 +96,7 @@ public class ServerGameScene{
             endTurn.setDisable(false);
         }
 
-        try {
-            Client[] clts = serverConnection.clients;
-            for (Client clt : clts) {
-                System.out.println(clt.player.toString());
-                System.out.println(new Player(new PlayerInfo(clt.player)).toString());
-                EndTurnInfo endTurnInfo = new EndTurnInfo(new PlayerInfo(game.getCurrentPlayer()),
-                        new PlayerInfo(clt.player), game.getDie1(), game.getDie2());
-
-                clt.os.writeObject(endTurnInfo);
-            }
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        serverConnection.sendEndTurnInfo(game.getCurrentPlayer(), game.getDie1(), game.getDie2());
     }
 
     private void addPlayerResourcesMenu() throws IOException {
@@ -240,7 +228,7 @@ public class ServerGameScene{
         box3.update(player);
         box4.update(player);
         box5.update(player);
-        turnOfPlayer.setText("Turn of player " + game.getCurrentPlayerNo());
+        turnOfPlayer.setText("Turn of player " + game.getCurrentPlayer().name);
     }
 
 
@@ -283,7 +271,7 @@ public class ServerGameScene{
         root.getChildren().add(tile);
     }
 
-    MapButton findMapButton(int x, int y) {
+    public MapButton findMapButton(int x, int y) {
         for(MapButton button: mapButtonList) {
             if (x == button.x && y == button.y) {
                 return button;
@@ -292,5 +280,16 @@ public class ServerGameScene{
         return null;
     }
 
+    public Game getGame() {
+        return this.game;
+    }
+
+    public Player getPlayer() {
+        return this.player;
+    }
+
+    public Map getMap() {
+        return this.map;
+    }
 }
 

@@ -1,9 +1,10 @@
-package display.networkDisplay;
+package network;
 
-import display.networkDisplay.requests.BuildRequest;
-import display.networkDisplay.requests.EndTurnInfo;
-import display.networkDisplay.requests.PlayerInfo;
-import display.networkDisplay.requests.Requests;
+import display.networkDisplay.ClientGameScene;
+import network.requests.BuildRequest;
+import network.requests.EndTurnInfo;
+import network.requests.PlayerInfo;
+import network.requests.Requests;
 import game.map.Map;
 import game.map.MapButton;
 import game.player.Civilization;
@@ -23,13 +24,15 @@ public class ClientConnection extends Thread {
 
     ObjectOutputStream os;
     Stage gameView;
+    String name;
 
     ClientGameScene clientGameScene;
 
     CountDownLatch mapLatch;
 
-    public ClientConnection(Stage gameView) {
+    public ClientConnection(Stage gameView, String name) {
         this.gameView = gameView;
+        this.name = name;
     }
 
     public void send(Serializable data) throws Exception {
@@ -48,7 +51,7 @@ public class ClientConnection extends Thread {
 
             os = out;
 
-            Player pl = new Player(Color.GREEN, Civilization.CivilizationEnum.SPAIN, ((int)(Math.random() * 50)) + "");
+            Player pl = new Player(Color.GREEN, Civilization.CivilizationEnum.SPAIN, name);
             PlayerInfo playerInfo = new PlayerInfo(pl);
             send(playerInfo);
 
@@ -91,9 +94,9 @@ public class ClientConnection extends Thread {
                             clientGameScene.updateResources(new Player(endTurnInfo.getPlayerInfo()),endTurnInfo.getCurrentPlayerInfo().name);
                             System.out.println(endTurnInfo.getCurrentPlayerInfo().name + "\n" +
                                     endTurnInfo.getPlayerInfo().name + "\n" +
-                                    clientGameScene.player.name);
-                            if(new Player(endTurnInfo.getCurrentPlayerInfo()).equals(clientGameScene.player))
-                                clientGameScene.endTurn.setDisable(false);
+                                    clientGameScene.getPlayer().name);
+                            if(new Player(endTurnInfo.getCurrentPlayerInfo()).equals(clientGameScene.getPlayer()))
+                                clientGameScene.enableEndTurn();
                         });
 
 

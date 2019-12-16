@@ -1,16 +1,14 @@
 package display.networkDisplay;
 
-import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import network.ClientConnection;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.net.Socket;
+import java.util.Scanner;
 
 public class ClientScene {
 
@@ -23,7 +21,11 @@ public class ClientScene {
     public ClientScene(Stage gameView) throws IOException {
         root = new Group();
 
-        clientConnection = new ClientConnection(gameView);
+
+        Scanner scan = new Scanner(System.in);
+        String name = ((int)(Math.random() * 9999999)) + "";
+
+        clientConnection = new ClientConnection(gameView, name);
 
         clientConnection.start();
 
