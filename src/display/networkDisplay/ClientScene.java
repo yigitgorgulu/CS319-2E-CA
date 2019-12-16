@@ -8,6 +8,7 @@ import network.ClientConnection;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Scanner;
 
 public class ClientScene {
 
@@ -19,9 +20,12 @@ public class ClientScene {
 
     public ClientScene(Stage gameView) throws IOException {
         root = new Group();
-        String name = 
 
-        clientConnection = new ClientConnection(gameView);
+
+        Scanner scan = new Scanner(System.in);
+        String name = ((int)(Math.random() * 9999999)) + "";
+
+        clientConnection = new ClientConnection(gameView, name);
 
         clientConnection.start();
 

@@ -17,9 +17,9 @@ public class Client {
         this.player = player;
     }
 
-    Player player;
-    ObjectOutputStream os;
-    ObjectInputStream in;
+    public Player player;
+    public ObjectOutputStream os;
+    public ObjectInputStream in;
 
     public Client(Socket socket, ObjectOutputStream os, ObjectInputStream in) {
         this.socket = socket;

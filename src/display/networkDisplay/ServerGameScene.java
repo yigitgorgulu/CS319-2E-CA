@@ -228,7 +228,7 @@ public class ServerGameScene{
         box3.update(player);
         box4.update(player);
         box5.update(player);
-        turnOfPlayer.setText("Turn of player " + game.getCurrentPlayerNo());
+        turnOfPlayer.setText("Turn of player " + game.getCurrentPlayer().name);
     }
 
 

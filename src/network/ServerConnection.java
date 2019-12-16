@@ -50,7 +50,7 @@ public class ServerConnection extends Thread {
         this.gameView = gameView;
         players = new ArrayList<>();
         System.out.println("ADDED OTTOMANS");
-        players.add(new Player(Color.RED, Civilization.CivilizationEnum.OTTOMANS, "Player 1"));
+        players.add(new Player(Color.RED, Civilization.CivilizationEnum.OTTOMANS, "server"));
         System.out.println(players.get(0).name);
     }
 

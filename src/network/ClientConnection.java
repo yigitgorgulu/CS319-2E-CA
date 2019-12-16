@@ -24,13 +24,15 @@ public class ClientConnection extends Thread {
 
     ObjectOutputStream os;
     Stage gameView;
+    String name;
 
     ClientGameScene clientGameScene;
 
     CountDownLatch mapLatch;
 
-    public ClientConnection(Stage gameView) {
+    public ClientConnection(Stage gameView, String name) {
         this.gameView = gameView;
+        this.name = name;
     }
 
     public void send(Serializable data) throws Exception {
@@ -49,7 +51,7 @@ public class ClientConnection extends Thread {
 
             os = out;
 
-            Player pl = new Player(Color.GREEN, Civilization.CivilizationEnum.SPAIN, ((int)(Math.random() * 50)) + "");
+            Player pl = new Player(Color.GREEN, Civilization.CivilizationEnum.SPAIN, name);
             PlayerInfo playerInfo = new PlayerInfo(pl);
             send(playerInfo);
 
