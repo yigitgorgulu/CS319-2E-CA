@@ -1,6 +1,6 @@
 package game;
 
-import display.networkDisplay.requests.ResourceInfo;
+import network.requests.ResourceInfo;
 
 import java.io.Serializable;
 import java.util.Random;

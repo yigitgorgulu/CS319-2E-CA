@@ -4,12 +4,11 @@ import display.DefaultUISpecifications;
 import display.Die;
 import display.MapToken;
 import display.ResourceBox;
-import display.networkDisplay.requests.BuildRequest;
-import display.networkDisplay.requests.PlayerInfo;
-import display.networkDisplay.requests.Requests;
-import game.Game;
+import network.ClientConnection;
+import network.requests.BuildRequest;
+import network.requests.PlayerInfo;
+import network.requests.Requests;
 import game.map.*;
-import game.player.Civilization;
 import game.player.Player;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
@@ -28,7 +27,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -256,7 +254,7 @@ public class ClientGameScene{
         root.getChildren().add(tile);
     }
 
-    MapButton findMapButton(int x, int y) {
+    public MapButton findMapButton(int x, int y) {
         for(MapButton button: mapButtonList) {
             if (x == button.x && y == button.y) {
                 return button;
@@ -265,6 +263,13 @@ public class ClientGameScene{
         return null;
     }
 
+    public void enableEndTurn() {
+        this.endTurn.setDisable(false);
+    }
+
+    public Player getPlayer() {
+        return this.player;
+    }
 }
 
 

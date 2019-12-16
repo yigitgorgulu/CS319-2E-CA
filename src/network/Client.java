@@ -1,4 +1,4 @@
-package display.networkDisplay;
+package network;
 
 import game.player.Player;
 

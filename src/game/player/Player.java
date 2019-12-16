@@ -1,12 +1,10 @@
 package game.player;
 
-import display.networkDisplay.requests.PlayerInfo;
+import network.requests.PlayerInfo;
 import game.Resource;
-import javafx.application.Platform;
 import javafx.scene.paint.Color;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Player implements Serializable {
     public Resource getRes() {

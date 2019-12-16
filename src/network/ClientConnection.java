@@ -1,9 +1,10 @@
-package display.networkDisplay;
+package network;
 
-import display.networkDisplay.requests.BuildRequest;
-import display.networkDisplay.requests.EndTurnInfo;
-import display.networkDisplay.requests.PlayerInfo;
-import display.networkDisplay.requests.Requests;
+import display.networkDisplay.ClientGameScene;
+import network.requests.BuildRequest;
+import network.requests.EndTurnInfo;
+import network.requests.PlayerInfo;
+import network.requests.Requests;
 import game.map.Map;
 import game.map.MapButton;
 import game.player.Civilization;
@@ -91,9 +92,9 @@ public class ClientConnection extends Thread {
                             clientGameScene.updateResources(new Player(endTurnInfo.getPlayerInfo()),endTurnInfo.getCurrentPlayerInfo().name);
                             System.out.println(endTurnInfo.getCurrentPlayerInfo().name + "\n" +
                                     endTurnInfo.getPlayerInfo().name + "\n" +
-                                    clientGameScene.player.name);
-                            if(new Player(endTurnInfo.getCurrentPlayerInfo()).equals(clientGameScene.player))
-                                clientGameScene.endTurn.setDisable(false);
+                                    clientGameScene.getPlayer().name);
+                            if(new Player(endTurnInfo.getCurrentPlayerInfo()).equals(clientGameScene.getPlayer()))
+                                clientGameScene.enableEndTurn();
                         });
 
 

@@ -1,4 +1,4 @@
-package display.networkDisplay.requests;
+package network.requests;
 
 import game.Resource;
 

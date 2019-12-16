@@ -6,21 +6,24 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4f3e89fd-e61b-4e79-85eb-6d15b3a69185" name="Default Changelist" comment="Added lan-multiplayer gaming. Not fully working">
-      <change afterPath="$PROJECT_DIR$/src/display/networkDisplay/requests/EndTurnInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/display/networkDisplay/requests/ResourceInfo.java" afterDir="false" />
+    <list default="true" id="4f3e89fd-e61b-4e79-85eb-6d15b3a69185" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/networkDisplay/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/ClientConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/networkDisplay/ClientConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/settlers/settlers.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/settlers/settlers.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/ClientConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/ClientConnection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/ClientGameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/networkDisplay/ClientGameScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/ServerConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/networkDisplay/ServerConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/ClientScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/networkDisplay/ClientScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/ServerConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/ServerConnection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/ServerGameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/networkDisplay/ServerGameScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/requests/PlayerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/networkDisplay/requests/PlayerInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/requests/Requests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/networkDisplay/requests/Requests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/ServerScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/networkDisplay/ServerScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/requests/BuildRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/requests/BuildRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/requests/EndTurnInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/requests/EndTurnInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/requests/PlayerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/requests/PlayerInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/requests/Requests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/requests/Requests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/requests/ResourceInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/requests/ResourceInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/Resource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Resource.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/player/Player.java" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -42,6 +45,11 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1TnNTV7fXy3zBrr7eb6ajNLpGu0" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="GenerateAntBuildDialog.backupFiles" value="true" />
     <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
@@ -61,17 +69,10 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="game" />
+    </key>
   </component>
   <component name="RunManager" selected="Application.NetworkMain">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -99,6 +100,18 @@
         <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -131,6 +144,7 @@
       <workItem from="1575924142159" duration="4929000" />
       <workItem from="1576076284897" duration="347000" />
       <workItem from="1576145173441" duration="12118000" />
+      <workItem from="1576322898248" duration="3562000" />
     </task>
     <task id="LOCAL-00002" summary="Added display of dice.">
       <created>1574094483753</created>
@@ -181,7 +195,14 @@
       <option name="project" value="LOCAL" />
       <updated>1574772736046</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="sound package removed, Sound class moved into game package">
+      <created>1576176584770</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1576176584770</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -208,38 +229,44 @@
     <MESSAGE value="Added JAR file." />
     <MESSAGE value="Removed JAR, did not work." />
     <MESSAGE value="Added lan-multiplayer gaming. Not fully working" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added lan-multiplayer gaming. Not fully working" />
+    <MESSAGE value="sound package removed, Sound class moved into game package" />
+    <option name="LAST_COMMIT_MESSAGE" value="sound package removed, Sound class moved into game package" />
   </component>
   <component name="WindowStateProjectService">
     <state x="724" y="424" width="408" height="240" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1576176476449">
       <screen x="0" y="0" width="1857" height="1080" />
     </state>
     <state x="724" y="424" width="408" height="240" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1857.1080@0.0.1857.1080" timestamp="1576176476449" />
-    <state x="554" y="132" key="CommitChangelistDialog2" timestamp="1576176485017">
+    <state x="554" y="132" key="CommitChangelistDialog2" timestamp="1576176580747">
       <screen x="0" y="0" width="1857" height="1080" />
     </state>
-    <state x="554" y="132" key="CommitChangelistDialog2/0.0.1857.1080@0.0.1857.1080" timestamp="1576176485017" />
+    <state x="554" y="132" key="CommitChangelistDialog2/0.0.1857.1080@0.0.1857.1080" timestamp="1576176580747" />
+    <state width="1814" height="295" key="GridCell.Tab.0.bottom" timestamp="1576326766263">
+      <screen x="0" y="0" width="1857" height="1080" />
+    </state>
+    <state width="1814" height="295" key="GridCell.Tab.0.bottom/0.0.1857.1080@0.0.1857.1080" timestamp="1576326766263" />
+    <state width="1814" height="295" key="GridCell.Tab.0.center" timestamp="1576326766263">
+      <screen x="0" y="0" width="1857" height="1080" />
+    </state>
+    <state width="1814" height="295" key="GridCell.Tab.0.center/0.0.1857.1080@0.0.1857.1080" timestamp="1576326766263" />
+    <state width="1814" height="295" key="GridCell.Tab.0.left" timestamp="1576326766263">
+      <screen x="0" y="0" width="1857" height="1080" />
+    </state>
+    <state width="1814" height="295" key="GridCell.Tab.0.left/0.0.1857.1080@0.0.1857.1080" timestamp="1576326766263" />
+    <state width="1814" height="295" key="GridCell.Tab.0.right" timestamp="1576326766263">
+      <screen x="0" y="0" width="1857" height="1080" />
+    </state>
+    <state width="1814" height="295" key="GridCell.Tab.0.right/0.0.1857.1080@0.0.1857.1080" timestamp="1576326766263" />
+    <state x="520" y="261" key="Vcs.Push.Dialog.v2" timestamp="1576176590667">
+      <screen x="0" y="0" width="1857" height="1080" />
+    </state>
+    <state x="520" y="261" key="Vcs.Push.Dialog.v2/0.0.1857.1080@0.0.1857.1080" timestamp="1576176590667" />
+    <state x="585" y="250" key="run.anything.popup" timestamp="1576324159424">
+      <screen x="0" y="0" width="1857" height="1080" />
+    </state>
+    <state x="585" y="250" key="run.anything.popup/0.0.1857.1080@0.0.1857.1080" timestamp="1576324159424" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/display/networkDisplay/ClientConnection.java</url>
-          <line>58</line>
-          <option name="timeStamp" value="21" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/display/networkDisplay/ServerConnection.java</url>
-          <line>56</line>
-          <option name="timeStamp" value="31" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/display/networkDisplay/ServerConnection.java</url>
-          <line>55</line>
-          <option name="timeStamp" value="32" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="pl" />

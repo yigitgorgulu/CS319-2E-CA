@@ -1,6 +1,5 @@
-package display.networkDisplay.requests;
+package network.requests;
 
-import game.Resource;
 import game.player.Civilization;
 import game.player.Player;
 

@@ -1,6 +1,4 @@
-package display.networkDisplay.requests;
-
-import game.Resource;
+package network.requests;
 
 import java.io.Serializable;
 
