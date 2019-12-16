@@ -113,11 +113,11 @@ public class Map implements Serializable {
         inSettlingPhase = b;
     }
 
+
     private Point getNextDirection( Point p ) {
         int i = directions.indexOf( p );
         return directions.get( ( i + 1 ) % directions.size() );
     }
-
     public boolean build(Location loc, Player currentPlayer) {
         MapElement me = getMapElement( loc );
         boolean canSettle = loc.type == Location.Types.CORNER && noAdjacentSettlements(me)

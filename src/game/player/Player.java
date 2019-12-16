@@ -30,6 +30,8 @@ public class Player implements Serializable {
     int victoryPointCard = 0;
     int victoryPoints = 0;
     int diceCounter = 0; // the event occurs if the needed # of dice comes 3 times
+    private int pirateCounter = -1; 
+
 
     @Override
     public String toString() {
@@ -126,6 +128,23 @@ public class Player implements Serializable {
         return false;
     }
 
+    public boolean playYearOfPlentyCard(){
+        return false;
+    }
+
+    public boolean playPirateCard(){
+        pirateCounter = (int)(Math.random() * 15 + 1);
+        return false;
+    }
+
+    public boolean playRoadBuildingCard(){
+        if ( roadBuildingCards > 0 ){
+            roadBuildingCards--;
+            return true;
+        }
+        return false;
+    }
+
     public Resource makeAction(Actions a) {
         switch(a) {
             case BUILD_ROAD:
@@ -186,6 +205,17 @@ public class Player implements Serializable {
         return victoryPoints;
     }
 
+    public void decreasePirateCounter(){
+        pirateCounter--;
+    }
+
+    public int getPirateCounter(){
+        return pirateCounter;
+    }
+
+    public void resetPirateCounter(){
+        pirateCounter = -1;
+    }
     public int getDiceCounter(){
         return diceCounter;
     }

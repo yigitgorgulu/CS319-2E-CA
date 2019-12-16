@@ -22,7 +22,7 @@ public class Game implements Serializable {
     int die1 = 0;
     int die2 = 0;
     ArrayList<DevelopmentCards> developmentCards;
-    Player longestRoadOwner = null;
+    Player e = null;
     Player largestArmyOwner = null;
 
     public Game(Map m, ArrayList<Player> p) {
@@ -159,6 +159,21 @@ public class Game implements Serializable {
             }
             return false;
         }
+        else if ( card == DevelopmentCards.YEAR_OF_PLENTY ){
+            return currentPlayer.playYearOfPlentyCard();
+        }
+        else if ( card == DevelopmentCards.ROAD_BUILDING ){
+            if ( currentPlayer.playRoadBuildingCard() ) {
+                // build();
+                // NEEDED TO GET LOCATION FROM THE PLAYER AND BUILD ADDITIONAL ROAD WITHOUT CHECKING THE RESOURCES
+                return true;
+            }
+            return false;
+        }
+
+        else if ( card == DevelopmentCards.PIRATE ){
+            return currentPlayer.playPirateCard();
+        }
         return false;
     }
     public int getDiceValue () {
@@ -166,6 +181,15 @@ public class Game implements Serializable {
     }
 
     public int rollDice() {
+        if ( currentPlayer.getPirateCounter() == 0 ){
+            // PIRATE COMES BACK - LATER
+            currentPlayer.resetPirateCounter();
+        }
+        for ( int i = 0; i < players.size(); i++ ) {
+            if (players.get(i).getPirateCounter() > 0) {
+                players.get(i).decreasePirateCounter();
+            }
+        }
         die1 = (int) (Math.random() * 6 + 1);
         die2 = (int) (Math.random() * 6 + 1);
         return getDiceValue();
