@@ -30,6 +30,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 public class ServerGameScene{
     public static double hexagon_short_diagonal_length;
@@ -97,6 +98,24 @@ public class ServerGameScene{
         }
 
         serverConnection.sendEndTurnInfo(game.getCurrentPlayer(), game.getDie1(), game.getDie2());
+
+    }
+
+    public void endTurnProcess(CountDownLatch countDownLatch) {
+        game.endTurn();
+        updateResources(player);
+        dice();
+
+        System.out.println("end turn done");
+        System.out.println(game.getCurrentPlayer().name + "\n" + player.name);
+
+        if(game.getCurrentPlayer().equals(player)) {
+            endTurn.setDisable(false);
+        }
+
+        serverConnection.sendEndTurnInfo(game.getCurrentPlayer(), game.getDie1(), game.getDie2());
+
+        countDownLatch.countDown();
     }
 
     private void addPlayerResourcesMenu() throws IOException {

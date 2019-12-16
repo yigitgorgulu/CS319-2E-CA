@@ -7,6 +7,9 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class Client {
+
+    static int idCounter = 0;
+    int id;
     Socket socket;
 
     public Player getPlayer() {
@@ -25,6 +28,8 @@ public class Client {
         this.socket = socket;
         this.os = os;
         this.in = in;
+
+        id = ++idCounter;
     }
 
 

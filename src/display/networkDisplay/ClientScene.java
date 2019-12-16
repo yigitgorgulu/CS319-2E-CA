@@ -27,6 +27,7 @@ public class ClientScene {
 
         clientConnection = new ClientConnection(gameView, name);
 
+        clientConnection.setDaemon(true);
         clientConnection.start();
 
     }

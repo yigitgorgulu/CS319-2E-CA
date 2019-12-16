@@ -25,6 +25,7 @@ public class ServerScene {
         root.getChildren().add(h);
 
         ServerConnection serverConnection = new ServerConnection(gameView);
+        serverConnection.setDaemon(true);
         serverConnection.start();
 
     }

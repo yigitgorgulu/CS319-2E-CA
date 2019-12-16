@@ -41,12 +41,13 @@ public class ServerConnection extends Thread {
 
     static int initRequestCount = 0;
     CountDownLatch mapCount;
+    CountDownLatch endTurnCount;
 
     public ServerConnection(Stage gameView) {
         super();
         clients = new Client[PLAYER_COUNT - 1];
 
-        requests = Collections.synchronizedList(new ArrayList<Serializable>());
+        requests = Collections.synchronizedList(new ArrayList<>());
         this.gameView = gameView;
         players = new ArrayList<>();
         System.out.println("ADDED OTTOMANS");
@@ -63,6 +64,7 @@ public class ServerConnection extends Thread {
     @Override
     public void run() {
         mapCount = new CountDownLatch(1);
+        endTurnCount = new CountDownLatch(1);
         try {
             ss = new ServerSocket(19999);
         } catch (IOException e) {
@@ -93,9 +95,12 @@ public class ServerConnection extends Thread {
             for (Client client : clients) {
                 try {
                     Serializable data;
-                    System.out.println("AWAITING");
-                    if(!gameInit || client.player.equals(serverGameScene.getGame().getCurrentPlayer())) {
+
+                    System.out.println("AWAITING: " + client.id);
+                    if(!gameInit || client.player.equals(serverGameScene.getGame().getCurrentPlayer())) {//)
+                            //|| serverGameScene.getGame().getCurrentPlayer().name.equals("server")) {
                          data = (Serializable) client.in.readObject();
+                         System.out.println("AFTER AWAIT");
                     }
                     else {
                         continue;
@@ -142,7 +147,9 @@ public class ServerConnection extends Thread {
 
                     else if(data.equals(Requests.END_TURN)) {
                         System.out.println("RECEIVED END TURN REQUEST:");
-                        Platform.runLater(() -> serverGameScene.endTurnProcess());
+                        Platform.runLater(() -> serverGameScene.endTurnProcess(endTurnCount));
+                        endTurnCount.await();
+                        endTurnCount = new CountDownLatch(1);
                     }
 
                     else if(data instanceof BuildRequest) {

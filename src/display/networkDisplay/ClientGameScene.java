@@ -104,6 +104,7 @@ public class ClientGameScene{
         endTurn.setDisable(true);
         endTurn.setOnAction(e->{
             try {
+                System.out.println("SENDING ENT TURN REQUEST");
                 clientConnection.send(Requests.END_TURN);
             } catch (Exception ex) {
                 ex.printStackTrace();
