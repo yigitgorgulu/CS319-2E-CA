@@ -43,6 +43,7 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="MERGE" />
   </component>
   <component name="ProjectId" id="1TnNTV7fXy3zBrr7eb6ajNLpGu0" />
   <component name="ProjectViewState">
@@ -237,10 +238,10 @@
       <screen x="0" y="0" width="1857" height="1080" />
     </state>
     <state x="724" y="424" width="408" height="240" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1857.1080@0.0.1857.1080" timestamp="1576176476449" />
-    <state x="554" y="132" key="CommitChangelistDialog2" timestamp="1576176580747">
+    <state x="554" y="132" key="CommitChangelistDialog2" timestamp="1576506484950">
       <screen x="0" y="0" width="1857" height="1080" />
     </state>
-    <state x="554" y="132" key="CommitChangelistDialog2/0.0.1857.1080@0.0.1857.1080" timestamp="1576176580747" />
+    <state x="554" y="132" key="CommitChangelistDialog2/0.0.1857.1080@0.0.1857.1080" timestamp="1576506484950" />
     <state width="1814" height="295" key="GridCell.Tab.0.bottom" timestamp="1576326766263">
       <screen x="0" y="0" width="1857" height="1080" />
     </state>
@@ -257,10 +258,18 @@
       <screen x="0" y="0" width="1857" height="1080" />
     </state>
     <state width="1814" height="295" key="GridCell.Tab.0.right/0.0.1857.1080@0.0.1857.1080" timestamp="1576326766263" />
-    <state x="520" y="261" key="Vcs.Push.Dialog.v2" timestamp="1576176590667">
+    <state x="641" y="255" key="MultipleFileMergeDialog" timestamp="1576506531263">
       <screen x="0" y="0" width="1857" height="1080" />
     </state>
-    <state x="520" y="261" key="Vcs.Push.Dialog.v2/0.0.1857.1080@0.0.1857.1080" timestamp="1576176590667" />
+    <state x="641" y="255" key="MultipleFileMergeDialog/0.0.1857.1080@0.0.1857.1080" timestamp="1576506531263" />
+    <state x="520" y="261" key="Vcs.Push.Dialog.v2" timestamp="1576506502496">
+      <screen x="0" y="0" width="1857" height="1080" />
+    </state>
+    <state x="520" y="261" key="Vcs.Push.Dialog.v2/0.0.1857.1080@0.0.1857.1080" timestamp="1576506502496" />
+    <state x="737" y="456" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1576506562524">
+      <screen x="0" y="0" width="1857" height="1080" />
+    </state>
+    <state x="737" y="456" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1857.1080@0.0.1857.1080" timestamp="1576506562524" />
     <state x="585" y="250" key="run.anything.popup" timestamp="1576324159424">
       <screen x="0" y="0" width="1857" height="1080" />
     </state>
