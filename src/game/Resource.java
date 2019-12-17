@@ -17,7 +17,7 @@ public class Resource implements Serializable {
     private int wheat;
     private int ore;
 
-    public Resource( int brick, int wood, int sheep, int wheat, int ore ) {
+    public Resource(int brick, int wood, int sheep, int wheat, int ore) {
         this.brick = brick;
 
         this.wood = wood;
@@ -37,7 +37,7 @@ public class Resource implements Serializable {
         this.ore = resourceInfo.getOre();
     }
 
-    public Resource add( Resource rsc ) { // increase the resources by adding the given resource
+    public Resource add(Resource rsc) { // increase the resources by adding the given resource
         brick += rsc.brick;
         wood += rsc.wood;
         sheep += rsc.sheep;
@@ -46,12 +46,21 @@ public class Resource implements Serializable {
         return this;
     }
 
-    public Resource multiply( Resource rsc ){ // increase the resources bu multiplying them with the given resource
+    public Resource multiply(Resource rsc) { // increase the resources by multiplying them with the given resource
         brick *= rsc.brick;
         wood *= rsc.wood;
         sheep *= rsc.sheep;
         wheat *= rsc.wheat;
         ore *= rsc.ore;
+        return this;
+    }
+
+    public Resource decrease(Resource rsc) { // decrease the resources that is given
+        brick -= rsc.brick;
+        wood -= rsc.wood;
+        sheep -= rsc.sheep;
+        wheat -= rsc.wheat;
+        ore -= rsc.ore;
         return this;
     }
 
@@ -75,9 +84,9 @@ public class Resource implements Serializable {
         return ore;
     }
 
-    public Resource substract( Resource rsc ) { // if the given resource is smaller than this.resource, this is decreased
-        if ( getBrick() > rsc.getBrick() && getOre() > rsc.getOre() && getWheat() > rsc.getWheat()
-                && getWood() > rsc.getWood() && getSheep() > rsc.getSheep() ) {
+    public Resource substract(Resource rsc) { // if the given resource is smaller than this.resource, this is decreased
+        if (getBrick() > rsc.getBrick() && getOre() > rsc.getOre() && getWheat() > rsc.getWheat()
+                && getWood() > rsc.getWood() && getSheep() > rsc.getSheep()) {
             brick -= rsc.brick;
             wood -= rsc.wood;
             sheep -= rsc.sheep;
@@ -98,39 +107,96 @@ public class Resource implements Serializable {
                 '}';
     }
 
-    public boolean biggerEquals(Resource rsc ) {
+    public boolean biggerEquals(Resource rsc) {
         return brick >= rsc.brick &&
-        wood >= rsc.wood &&
-        sheep >= rsc.sheep &&
-        wheat >= rsc.wheat &&
-        ore >= rsc.ore;
+                wood >= rsc.wood &&
+                sheep >= rsc.sheep &&
+                wheat >= rsc.wheat &&
+                ore >= rsc.ore;
     }
 
     public int totalCount() {
         return brick + wood + sheep + wheat + ore;
     }
 
-    public void removeRandom( int removeNo ){ // removes given # of resources randomly
-        for ( int i = 0; i < removeNo; i++ ){
+    public void removeRandom(int removeNo) { // removes given # of resources randomly
+        for (int i = 0; i < removeNo; i++) {
             int which = new Random().nextInt(5);
 
-            if ( which == 0 && getBrick() > 0 ){
+            if (which == 0 && getBrick() > 0) {
                 brick--;
-            }
-            else if ( which == 1 && getWood() > 0 ){
+            } else if (which == 1 && getWood() > 0) {
                 wood--;
-            }
-            else if ( which == 2 && getSheep() > 0 ){
+            } else if (which == 2 && getSheep() > 0) {
                 sheep--;
-            }
-            else if ( which == 3 && getWheat() > 0 ){
+            } else if (which == 3 && getWheat() > 0) {
                 wheat--;
-            }
-            else if ( which == 4 && getOre() > 0 ){
+            } else if (which == 4 && getOre() > 0) {
                 ore--;
             }
         }
     }
 
-    boolean isZero() { return this.totalCount() == 0; }
+    boolean isZero() {
+        return this.totalCount() == 0;
+    }
+
+    int monopolyDecrease(int type) {
+        int returnNo = 0;
+        switch (type) {
+            case 0:
+                if (brick > 0) {
+                    returnNo = brick;
+                    brick = 0;
+                }
+                break;
+            case 1:
+                if (wood > 0) {
+                    returnNo = wood;
+                    wood = 0;
+                }
+                break;
+            case 2:
+                if (sheep > 0) {
+                    returnNo = sheep;
+                    sheep = 0;
+                }
+                break;
+            case 3:
+                if (wheat > 0) {
+                    returnNo = wheat;
+                    wheat = 0;
+                }
+                break;
+            case 4:
+                if (ore > 0) {
+                    returnNo = ore;
+                    ore = 0;
+                }
+                break;
+            default:
+        }
+        return returnNo;
+    }
+
+    void monopolyIncrease(int type, int count) {
+        switch (type) {
+            case 0:
+                brick = brick + count;
+                break;
+            case 1:
+                wood = wood + count;
+                break;
+            case 2:
+                sheep = sheep + count;
+                break;
+            case 3:
+                wheat = wheat + count;
+                break;
+            case 4:
+                ore = ore + count;
+                break;
+            default:
+        }
+    }
 }

@@ -310,8 +310,8 @@ public class Map implements Serializable {
         return res;
     }
 
-    public void setRoberLocation(int x, int y ){
-        robber.setY(y);
-        robber.setX(x);
+    public void setRoberLocation(Location loc ){
+        robber.setY(loc.getY());
+        robber.setX(loc.getX());
     }
 }

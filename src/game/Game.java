@@ -22,6 +22,7 @@ public class Game implements Serializable {
     int die1 = 0;
     int die2 = 0;
     ArrayList<DevelopmentCards> developmentCards;
+    Location loc = null;
     Player e = null;
     Player largestArmyOwner = null;
 
@@ -41,9 +42,9 @@ public class Game implements Serializable {
         return die2;
     }
 
-    public void moveRobber(int x, int y){
-        if ( currentPlayer.playKnightCard() ){
-            map.setRoberLocation(x, y);
+    public void moveRobber(Location loc, boolean isKnight){
+        if ( isKnight ){
+            map.setRoberLocation(loc);
             if ( currentPlayer.getArmySize() >= 3 && (largestArmyOwner == null) ){
                 largestArmyOwner = currentPlayer;
                 currentPlayer.incrementVictoryPoints(2);
@@ -64,10 +65,8 @@ public class Game implements Serializable {
                     players.get(i).looseResource(players.get(i).totalResource()/2);
                 }
             }
-
-            map.setRoberLocation(x, y); // move the robber to the given loc
-
-            // steal one card from other robber-adj players
+            map.setRoberLocation(loc);
+            // steal one card from one of the robber-adj players -NOT ADDED YET
         }
     }
 
@@ -143,39 +142,68 @@ public class Game implements Serializable {
         return false;
     }
 
-    public boolean playDevelopmentCard(DevelopmentCards card){
-        if ( card == DevelopmentCards.KNIGHT){
-            return currentPlayer.playKnightCard();
-        }
+    public boolean buildWithCard(Location loc) {
+        Player.Actions cost = map.getCost(loc);
 
-        else if ( card == DevelopmentCards.VICTORY_POINT){
-            return currentPlayer.playVictoryPointCard();
-        }
-
-        else if ( card == DevelopmentCards.MONOPOLY ){
-            if ( currentPlayer.playMonopolyCard() ){
-                // player should choose a resource type and every other players should give their resources
+        if ( ( !inSettlingPhase() ) ) {
+            if (map.build(loc, currentPlayer)) {
+                if( cost == Player.Actions.BUILD_VILLAGE ) {
+                    builtVillage = true;
+                }
+                if( cost == Player.Actions.BUILD_ROAD ) {
+                    builtRoad = true;
+                } else {
+                    if(currentPlayer.checkVictory()) {
+                        System.out.println( currentPlayer.name + " Won");
+                    }
+                    currentPlayer.incrementVictoryPoints(1);
+                }
                 return true;
             }
-            return false;
-        }
-        else if ( card == DevelopmentCards.YEAR_OF_PLENTY ){
-            return currentPlayer.playYearOfPlentyCard();
-        }
-        else if ( card == DevelopmentCards.ROAD_BUILDING ){
-            if ( currentPlayer.playRoadBuildingCard() ) {
-                // build();
-                // NEEDED TO GET LOCATION FROM THE PLAYER AND BUILD ADDITIONAL ROAD WITHOUT CHECKING THE RESOURCES
-                return true;
-            }
-            return false;
-        }
-
-        else if ( card == DevelopmentCards.PIRATE ){
-            return currentPlayer.playPirateCard();
         }
         return false;
     }
+
+
+    public boolean playKnightCard(Location loc){
+        if ( currentPlayer.playKnightCard() ){
+            moveRobber(loc, true);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean playVictoryPointCard() {
+        return currentPlayer.playVictoryPointCard();
+    }
+
+    public boolean playMonopolyCard( int resourceType ) {
+        if ( currentPlayer.playMonopolyCard() ) {
+            for ( int i = 0; i < players.size(); i++ ) {
+                int add = ((players.get(i)).getRes()).monopolyDecrease(resourceType);
+                (currentPlayer.getRes()).monopolyIncrease(resourceType,add);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public boolean playYearOfPlentyCard() {
+        return currentPlayer.playYearOfPlentyCard();
+    }
+
+    public boolean playRoadBuilding(Location loc) {
+        if ( currentPlayer.playRoadBuildingCard() ) {
+            buildWithCard(loc);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean playPirateCard() {
+        return currentPlayer.playKnightCard();
+    }
+
     public int getDiceValue () {
         return die1 + die2;
     }
@@ -233,6 +261,8 @@ public class Game implements Serializable {
         return currentPlayerNo;
     }
 
+    // EVENTS
+    
     public boolean getEvent(){ // this function checks the dice number
         if ( getDiceValue() == 7 ){ // this will move the robber
             //moveRobber(x,y);

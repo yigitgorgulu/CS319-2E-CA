@@ -23,14 +23,19 @@ public class Player implements Serializable {
     private Resource res;
     int armySize = 0;
     int roadLength = 0;
+
+    // cards numbers
     int roadBuildingCards = 0;
     int yearOfPlentyCards = 0;
     int knightCards = 0;
     int monopolyCards = 0;
-    int victoryPointCard = 0;
+    int victoryPointCards = 0;
+    int pirateCards = 0;
+
     int victoryPoints = 0;
+
     int diceCounter = 0; // the event occurs if the needed # of dice comes 3 times
-    private int pirateCounter = -1; 
+    private int pirateCounter = -1;
 
 
     @Override
@@ -78,11 +83,19 @@ public class Player implements Serializable {
             return true;
         }
         else if ( card == DevelopmentCards.VICTORY_POINT){
-            victoryPoints++;
+            victoryPointCards++;
             return true;
         }
         else if ( card == DevelopmentCards.YEAR_OF_PLENTY ){
             yearOfPlentyCards++;
+            return true;
+        }
+        else if ( card == DevelopmentCards.PIRATE ){
+            pirateCards++;
+            return true;
+        }
+        else if ( card == DevelopmentCards.MONOPOLY ){
+            monopolyCards++;
             return true;
         }
         return false;
@@ -112,9 +125,9 @@ public class Player implements Serializable {
     }
 
     public boolean playVictoryPointCard(){
-        if ( victoryPointCard > 0 ){
+        if ( victoryPointCards > 0 ){
             incrementVictoryPoints(1);
-            victoryPointCard--;
+            victoryPointCards--;
             return true;
         }
         return false;
@@ -129,11 +142,19 @@ public class Player implements Serializable {
     }
 
     public boolean playYearOfPlentyCard(){
+        if ( yearOfPlentyCards > 0 ) {
+            yearOfPlentyCards--;
+            return true;
+        }
         return false;
     }
 
     public boolean playPirateCard(){
-        pirateCounter = (int)(Math.random() * 15 + 1);
+        if ( pirateCards > 0 && pirateCounter == -1 ) {
+            pirateCards--;
+            pirateCounter = (int) (Math.random() * 15 + 1);
+            return true;
+        }
         return false;
     }
 
@@ -170,6 +191,11 @@ public class Player implements Serializable {
 
     public Resource multiplyResource( Resource res ){
         this.res.multiply( res );
+        return this.res;
+    }
+
+    public Resource decreaseResource(Resource res ){
+        this.res.decrease(res);
         return this.res;
     }
 
@@ -216,6 +242,7 @@ public class Player implements Serializable {
     public void resetPirateCounter(){
         pirateCounter = -1;
     }
+
     public int getDiceCounter(){
         return diceCounter;
     }
