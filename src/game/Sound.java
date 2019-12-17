@@ -1,8 +1,5 @@
 package game;
 
-import display.GameScene;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;

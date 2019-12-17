@@ -1,5 +1,5 @@
 import display.DefaultUISpecifications;
-import display.GameScene;
+import display.SingleGameScene;
 import display.MainMenu;
 import game.Sound;
 import javafx.application.Application;
@@ -31,12 +31,12 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         DefaultUISpecifications specifications = new DefaultUISpecifications();
         specifications.setScreenDimensions(primaryStage);
-        GameScene gameScene = new GameScene();
+        SingleGameScene singleGameScene = new SingleGameScene();
         Pane root = new Pane();
         root.setPrefSize(DefaultUISpecifications.SCREEN_WIDTH,DefaultUISpecifications.SCREEN_HEIGHT);
 
         //Set an Image here
-        gameMenu = new MainMenu(primaryStage, gameScene.getScene());
+        gameMenu = new MainMenu(primaryStage, singleGameScene.getScene());
         root.getChildren().addAll(getImgView(), createText(), gameMenu);
 
         Scene scene = new Scene(root);

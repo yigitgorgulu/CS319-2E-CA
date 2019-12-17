@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 public class ServerConnection extends Thread {
-    private final int PLAYER_COUNT = 3;
+    private final int PLAYER_COUNT = 2;
     Client[] clients;
 
     ObjectOutputStream os;
@@ -66,7 +66,7 @@ public class ServerConnection extends Thread {
         mapCount = new CountDownLatch(1);
         endTurnCount = new CountDownLatch(1);
         try {
-            ss = new ServerSocket(19999);
+            ss = new ServerSocket(31923);
         } catch (IOException e) {
             e.printStackTrace();
         }
