@@ -42,9 +42,9 @@ public class ClientConnection extends Thread {
     @Override
     public void run() {
 
-            System.out.println("Someting Happened");
+        System.out.println("Something Happened");
 
-        try (Socket s = new Socket("localhost", 19999);
+        try (Socket s = new Socket("localhost", 31923);
              ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
              ObjectInputStream in = new ObjectInputStream(s.getInputStream())
         ) {

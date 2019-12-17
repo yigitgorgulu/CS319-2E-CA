@@ -1,9 +1,6 @@
 package display.networkDisplay;
 
-import display.DefaultUISpecifications;
-import display.Die;
-import display.MapToken;
-import display.ResourceBox;
+import display.*;
 import network.ClientConnection;
 import network.requests.BuildRequest;
 import network.requests.PlayerInfo;
@@ -30,175 +27,102 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-public class ClientGameScene{
-    public static double hexagon_short_diagonal_length;
-    public static double hexagon_long_diagonal_length;
-    public static double hexagon_edge_length;
-    private Group root;
-    private Scene scene;
-    //Game game;
-    Map map;
-    private double differenceX;
-    private double differenceY;
-    Font font;
+public class ClientGameScene extends GameScene {
     Player player;
-    ResourceBox box1;
-    ResourceBox box2;
-    ResourceBox box3;
-    ResourceBox box4;
-    ResourceBox box5;
-    Rectangle seperatorRectangle;
-    Button endTurn;
-    Label turnOfPlayer;
-    Die die1;
-    Die die2;
-    HBox diceBox;
-
     ClientConnection clientConnection;
-
     List<MapButton> mapButtonList;
 
     public ClientGameScene(CountDownLatch mapLatch, Map map, ClientConnection clientConnection, Player player) throws IOException {
+        super();
         mapButtonList = new ArrayList<>();
-
         this.player = player;
         this.clientConnection = clientConnection;
         this.map = map;
-        root = new Group();
         addBackground();
         createGameAndTiles();
         addPlayerResourcesMenu();
     }
 
     public void dice(int dieNum1, int dieNum2) {
-        root.getChildren().remove(diceBox);
-        die1 = new Die(dieNum1);
-        die2 = new Die(dieNum2);
-
-        diceBox = new HBox(die1, die2);
-        diceBox.setTranslateX(200);
-        diceBox.setTranslateY(200);
-        root.getChildren().add(diceBox);
+        // root.getChildren().remove(diceBox);
+        // die1 = new Die(dieNum1);
+        // die2 = new Die(dieNum2);
+        //
+        // diceBox = new HBox(die1, die2);
+        // diceBox.setTranslateX(200);
+        // diceBox.setTranslateY(200);
+        // root.getChildren().add(diceBox);
     }
 
-    private void addPlayerResourcesMenu() throws IOException {
-        double widthOfRectangle = DefaultUISpecifications.SCREEN_WIDTH / 3;
-        double heightOfRectangle = DefaultUISpecifications.SCREEN_HEIGHT / 7;
-        double leftUpperCornerOfTheRectangleX = DefaultUISpecifications.SCREEN_WIDTH / 2 - widthOfRectangle / 2;
-        double leftUpperCornerOfTheRectangleY = DefaultUISpecifications.SCREEN_HEIGHT - heightOfRectangle;
-        Rectangle resourcesBackground = new Rectangle(widthOfRectangle, heightOfRectangle);
-        resourcesBackground.setTranslateX(leftUpperCornerOfTheRectangleX);
-        resourcesBackground.setTranslateY(leftUpperCornerOfTheRectangleY - 20);
-        resourcesBackground.setFill(Color.WHITESMOKE);
-        root.getChildren().add(resourcesBackground);
+    @Override
+    protected void createDie() {
 
-        box1 = new ResourceBox(player, "BRICK");
-        box2 = new ResourceBox(player, "WOOD");
-        box3 = new ResourceBox(player, "SHEEP");
-        box4 = new ResourceBox(player, "WHEAT");
-        box5 = new ResourceBox(player, "ORE");
-
-        seperatorRectangle = new Rectangle(20,0);
-
-        endTurn = new Button("End Turn");
-        endTurn.setDisable(true);
-        endTurn.setOnAction(e->{
-            try {
-                System.out.println("SENDING ENT TURN REQUEST");
-                clientConnection.send(Requests.END_TURN);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-            endTurn.setDisable(true);
-        });
-
-        HBox hBox = new HBox();
-
-        hBox.getChildren().addAll(box1,box2,box3,box4,box5, seperatorRectangle,endTurn);
-        turnOfPlayer = new Label("Turn of player 1");
-        turnOfPlayer.setFont(new Font("Calibri", 14));
-        turnOfPlayer.setTextFill(Color.BROWN);
-
-        VBox vBox = new VBox();
-        vBox.getChildren().addAll(turnOfPlayer, hBox);
-        vBox.setTranslateX(leftUpperCornerOfTheRectangleX);
-        vBox.setTranslateY(leftUpperCornerOfTheRectangleY - 20);
-
-        vBox.setPadding(new Insets(4,4,60,4));
-        root.getChildren().add(vBox);
     }
 
-    private void addBackground(){
-        Rectangle bg = new Rectangle(DefaultUISpecifications.SCREEN_WIDTH,DefaultUISpecifications.SCREEN_HEIGHT);
-        bg.setFill(Color.LIGHTSKYBLUE);
-        root.getChildren().add(bg);
+    protected void addPlayerResourcesMenu() throws IOException {
+        // box1 = new ResourceBox(player, "BRICK");
+        // box2 = new ResourceBox(player, "WOOD");
+        // box3 = new ResourceBox(player, "SHEEP");
+        // box4 = new ResourceBox(player, "WHEAT");
+        // box5 = new ResourceBox(player, "ORE");
+        //
+        // endTurn.setDisable(true);
+        // endTurn.setOnAction(e->{
+        //     try {
+        //         System.out.println("SENDING ENT TURN REQUEST");
+        //         clientConnection.send(Requests.END_TURN);
+        //     } catch (Exception ex) {
+        //         ex.printStackTrace();
+        //     }
+        //     endTurn.setDisable(true);
+        // });
     }
 
-    private void createGameAndTiles() throws FileNotFoundException {
+    @Override
+    protected void createPlayerResourceBoxes() throws IOException {
 
-        font = javafx.scene.text.Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), 30);
-        differenceX = map.getTile(0,1).getLocation().getRawDisplayPosition().getX() - map.getTile(0,0)
-                .getLocation().getRawDisplayPosition().getX();
+    }
 
-        hexagon_edge_length = (differenceX / Math.sqrt(3));
-        hexagon_short_diagonal_length = differenceX;
-        hexagon_long_diagonal_length = hexagon_edge_length * 2;
+    @Override
+    protected void setupEndTurnButton() {
 
-        map.getTileElements().forEach(a -> {
-            double x = a.getLocation().getRawDisplayPosition().getX();
-            double y = a.getLocation().getRawDisplayPosition().getY();
-            try {
-                setImage(a.getType(),x,y,root);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+    }
 
-        map.getNonTileElements().forEach(a -> {
-            double x = a.getLocation().getRawDisplayPosition().getX();
-            double y = a.getLocation().getRawDisplayPosition().getY();
-            double r = 0.0;
-            if (a instanceof MapCorner)
-                r = 13.0;
-            if (a instanceof MapSide)
-                r = 11.0;
-            MapButton mb = new MapButton(x, y, r, a);
-            mb.setFill(Color.GRAY);
-            mb.setOpacity(0.0);
-            mb.setOnMouseClicked(e -> {
-                try {
-                    System.out.println("SENDING BUILD BY PLAYER:");
-                    System.out.println(player.name);
-                    clientConnection.send(new BuildRequest(a,mb, new PlayerInfo(player)));
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            });
-            mapButtonList.add(mb);
-            root.getChildren().add(mb);
-        });
+    @Override
+    protected void createGameAndTiles() throws FileNotFoundException {
+        // map.getNonTileElements().forEach(a -> {
+        //     double x = a.getLocation().getRawDisplayPosition().getX();
+        //     double y = a.getLocation().getRawDisplayPosition().getY();
+        //     double r = 0.0;
+        //     if (a instanceof MapCorner)
+        //         r = 13.0;
+        //     if (a instanceof MapSide)
+        //         r = 11.0;
+        //     MapButton mb = new MapButton(x, y, r, a);
+        //     mb.setFill(Color.GRAY);
+        //     mb.setOpacity(0.0);
+        //     mb.setOnMouseClicked(e -> {
+        //         try {
+        //             System.out.println("SENDING BUILD BY PLAYER:");
+        //             System.out.println(player.name);
+        //             clientConnection.send(new BuildRequest(a,mb, new PlayerInfo(player)));
+        //         } catch (Exception ex) {
+        //             ex.printStackTrace();
+        //         }
+        //     });
+        //     mapButtonList.add(mb);
+        //     root.getChildren().add(mb);
+        // });
+    }
 
-        map.getTileElements().forEach(a->{
-            if(a.getNumber() > 0) {
-                double radius = 35;
-                double x = a.getLocation().getRawDisplayPosition().getX();
-                double y = a.getLocation().getRawDisplayPosition().getY();
-                x = x + differenceX / 2;
-                y = y + (differenceX / (2 * Math.sqrt(3)));
-                MapToken nextToken = null;
-                try {
-                    nextToken = new MapToken(radius, x, y, a.getNumber());
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                VBox vBox = (VBox) nextToken.getVBox();
-                vBox.setTranslateX(x - radius);
-                vBox.setPrefWidth(radius * 2);
-                vBox.setPrefHeight(radius* 2);
-                vBox.setTranslateY(y - radius);
-                root.getChildren().addAll(nextToken, vBox);
-            }
-        });
+    @Override
+    protected void nonTileMouseClicked(MapButton mb, MapElement a) {
+
+    }
+
+    @Override
+    protected void creationSetup() {
+
     }
 
     public void updateResources(Player player, String playerName) {
@@ -207,53 +131,16 @@ public class ClientGameScene{
                 +player.getOre()+ " " +  player.getWood() + " " + player.getSheep() + " " +
                 + player.getWheat());
         this.player = player;
-        box1.update(player);
-        box2.update(player);
-        box3.update(player);
-        box4.update(player);
-        box5.update(player);
+        // box1.update(player);
+        // box2.update(player);
+        // box3.update(player);
+        // box4.update(player);
+        // box5.update(player);
         turnOfPlayer.setText("Turn of player " + playerName);
     }
 
 
-    public Scene getScene(){
-        scene = new Scene(root);
-        return scene;
-    }
 
-    private void setImage(MapTile.Types a, double x, double y, Group root) throws IOException {
-        InputStream is;
-        is = Files.newInputStream(Paths.get("res/images/tiles/brick.png"));
-        switch (a.toString()) {
-            case "BRICK":
-                is = Files.newInputStream(Paths.get("res/images/tiles/brick.png"));
-                break;
-            case "MOUNTAIN":
-                is = Files.newInputStream(Paths.get("res/images/tiles/mountain.png"));
-                break;
-            case "DESERT":
-                is = Files.newInputStream(Paths.get("res/images/tiles/desert.png"));
-                break;
-            case "PASTURE":
-                is = Files.newInputStream(Paths.get("res/images/tiles/pasture.png"));
-                break;
-            case "FIELD":
-                is = Files.newInputStream(Paths.get("res/images/tiles/field.png"));
-                break;
-            case "FOREST":
-                is = Files.newInputStream(Paths.get("res/images/tiles/forest.png"));
-                break;
-        }
-        Image img = new Image(is);
-        is.close();
-        ImageView tile = new ImageView(img);
-        tile.setPreserveRatio(true);
-        tile.setFitWidth(differenceX);
-        tile.setX(x);
-        tile.setY(y - hexagon_edge_length / 2);
-        tile.setOpacity(1);
-        root.getChildren().add(tile);
-    }
 
     public MapButton findMapButton(int x, int y) {
         for(MapButton button: mapButtonList) {
@@ -265,7 +152,7 @@ public class ClientGameScene{
     }
 
     public void enableEndTurn() {
-        this.endTurn.setDisable(false);
+        this.endTurnButton.setDisable(false);
     }
 
     public Player getPlayer() {
