@@ -23,13 +23,7 @@ public class SingleGameScene extends GameScene {
         addBackground();
         createGameAndTiles();
         addPlayerResourcesMenu();
-        displayDice();
-    }
-
-    @Override
-    protected void createDie() {
-        dice[0] = new Die(game.getDie1());
-        dice[1] = new Die(game.getDie2());
+        displayDice(game.getDie1(), game.getDie2());
     }
 
     @Override
@@ -46,7 +40,7 @@ public class SingleGameScene extends GameScene {
         endTurnButton.setOnAction(e -> {
             game.endTurn();
             updateResources(game.getCurrentPlayer());
-            displayDice();
+            displayDice(game.getDie1(), game.getDie2());
         });
     }
 
@@ -59,11 +53,12 @@ public class SingleGameScene extends GameScene {
     }
 
     @Override
-    protected void creationSetup() {
+    protected void createGameAndTiles() throws FileNotFoundException {
         players[0] = new Player(Color.RED, Civilization.CivilizationEnum.OTTOMANS, "Player 1");
         players[1] = new Player(Color.GREEN, Civilization.CivilizationEnum.SPAIN, "Player 2");
         players[2] = new Player(Color.BLUE, Civilization.CivilizationEnum.ENGLAND, "Player 3");
         game = new Game(map, new ArrayList<Player>(Arrays.asList(players)));
+        super.createGameAndTiles();
     }
 
     private void updateResources(Player player) {

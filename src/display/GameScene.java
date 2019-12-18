@@ -46,18 +46,16 @@ public abstract class GameScene {
     }
 
     // methods
-    protected void displayDice() {
-        root.getChildren().remove(diceBox);
-
-        createDie();
-
+    protected void displayDice(int dieNum1, int dieNum2) {
+        if ( root.getChildren().contains(diceBox) )
+            root.getChildren().remove(diceBox);
+        dice[0] = new Die(dieNum1);
+        dice[1] = new Die(dieNum2);
         diceBox = new HBox(dice[0], dice[1]);
         diceBox.setTranslateX(200);
         diceBox.setTranslateY(200);
         root.getChildren().add(diceBox);
     }
-
-    protected abstract void createDie();
 
     protected void addPlayerResourcesMenu() throws IOException {
         double widthOfRectangle = DefaultUISpecifications.SCREEN_WIDTH / 3;
@@ -105,7 +103,6 @@ public abstract class GameScene {
     }
 
     protected void createGameAndTiles() throws FileNotFoundException {
-        creationSetup();
         font = javafx.scene.text.Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), 30);
         differenceX = map.getTile(0,1).getLocation().getRawDisplayPosition().getX()
                 - map.getTile(0,0).getLocation().getRawDisplayPosition().getX();
@@ -197,8 +194,6 @@ public abstract class GameScene {
     }
 
     protected abstract void nonTileMouseClicked(MapButton mb, MapElement a);
-
-    protected abstract void creationSetup();
 
     public Scene getScene(){
         scene = new Scene(root);

@@ -89,7 +89,7 @@ public class ClientConnection extends Thread {
                         EndTurnInfo endTurnInfo = (EndTurnInfo) data;
 
                         Platform.runLater(() ->{
-                            clientGameScene.dice(endTurnInfo.getDie1(), endTurnInfo.getDie2());
+                            clientGameScene.displayDice(endTurnInfo.getDie1(), endTurnInfo.getDie2());
 
                             clientGameScene.updateResources(new Player(endTurnInfo.getPlayerInfo()),endTurnInfo.getCurrentPlayerInfo().name);
                             System.out.println(endTurnInfo.getCurrentPlayerInfo().name + "\n" +

@@ -43,86 +43,46 @@ public class ClientGameScene extends GameScene {
         addPlayerResourcesMenu();
     }
 
-    public void dice(int dieNum1, int dieNum2) {
-        // root.getChildren().remove(diceBox);
-        // die1 = new Die(dieNum1);
-        // die2 = new Die(dieNum2);
-        //
-        // diceBox = new HBox(die1, die2);
-        // diceBox.setTranslateX(200);
-        // diceBox.setTranslateY(200);
-        // root.getChildren().add(diceBox);
-    }
-
     @Override
-    protected void createDie() {
-
-    }
-
-    protected void addPlayerResourcesMenu() throws IOException {
-        // box1 = new ResourceBox(player, "BRICK");
-        // box2 = new ResourceBox(player, "WOOD");
-        // box3 = new ResourceBox(player, "SHEEP");
-        // box4 = new ResourceBox(player, "WHEAT");
-        // box5 = new ResourceBox(player, "ORE");
-        //
-        // endTurn.setDisable(true);
-        // endTurn.setOnAction(e->{
-        //     try {
-        //         System.out.println("SENDING ENT TURN REQUEST");
-        //         clientConnection.send(Requests.END_TURN);
-        //     } catch (Exception ex) {
-        //         ex.printStackTrace();
-        //     }
-        //     endTurn.setDisable(true);
-        // });
+    public void displayDice(int dieNum1, int dieNum2) {
+        super.displayDice(dieNum1, dieNum2);
     }
 
     @Override
     protected void createPlayerResourceBoxes() throws IOException {
-
+        resourceBoxes[0] = new ResourceBox(player, "BRICK");
+        resourceBoxes[1] = new ResourceBox(player, "WOOD");
+        resourceBoxes[2] = new ResourceBox(player, "SHEEP");
+        resourceBoxes[3] = new ResourceBox(player, "WHEAT");
+        resourceBoxes[4] = new ResourceBox(player, "ORE");
     }
 
     @Override
     protected void setupEndTurnButton() {
-
-    }
-
-    @Override
-    protected void createGameAndTiles() throws FileNotFoundException {
-        // map.getNonTileElements().forEach(a -> {
-        //     double x = a.getLocation().getRawDisplayPosition().getX();
-        //     double y = a.getLocation().getRawDisplayPosition().getY();
-        //     double r = 0.0;
-        //     if (a instanceof MapCorner)
-        //         r = 13.0;
-        //     if (a instanceof MapSide)
-        //         r = 11.0;
-        //     MapButton mb = new MapButton(x, y, r, a);
-        //     mb.setFill(Color.GRAY);
-        //     mb.setOpacity(0.0);
-        //     mb.setOnMouseClicked(e -> {
-        //         try {
-        //             System.out.println("SENDING BUILD BY PLAYER:");
-        //             System.out.println(player.name);
-        //             clientConnection.send(new BuildRequest(a,mb, new PlayerInfo(player)));
-        //         } catch (Exception ex) {
-        //             ex.printStackTrace();
-        //         }
-        //     });
-        //     mapButtonList.add(mb);
-        //     root.getChildren().add(mb);
-        // });
+        endTurnButton.setDisable(true);
+        endTurnButton.setOnAction(e->{
+            try {
+                System.out.println("SENDING ENT TURN REQUEST");
+                clientConnection.send(Requests.END_TURN);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            endTurnButton.setDisable(true);
+        });
     }
 
     @Override
     protected void nonTileMouseClicked(MapButton mb, MapElement a) {
-
-    }
-
-    @Override
-    protected void creationSetup() {
-
+        mb.setOnMouseClicked(e -> {
+            try {
+                System.out.println("SENDING BUILD BY PLAYER:");
+                System.out.println(player.name);
+                clientConnection.send(new BuildRequest(a,mb, new PlayerInfo(player)));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+        mapButtonList.add(mb);
     }
 
     public void updateResources(Player player, String playerName) {
@@ -138,9 +98,6 @@ public class ClientGameScene extends GameScene {
         // box5.update(player);
         turnOfPlayer.setText("Turn of player " + playerName);
     }
-
-
-
 
     public MapButton findMapButton(int x, int y) {
         for(MapButton button: mapButtonList) {

@@ -16,6 +16,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
 import javafx.scene.control.Button;
+import network.requests.BuildRequest;
+import network.requests.PlayerInfo;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,19 +41,13 @@ public class ServerGameScene extends GameScene {
         addBackground();
         createGameAndTiles(p);
         addPlayerResourcesMenu();
-        displayDice();
-    }
-
-    @Override
-    protected void createDie() {
-        dice[0] = new Die(game.getDie1());
-        dice[1] = new Die(game.getDie2());
+        displayDice(game.getDie1(), game.getDie2());
     }
 
     public void endTurnProcess() {
         game.endTurn();
         updateResources(player);
-        displayDice();
+        displayDice(game.getDie1(), game.getDie2());
 
         System.out.println("end turn done");
         System.out.println(game.getCurrentPlayer().name + "\n" + player.name);
@@ -66,7 +63,7 @@ public class ServerGameScene extends GameScene {
     public void endTurnProcess(CountDownLatch countDownLatch) {
         game.endTurn();
         updateResources(player);
-        displayDice();
+        displayDice(game.getDie1(), game.getDie2());
 
         System.out.println("end turn done");
         System.out.println(game.getCurrentPlayer().name + "\n" + player.name);
@@ -80,55 +77,21 @@ public class ServerGameScene extends GameScene {
         countDownLatch.countDown();
     }
 
-    protected void addPlayerResourcesMenu() throws IOException {
-        double widthOfRectangle = DefaultUISpecifications.SCREEN_WIDTH / 3;
-        double heightOfRectangle = DefaultUISpecifications.SCREEN_HEIGHT / 7;
-        double leftUpperCornerOfTheRectangleX = DefaultUISpecifications.SCREEN_WIDTH / 2 - widthOfRectangle / 2;
-        double leftUpperCornerOfTheRectangleY = DefaultUISpecifications.SCREEN_HEIGHT - heightOfRectangle;
-        Rectangle resourcesBackground = new Rectangle(widthOfRectangle, heightOfRectangle);
-        resourcesBackground.setTranslateX(leftUpperCornerOfTheRectangleX);
-        resourcesBackground.setTranslateY(leftUpperCornerOfTheRectangleY - 20);
-        resourcesBackground.setFill(Color.WHITESMOKE);
-        root.getChildren().add(resourcesBackground);
-
+    @Override
+    protected void createPlayerResourceBoxes() throws IOException {
         resourceBoxes[0] = new ResourceBox(player, "BRICK");
         resourceBoxes[1] = new ResourceBox(player, "WOOD");
         resourceBoxes[2] = new ResourceBox(player, "SHEEP");
         resourceBoxes[3] = new ResourceBox(player, "WHEAT");
         resourceBoxes[4] = new ResourceBox(player, "ORE");
-
-        separatorRectangle = new Rectangle(20,0);
-
-        endTurnButton = new Button("End Turn");
-        endTurnButton.setOnAction(e->{
-            endTurnProcess();
-            endTurnButton.setDisable(true);
-        });
-
-        HBox hBox = new HBox();
-
-        hBox.getChildren().addAll(resourceBoxes[0],resourceBoxes[1],resourceBoxes[2],resourceBoxes[3],resourceBoxes[4], separatorRectangle,endTurnButton);
-        turnOfPlayer = new Label("Turn of player 1");
-        turnOfPlayer.setFont(new Font("Calibri", 14));
-        turnOfPlayer.setTextFill(Color.BROWN);
-
-        VBox vBox = new VBox();
-        vBox.getChildren().addAll(turnOfPlayer, hBox);
-        vBox.setTranslateX(leftUpperCornerOfTheRectangleX);
-        vBox.setTranslateY(leftUpperCornerOfTheRectangleY - 20);
-
-        vBox.setPadding(new Insets(4,4,60,4));
-        root.getChildren().add(vBox);
-    }
-
-    @Override
-    protected void createPlayerResourceBoxes() throws IOException {
-
     }
 
     @Override
     protected void setupEndTurnButton() {
-
+        endTurnButton.setOnAction(e->{
+            endTurnProcess();
+            endTurnButton.setDisable(true);
+        });
     }
 
     protected void addBackground(){
@@ -139,11 +102,25 @@ public class ServerGameScene extends GameScene {
 
     @Override
     protected void nonTileMouseClicked(MapButton mb, MapElement a) {
-
+        mb.setOnMouseClicked(e -> {
+            System.out.println(player.name);
+            System.out.println(game.getCurrentPlayer().name);
+            if( game.getCurrentPlayer().equals(player)) {
+                boolean built = game.build(a.getLocation());
+                mb.update();
+                updateResources(game.getCurrentPlayer());
+                if(built) {
+                    try {
+                        System.out.println("SERVER SENDS BUILDINFO:" + player.getColor().toString());
+                        serverConnection.sendEveryone(new BuildRequest(a, mb, new PlayerInfo(player)));
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+        mapButtonList.add(mb);
     }
-
-    @Override
-    protected void creationSetup() { }
 
     protected void createGameAndTiles(ArrayList<Player> p) throws FileNotFoundException {
         game = new Game(map, p);
