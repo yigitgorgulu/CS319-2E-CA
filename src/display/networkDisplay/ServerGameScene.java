@@ -5,17 +5,9 @@ import network.ServerConnection;
 import game.Game;
 import game.map.*;
 import game.player.Player;
-import javafx.geometry.Insets;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 
-import javafx.scene.control.Button;
 import network.requests.BuildRequest;
 import network.requests.PlayerInfo;
 
@@ -112,7 +104,7 @@ public class ServerGameScene extends GameScene {
                 if(built) {
                     try {
                         System.out.println("SERVER SENDS BUILDINFO:" + player.getColor().toString());
-                        serverConnection.sendEveryone(new BuildRequest(a, mb, new PlayerInfo(player)));
+                        serverConnection.send(new BuildRequest(a, mb, new PlayerInfo(player)));
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }

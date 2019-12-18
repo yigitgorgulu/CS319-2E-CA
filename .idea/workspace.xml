@@ -7,13 +7,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4f3e89fd-e61b-4e79-85eb-6d15b3a69185" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/display/networkDisplay/NetworkGameScene.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/network/Connection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/settlers/settlers.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/settlers/settlers.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/display/GameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/GameScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/display/SingleGameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/SingleGameScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/ClientGameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/networkDisplay/ClientGameScene.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/ServerGameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/networkDisplay/ServerGameScene.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/network/ClientConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/ClientConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/network/ServerConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/ServerConnection.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +48,7 @@
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="settlersofcatan" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/display/networkDisplay/ServerGameScene.java" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/network/ServerConnection.java" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -60,7 +59,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.tabs" />
-    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/src/display/networkDisplay/ServerGameScene.java" />
+    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/src/network/ServerConnection.java" />
   </component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
@@ -142,7 +141,7 @@
       <workItem from="1576517865660" duration="15850000" />
       <workItem from="1576568333649" duration="4335000" />
       <workItem from="1576590730076" duration="110000" />
-      <workItem from="1576676079002" duration="3186000" />
+      <workItem from="1576676079002" duration="5095000" />
     </task>
     <task id="LOCAL-00002" summary="Added display of dice.">
       <created>1574094483753</created>
@@ -228,7 +227,14 @@
       <option name="project" value="LOCAL" />
       <updated>1576590785409</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="ServerGameScene and ClientGameScene working.">
+      <created>1576679556310</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1576679556310</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -258,17 +264,18 @@
     <MESSAGE value="sound package removed, Sound class moved into game package" />
     <MESSAGE value="GameScene extracted into abstract class, all game scenes extend it. SingleGameScene works, the others do not yet." />
     <MESSAGE value="GameScene committed, forgot to." />
-    <option name="LAST_COMMIT_MESSAGE" value="GameScene committed, forgot to." />
+    <MESSAGE value="ServerGameScene and ClientGameScene working." />
+    <option name="LAST_COMMIT_MESSAGE" value="ServerGameScene and ClientGameScene working." />
   </component>
   <component name="WindowStateProjectService">
     <state x="658" y="294" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1576525693489">
       <screen x="0" y="0" width="1857" height="1080" />
     </state>
     <state x="658" y="294" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog/0.0.1857.1080@0.0.1857.1080" timestamp="1576525693489" />
-    <state x="733" y="249" key="#com.intellij.ide.util.MemberChooser" timestamp="1576677620194">
+    <state x="733" y="249" key="#com.intellij.ide.util.MemberChooser" timestamp="1576681199697">
       <screen x="0" y="0" width="1857" height="1080" />
     </state>
-    <state x="733" y="249" key="#com.intellij.ide.util.MemberChooser/0.0.1857.1080@0.0.1857.1080" timestamp="1576677620194" />
+    <state x="733" y="249" key="#com.intellij.ide.util.MemberChooser/0.0.1857.1080@0.0.1857.1080" timestamp="1576681199697" />
     <state x="724" y="424" width="408" height="240" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1576176476449">
       <screen x="0" y="0" width="1857" height="1080" />
     </state>
@@ -281,34 +288,34 @@
       <screen x="0" y="0" width="1857" height="1080" />
     </state>
     <state x="908" y="485" width="529" height="595" key="#xdebugger.evaluate/0.0.1857.1080@0.0.1857.1080" timestamp="1576520880990" />
-    <state x="344" y="132" key="CommitChangelistDialog2" timestamp="1576679494659">
+    <state x="344" y="132" key="CommitChangelistDialog2" timestamp="1576681673857">
       <screen x="0" y="0" width="1857" height="1080" />
     </state>
-    <state x="344" y="132" key="CommitChangelistDialog2/0.0.1857.1080@0.0.1857.1080" timestamp="1576679494659" />
-    <state x="92" y="92" width="1673" height="896" key="DiffContextDialog" timestamp="1576523126032">
+    <state x="344" y="132" key="CommitChangelistDialog2/0.0.1857.1080@0.0.1857.1080" timestamp="1576681673857" />
+    <state x="92" y="92" width="1673" height="896" key="DiffContextDialog" timestamp="1576680740859">
       <screen x="0" y="0" width="1857" height="1080" />
     </state>
-    <state x="92" y="92" width="1673" height="896" key="DiffContextDialog/0.0.1857.1080@0.0.1857.1080" timestamp="1576523126032" />
-    <state x="708" y="294" key="FileChooserDialogImpl" timestamp="1576523108726">
+    <state x="92" y="92" width="1673" height="896" key="DiffContextDialog/0.0.1857.1080@0.0.1857.1080" timestamp="1576680740859" />
+    <state x="708" y="294" key="FileChooserDialogImpl" timestamp="1576680339617">
       <screen x="0" y="0" width="1857" height="1080" />
     </state>
-    <state x="708" y="294" key="FileChooserDialogImpl/0.0.1857.1080@0.0.1857.1080" timestamp="1576523108726" />
-    <state width="1814" height="295" key="GridCell.Tab.0.bottom" timestamp="1576679480137">
+    <state x="708" y="294" key="FileChooserDialogImpl/0.0.1857.1080@0.0.1857.1080" timestamp="1576680339617" />
+    <state width="1814" height="295" key="GridCell.Tab.0.bottom" timestamp="1576681600109">
       <screen x="0" y="0" width="1857" height="1080" />
     </state>
-    <state width="1814" height="295" key="GridCell.Tab.0.bottom/0.0.1857.1080@0.0.1857.1080" timestamp="1576679480137" />
-    <state width="1814" height="295" key="GridCell.Tab.0.center" timestamp="1576679480137">
+    <state width="1814" height="295" key="GridCell.Tab.0.bottom/0.0.1857.1080@0.0.1857.1080" timestamp="1576681600109" />
+    <state width="1814" height="295" key="GridCell.Tab.0.center" timestamp="1576681600109">
       <screen x="0" y="0" width="1857" height="1080" />
     </state>
-    <state width="1814" height="295" key="GridCell.Tab.0.center/0.0.1857.1080@0.0.1857.1080" timestamp="1576679480137" />
-    <state width="1814" height="295" key="GridCell.Tab.0.left" timestamp="1576679480136">
+    <state width="1814" height="295" key="GridCell.Tab.0.center/0.0.1857.1080@0.0.1857.1080" timestamp="1576681600109" />
+    <state width="1814" height="295" key="GridCell.Tab.0.left" timestamp="1576681600109">
       <screen x="0" y="0" width="1857" height="1080" />
     </state>
-    <state width="1814" height="295" key="GridCell.Tab.0.left/0.0.1857.1080@0.0.1857.1080" timestamp="1576679480136" />
-    <state width="1814" height="295" key="GridCell.Tab.0.right" timestamp="1576679480137">
+    <state width="1814" height="295" key="GridCell.Tab.0.left/0.0.1857.1080@0.0.1857.1080" timestamp="1576681600109" />
+    <state width="1814" height="295" key="GridCell.Tab.0.right" timestamp="1576681600109">
       <screen x="0" y="0" width="1857" height="1080" />
     </state>
-    <state width="1814" height="295" key="GridCell.Tab.0.right/0.0.1857.1080@0.0.1857.1080" timestamp="1576679480137" />
+    <state width="1814" height="295" key="GridCell.Tab.0.right/0.0.1857.1080@0.0.1857.1080" timestamp="1576681600109" />
     <state width="1814" height="323" key="GridCell.Tab.1.bottom" timestamp="1576539227426">
       <screen x="0" y="0" width="1857" height="1080" />
     </state>
@@ -333,10 +340,10 @@
       <screen x="0" y="0" width="1857" height="1080" />
     </state>
     <state x="429" y="182" key="SettingsEditor/0.0.1857.1080@0.0.1857.1080" timestamp="1576523078844" />
-    <state x="520" y="261" key="Vcs.Push.Dialog.v2" timestamp="1576590830151">
+    <state x="520" y="261" key="Vcs.Push.Dialog.v2" timestamp="1576679560953">
       <screen x="0" y="0" width="1857" height="1080" />
     </state>
-    <state x="520" y="261" key="Vcs.Push.Dialog.v2/0.0.1857.1080@0.0.1857.1080" timestamp="1576590830151" />
+    <state x="520" y="261" key="Vcs.Push.Dialog.v2/0.0.1857.1080@0.0.1857.1080" timestamp="1576679560953" />
     <state x="737" y="456" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1576522796613">
       <screen x="0" y="0" width="1857" height="1080" />
     </state>
