@@ -1,12 +1,10 @@
 package display;
 
-import game.Game;
 import game.map.*;
-import game.player.Civilization;
-import game.player.Player;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,65 +13,51 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import network.requests.BuildRequest;
+import network.requests.PlayerInfo;
 
-import javafx.scene.control.Button;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
 
-public class GameScene{
+public abstract class GameScene {
+    // properties
     public static double hexagon_short_diagonal_length;
     public static double hexagon_long_diagonal_length;
     public static double hexagon_edge_length;
-    private Group root;
-    private Scene scene;
-    Game game;
-    Map map;
-    private double differenceX;
-    private double differenceY;
-    Font font;
-    Player player1;
-    Player player2;
-    Player player3;
-    ResourceBox box1;
-    ResourceBox box2;
-    ResourceBox box3;
-    ResourceBox box4;
-    ResourceBox box5;
-    Rectangle seperatorRectangle;
-    Button endTurn;
-    Label turnOfPlayer;
-    Die die1;
-    Die die2;
-    HBox diceBox;
+    protected Group root;
+    protected Scene scene;
+    protected Map map;
+    protected double differenceX;
+    protected double differenceY;
+    protected Font font;
+    protected ResourceBox[] resourceBoxes;
+    protected Rectangle separatorRectangle;
+    protected Button endTurnButton;
+    protected Label turnOfPlayer;
+    protected Die[] dice;
+    protected HBox diceBox;
 
+    // constructors
     public GameScene() throws IOException {
-        map = new Map();
         root = new Group();
-        addBackground();
-        createGameAndTiles();
-        addPlayerResourcesMenu();
-        dice();
+        resourceBoxes = new ResourceBox[5];
+        dice = new Die[2];
     }
 
-    private void dice() {
-        if ( game.gameTurns != 0 ) root.getChildren().remove(diceBox);
-        die1 = new Die(game.getDie1());
-        die2 = new Die(game.getDie2());
-
-        diceBox = new HBox(die1, die2);
+    // methods
+    protected void displayDice(int dieNum1, int dieNum2) {
+        if ( root.getChildren().contains(diceBox) )
+            root.getChildren().remove(diceBox);
+        dice[0] = new Die(dieNum1);
+        dice[1] = new Die(dieNum2);
+        diceBox = new HBox(dice[0], dice[1]);
         diceBox.setTranslateX(200);
         diceBox.setTranslateY(200);
         root.getChildren().add(diceBox);
     }
 
-    private void robber() {
-
-    }
-
-    private void addPlayerResourcesMenu() throws IOException {
+    protected void addPlayerResourcesMenu() throws IOException {
         double widthOfRectangle = DefaultUISpecifications.SCREEN_WIDTH / 3;
         double heightOfRectangle = DefaultUISpecifications.SCREEN_HEIGHT / 7;
         double leftUpperCornerOfTheRectangleX = DefaultUISpecifications.SCREEN_WIDTH / 2 - widthOfRectangle / 2;
@@ -84,24 +68,17 @@ public class GameScene{
         resourcesBackground.setFill(Color.WHITESMOKE);
         root.getChildren().add(resourcesBackground);
 
-        box1 = new ResourceBox(player1, "BRICK");
-        box2 = new ResourceBox(player1, "WOOD");
-        box3 = new ResourceBox(player1, "SHEEP");
-        box4 = new ResourceBox(player1, "WHEAT");
-        box5 = new ResourceBox(player1, "ORE");
+        createPlayerResourceBoxes();
+        separatorRectangle = new Rectangle(20,0);
 
-        seperatorRectangle = new Rectangle(20,0);
-
-        endTurn = new Button("End Turn");
-        endTurn.setOnAction(e->{
-            game.endTurn();
-            updateResources(game.getCurrentPlayer());
-            dice();
-        });
+        endTurnButton = new Button("End Turn");
+        setupEndTurnButton();
 
         HBox hBox = new HBox();
+        for ( ResourceBox rb : resourceBoxes )
+            hBox.getChildren().add(rb);
+        hBox.getChildren().addAll(separatorRectangle, endTurnButton);
 
-        hBox.getChildren().addAll(box1,box2,box3,box4,box5, seperatorRectangle,endTurn);
         turnOfPlayer = new Label("Turn of player 1");
         turnOfPlayer.setFont(new Font("Calibri", 14));
         turnOfPlayer.setTextFill(Color.BROWN);
@@ -115,21 +92,20 @@ public class GameScene{
         root.getChildren().add(vBox);
     }
 
-    private void addBackground(){
-    Rectangle bg = new Rectangle(DefaultUISpecifications.SCREEN_WIDTH,DefaultUISpecifications.SCREEN_HEIGHT);
+    protected abstract void createPlayerResourceBoxes() throws IOException;
+
+    protected abstract void setupEndTurnButton();
+
+    protected void addBackground() {
+        Rectangle bg = new Rectangle(DefaultUISpecifications.SCREEN_WIDTH, DefaultUISpecifications.SCREEN_HEIGHT);
         bg.setFill(Color.LIGHTSKYBLUE);
         root.getChildren().add(bg);
     }
 
-    private void createGameAndTiles() throws FileNotFoundException {
-        player1 = new Player(Color.RED, Civilization.CivilizationEnum.OTTOMANS, "Player 1");
-        player2 = new Player(Color.GREEN, Civilization.CivilizationEnum.SPAIN, "Player 2");
-        player3 = new Player(Color.BLUE, Civilization.CivilizationEnum.ENGLAND, "Player 3");
-        game = new Game(map, new ArrayList<Player>(Arrays.asList(player1, player2, player3)));
-
+    protected void createGameAndTiles() throws FileNotFoundException {
         font = javafx.scene.text.Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), 30);
-        differenceX = map.getTile(0,1).getLocation().getRawDisplayPosition().getX() - map.getTile(0,0)
-                .getLocation().getRawDisplayPosition().getX();
+        differenceX = map.getTile(0,1).getLocation().getRawDisplayPosition().getX()
+                - map.getTile(0,0).getLocation().getRawDisplayPosition().getX();
 
         hexagon_edge_length = (differenceX / Math.sqrt(3));
         hexagon_short_diagonal_length = differenceX;
@@ -156,11 +132,7 @@ public class GameScene{
             MapButton mb = new MapButton(x, y, r, a);
             mb.setFill(Color.GRAY);
             mb.setOpacity(0.0);
-            mb.setOnMouseClicked(e -> {
-                game.build(a.getLocation());
-                mb.update();
-                updateResources(game.getCurrentPlayer());
-            });
+            nonTileMouseClicked(mb, a);
             root.getChildren().add(mb);
         });
 
@@ -187,23 +159,7 @@ public class GameScene{
         });
     }
 
-    private void updateResources(Player player) {
-        box1.update(player);
-        box2.update(player);
-        box3.update(player);
-        box4.update(player);
-        box5.update(player);
-
-        turnOfPlayer.setText("Turn of player " + game.getCurrentPlayerNo());
-    }
-
-
-    public Scene getScene(){
-        scene = new Scene(root);
-        return scene;
-    }
-
-    private void setImage(MapTile.Types a, double x, double y, Group root) throws IOException {
+    protected void setImage(MapTile.Types a, double x, double y, Group root) throws IOException {
         InputStream is;
         is = Files.newInputStream(Paths.get("res/images/tiles/brick.png"));
         switch (a.toString()) {
@@ -237,4 +193,10 @@ public class GameScene{
         root.getChildren().add(tile);
     }
 
+    protected abstract void nonTileMouseClicked(MapButton mb, MapElement a);
+
+    public Scene getScene(){
+        scene = new Scene(root);
+        return scene;
+    }
 }

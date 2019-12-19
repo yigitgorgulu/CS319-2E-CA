@@ -1,14 +1,14 @@
 package display.networkDisplay;
 
 import display.DefaultUISpecifications;
+import display.GameScene;
 import display.MenuButton;
+import display.SingleGameScene;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class NetworkMainMenu extends Parent {
@@ -19,30 +19,36 @@ public class NetworkMainMenu extends Parent {
         menu0.setTranslateY(DefaultUISpecifications.SCREEN_HEIGHT / 2 + 50);
         //final int offset = 400;
 
+        MenuButton btnCreateOfflineGame = new MenuButton( "Create Offline Game" );
         MenuButton btnCreateAGame = new MenuButton("Create A New Game");
         MenuButton btnJoinAGame = new MenuButton("Join an existing game");
         MenuButton btnProfile = new MenuButton( "Profile");
         MenuButton btnSettingsCredits = new MenuButton("Settings and Credits");
         MenuButton btnQuit = new MenuButton("Quit Game");
         btnQuit.setOnMouseClicked(e->System.exit(0));
+        /*btnCreateAGame.setOnMouseClicked(e->gameView.setScene(gameScene));*/
+        SingleGameScene singleGameScene = new SingleGameScene();
+        btnCreateOfflineGame.setOnMouseClicked(e-> {
+            gameView.setScene(singleGameScene.getScene());
+        });
         btnCreateAGame.setOnMouseClicked(e-> {
             try {
-                ServerScene serverScene = new ServerScene(gameView);
-                gameView.setScene(serverScene.getScene());
+                ServerLobbyScene serverLobbyScene = new ServerLobbyScene(gameView);
+                gameView.setScene(serverLobbyScene.getScene());
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         });
         btnJoinAGame.setOnMouseClicked(e-> {
             try {
-                ClientScene clientScene = new ClientScene(gameView);
-                gameView.setScene(clientScene.getScene());
+                ClientLobbyScene clientLobbyScene = new ClientLobbyScene(gameView);
+                gameView.setScene(clientLobbyScene.getScene());
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         });
         menu0.setAlignment(Pos.CENTER);
-        menu0.getChildren().addAll(btnCreateAGame,btnJoinAGame,btnProfile,btnSettingsCredits,btnQuit);
+        menu0.getChildren().addAll(btnCreateOfflineGame,btnCreateAGame,btnJoinAGame,btnProfile,btnSettingsCredits,btnQuit);
 
         //Rectangle bg = new Rectangle(SCREEN_WIDTH,SCREEN_HEIGHT);
         //bg.setFill(Color.GRAY);
