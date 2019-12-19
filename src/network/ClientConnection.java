@@ -18,23 +18,16 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
-import java.util.concurrent.CountDownLatch;
 
-public class ClientConnection extends Thread {
-
-    ObjectOutputStream os;
-    Stage gameView;
+public class ClientConnection extends Connection {
     String name;
 
-    ClientGameScene clientGameScene;
-
-    CountDownLatch mapLatch;
-
     public ClientConnection(Stage gameView, String name) {
-        this.gameView = gameView;
+        super(gameView);
         this.name = name;
     }
 
+    @Override
     public void send(Serializable data) throws Exception {
         os.writeObject(data);
     }
@@ -66,7 +59,7 @@ public class ClientConnection extends Thread {
 
                                 ClientGameScene clientGameScene = new ClientGameScene(mapLatch, (Map)data, this, pl);
                                 gameView.setScene(clientGameScene.getScene());
-                                this.clientGameScene = clientGameScene;
+                                this.networkGameScene = clientGameScene;
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -75,12 +68,16 @@ public class ClientConnection extends Thread {
 
                     }
                     else if(data instanceof BuildRequest) {
-                        System.out.println("OKEY");
 
                         Platform.runLater(() ->{
                             MapButton mb = ((BuildRequest)data).mapButton;
-                            MapButton mapB = clientGameScene.findMapButton(mb.x, mb.y);
-                            mapB.clientUpdate(new Player(((BuildRequest)data).playerInfo));
+                            MapButton mapB = networkGameScene.findMapButton(mb);
+                            Player builderPlayer = new Player(((BuildRequest)data).playerInfo);
+                            mapB.clientUpdate(builderPlayer);
+                            if(builderPlayer.equals(pl)) {
+                                System.out.println("UPDATING MY RES");
+                                networkGameScene.updateResourcesInTurn(builderPlayer);
+                            }
                         });
 
                     }
@@ -89,14 +86,14 @@ public class ClientConnection extends Thread {
                         EndTurnInfo endTurnInfo = (EndTurnInfo) data;
 
                         Platform.runLater(() ->{
-                            clientGameScene.dice(endTurnInfo.getDie1(), endTurnInfo.getDie2());
+                            ((ClientGameScene) networkGameScene).displayDice(endTurnInfo.getDie1(), endTurnInfo.getDie2());
 
-                            clientGameScene.updateResources(new Player(endTurnInfo.getPlayerInfo()),endTurnInfo.getCurrentPlayerInfo().name);
+                            networkGameScene.updateResources(new Player(endTurnInfo.getPlayerInfo()),endTurnInfo.getCurrentPlayerInfo().name);
                             System.out.println(endTurnInfo.getCurrentPlayerInfo().name + "\n" +
                                     endTurnInfo.getPlayerInfo().name + "\n" +
-                                    clientGameScene.getPlayer().name);
-                            if(new Player(endTurnInfo.getCurrentPlayerInfo()).equals(clientGameScene.getPlayer()))
-                                clientGameScene.enableEndTurn();
+                                    networkGameScene.getPlayer().name);
+                            if(new Player(endTurnInfo.getCurrentPlayerInfo()).equals(networkGameScene.getPlayer()))
+                                ((ClientGameScene) networkGameScene).enableEndTurn();
                         });
 
 

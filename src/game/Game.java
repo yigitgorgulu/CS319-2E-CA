@@ -16,8 +16,8 @@ public class Game implements Serializable {
     Player currentPlayer;
     int noOfPlayers;
     public int gameTurns = 0;
-    boolean builtRoad = false;
-    boolean builtVillage = false;
+    int roadsBuilt = -1;
+    int villagesBuilt = -1;
     Map map;
     int die1 = 0;
     int die2 = 0;
@@ -72,7 +72,7 @@ public class Game implements Serializable {
 
     public void setDevelopmentCards(){ // creates development cards array list considering the # of players
         developmentCards = new ArrayList<>();
-        if ( noOfPlayers < 5 ){
+        if ( noOfPlayers <= 5 ){
             for ( int i = 0; i < 14; i++ )
                 developmentCards.add(DevelopmentCards.KNIGHT);
             for ( int i = 14; i < 19; i++)
@@ -84,7 +84,7 @@ public class Game implements Serializable {
             for ( int i = 23; i < 24; i++ )
                 developmentCards.add(DevelopmentCards.MONOPOLY);
         }
-        else if ( noOfPlayers > 4 ) {
+        else if ( noOfPlayers >= 4 ) {
             for (int i = 0; i < 5; i++)
                 developmentCards.add(DevelopmentCards.VICTORY_POINT);
             for (int i = 5; i < 8; i++)
@@ -118,23 +118,31 @@ public class Game implements Serializable {
 
     public boolean build(Location loc) {
         Player.Actions cost = map.getCost(loc);
-        boolean settle = inSettlingPhase() &&
-                ( ((cost == Player.Actions.BUILD_ROAD && !builtRoad)
-                        || (cost == Player.Actions.BUILD_VILLAGE && !builtVillage)) );
-        if ( ( currentPlayer.canAfford(cost) && !inSettlingPhase() ) || settle) {
+        boolean freeSettle = inSettlingPhase() &&
+                ( ((cost == Player.Actions.BUILD_ROAD && roadsBuilt < 0)
+                        || (cost == Player.Actions.BUILD_VILLAGE && villagesBuilt < 0)) );
+        boolean paidSettle = currentPlayer.canAfford(cost) && !inSettlingPhase();
+        System.out.println("Game : free settle :" + freeSettle);
+        System.out.println("Game : paid settle :" + paidSettle);
+        if ( paidSettle || freeSettle) {
             if (map.build(loc, currentPlayer)) {
-                if (!settle)
+                if (paidSettle) {
                     currentPlayer.makeAction(cost);
+                    System.out.println("Game : build : current player " + currentPlayer);
+                    System.out.println("Game : build : cost " + cost);
+                }
                 if( cost == Player.Actions.BUILD_VILLAGE ) {
-                    builtVillage = true;
+                    villagesBuilt += 1;
+                    currentPlayer.incrementVictoryPoints(1);
+                }
+                if( cost == Player.Actions.BUILD_CITY) {
+                    currentPlayer.incrementVictoryPoints(1);
                 }
                 if( cost == Player.Actions.BUILD_ROAD ) {
-                    builtRoad = true;
-                } else {
-                    if(currentPlayer.checkVictory()) {
-                        System.out.println( currentPlayer.name + " Won");
-                    }
-                    currentPlayer.incrementVictoryPoints(1);
+                    roadsBuilt += 1;
+                }
+                if(currentPlayer.checkVictory()) {
+                    System.out.println(currentPlayer.name + " Won");
                 }
                 return true;
             }
@@ -143,7 +151,7 @@ public class Game implements Serializable {
     }
 
     public boolean buildWithCard(Location loc) {
-        Player.Actions cost = map.getCost(loc);
+        /*Player.Actions cost = map.getCost(loc);
 
         if ( ( !inSettlingPhase() ) ) {
             if (map.build(loc, currentPlayer)) {
@@ -160,7 +168,7 @@ public class Game implements Serializable {
                 }
                 return true;
             }
-        }
+        }*/
         return false;
     }
 
@@ -230,15 +238,25 @@ public class Game implements Serializable {
             gameDir = -1;
         }
         gameTurns++;
-        System.out.println(gameTurns);
+        System.out.println("Game: Game Turns:" + gameTurns);
         currentPlayerNo = (currentPlayerNo + gameDir + players.size() ) % players.size();
         currentPlayer = players.get(currentPlayerNo);
-        if ( !inSettlingPhase() )
+        if ( !inSettlingPhase() ) {
             map.generateResource(rollDice());
-        if ( endOfSettlingPhase() )
+            roadsBuilt = 0;
+            villagesBuilt = 0;
+        }
+        if( inSettlingPhase() ) {
+            roadsBuilt = -1;
+            villagesBuilt = -1;
+            map.setInSettlingPhase(true);
+        }
+        if ( endOfSettlingPhase() ) {
+            roadsBuilt = 0;
+            villagesBuilt = 0;
             map.generateResource(1);
-        builtRoad = false;
-        builtVillage = false;
+            map.setInSettlingPhase(false);
+        }
     }
 
     public boolean inSettlingPhase () {

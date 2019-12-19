@@ -15,4 +15,8 @@ public class BuildRequest implements Serializable {
         this.mapButton = mapButton;
         this.playerInfo = playerInfo;
     }
+
+    public void setPlayerInfo(PlayerInfo playerInfo) {
+        this.playerInfo = playerInfo;
+    }
 }
