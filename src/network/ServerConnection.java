@@ -92,7 +92,7 @@ public class ServerConnection extends Connection {
                     Serializable data;
 
                     System.out.println("AWAITING: " + client.id);
-                    if(!gameInit || client.player.equals(((ServerGameScene)gameScene).getGame().getCurrentPlayer())) {//)
+                    if(!gameInit || client.player.equals(((ServerGameScene) networkGameScene).getGame().getCurrentPlayer())) {//)
                             //|| serverGameScene.getGame().getCurrentPlayer().name.equals("server")) {
                          data = (Serializable) client.in.readObject();
                          System.out.println("AFTER AWAIT");
@@ -117,7 +117,7 @@ public class ServerConnection extends Connection {
                                 ServerGameScene serverGameScene = new ServerGameScene(players, this);
 
                                 gameView.setScene(serverGameScene.getScene());
-                                this.gameScene = serverGameScene;
+                                this.networkGameScene = serverGameScene;
                                 mapLatch.countDown();
                                 gameInit = true;
                             } catch (IOException e) {
@@ -127,7 +127,7 @@ public class ServerConnection extends Connection {
 
                         mapLatch.await();
                         for(Client cls : clients) {
-                            cls.os.writeObject(((ServerGameScene)gameScene).getMap());
+                            cls.os.writeObject(((ServerGameScene) networkGameScene).getMap());
                         }
                         initRequestCount--;
                     }
@@ -142,7 +142,7 @@ public class ServerConnection extends Connection {
 
                     else if(data.equals(Requests.END_TURN)) {
                         System.out.println("RECEIVED END TURN REQUEST:");
-                        Platform.runLater(() -> ((ServerGameScene)gameScene).endTurnProcess(endTurnCount));
+                        Platform.runLater(() -> ((ServerGameScene) networkGameScene).endTurnProcess(endTurnCount));
                         endTurnCount.await();
                         endTurnCount = new CountDownLatch(1);
                     }
@@ -155,12 +155,12 @@ public class ServerConnection extends Connection {
                         System.out.println("RECEIVED BUILD REQUEST BY:");
                         System.out.println(ply.name);
 
-                        if(((ServerGameScene)gameScene).getGame().getCurrentPlayer().equals(ply)) {
-                            boolean built = ((ServerGameScene)gameScene).getGame().build(a.getLocation());
+                        if(((ServerGameScene) networkGameScene).getGame().getCurrentPlayer().equals(ply)) {
+                            boolean built = ((ServerGameScene) networkGameScene).getGame().build(a.getLocation());
 
-                            MapButton mapB = ((ServerGameScene)gameScene).findMapButton(mb.x, mb.y);
+                            MapButton mapB = networkGameScene.findMapButton(mb.x, mb.y);
                             mapB.update();
-                            ((ServerGameScene)gameScene).updateResources(((ServerGameScene)gameScene).getPlayer());
+                            ((ServerGameScene) networkGameScene).updateResources(networkGameScene.getPlayer());
 
                             if (built) {
                                 send(data);

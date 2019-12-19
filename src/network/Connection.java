@@ -1,7 +1,6 @@
 package network;
 
-import display.GameScene;
-//import display.networkDisplay.NetworkGameScene;
+import display.networkDisplay.NetworkGameScene;
 import javafx.stage.Stage;
 
 import java.io.ObjectOutputStream;
@@ -12,7 +11,7 @@ public abstract class Connection extends Thread {
     // properties
     ObjectOutputStream os;
     Stage gameView;
-    GameScene gameScene;
+    NetworkGameScene networkGameScene;
     CountDownLatch mapLatch;
 
     // constructors

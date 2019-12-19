@@ -1,7 +1,6 @@
 package network;
 
 import display.networkDisplay.ClientGameScene;
-import display.networkDisplay.ServerGameScene;
 import network.requests.BuildRequest;
 import network.requests.EndTurnInfo;
 import network.requests.PlayerInfo;
@@ -19,7 +18,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
-import java.util.concurrent.CountDownLatch;
 
 public class ClientConnection extends Connection {
     String name;
@@ -61,7 +59,7 @@ public class ClientConnection extends Connection {
 
                                 ClientGameScene clientGameScene = new ClientGameScene(mapLatch, (Map)data, this, pl);
                                 gameView.setScene(clientGameScene.getScene());
-                                this.gameScene = clientGameScene;
+                                this.networkGameScene = clientGameScene;
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -74,7 +72,7 @@ public class ClientConnection extends Connection {
 
                         Platform.runLater(() ->{
                             MapButton mb = ((BuildRequest)data).mapButton;
-                            MapButton mapB = ((ClientGameScene)gameScene).findMapButton(mb.x, mb.y);
+                            MapButton mapB = networkGameScene.findMapButton(mb.x, mb.y);
                             mapB.clientUpdate(new Player(((BuildRequest)data).playerInfo));
                         });
 
@@ -84,14 +82,14 @@ public class ClientConnection extends Connection {
                         EndTurnInfo endTurnInfo = (EndTurnInfo) data;
 
                         Platform.runLater(() ->{
-                            ((ClientGameScene)gameScene).displayDice(endTurnInfo.getDie1(), endTurnInfo.getDie2());
+                            ((ClientGameScene) networkGameScene).displayDice(endTurnInfo.getDie1(), endTurnInfo.getDie2());
 
-                            ((ClientGameScene)gameScene).updateResources(new Player(endTurnInfo.getPlayerInfo()),endTurnInfo.getCurrentPlayerInfo().name);
+                            networkGameScene.updateResources(new Player(endTurnInfo.getPlayerInfo()),endTurnInfo.getCurrentPlayerInfo().name);
                             System.out.println(endTurnInfo.getCurrentPlayerInfo().name + "\n" +
                                     endTurnInfo.getPlayerInfo().name + "\n" +
-                                    ((ClientGameScene)gameScene).getPlayer().name);
-                            if(new Player(endTurnInfo.getCurrentPlayerInfo()).equals(((ClientGameScene)gameScene).getPlayer()))
-                                ((ClientGameScene)gameScene).enableEndTurn();
+                                    networkGameScene.getPlayer().name);
+                            if(new Player(endTurnInfo.getCurrentPlayerInfo()).equals(networkGameScene.getPlayer()))
+                                ((ClientGameScene) networkGameScene).enableEndTurn();
                         });
 
 
