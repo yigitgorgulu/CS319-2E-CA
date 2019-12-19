@@ -26,6 +26,8 @@ public class Game implements Serializable {
     Player e = null;
     Player largestArmyOwner = null;
 
+    public enum Events{MOVE_ROBBER, APOCALYPSE}
+
     public Game(Map m, ArrayList<Player> p) {
         map = m;
         players = p;
@@ -99,13 +101,14 @@ public class Game implements Serializable {
         shuffleDevelopmentCards(20);
     }
 
-    public boolean getDevelopmentCards(){ // assigns the DC on the top to the currentPlayer if it is affordable
+    public DevelopmentCards getDevelopmentCards(){ // assigns the DC on the top to the currentPlayer if it is affordable
         if ( currentPlayer.canAfford(Player.Actions.BUY_DEV_CARD) ){
-            currentPlayer.getDevelopmentCard(developmentCards.get(0));
+            DevelopmentCards d = developmentCards.get(0);
+            currentPlayer.getDevelopmentCard(d);
             developmentCards.remove(0);
-            return true;
+            return d;
         }
-        return false;
+        return null;
     }
 
     public void shuffleDevelopmentCards(int time){
@@ -142,7 +145,7 @@ public class Game implements Serializable {
         return false;
     }
 
-    public boolean buildWithCard(Location loc) {
+    public boolean buildWithCard(Location loc) { // NOT TESTED YET
         Player.Actions cost = map.getCost(loc);
 
         if ( ( !inSettlingPhase() ) ) {
@@ -209,8 +212,10 @@ public class Game implements Serializable {
     }
 
     public int rollDice() {
-        if ( currentPlayer.getPirateCounter() == 0 ){
-            // PIRATE COMES BACK - LATER
+        if ( currentPlayer.getPirateCounter() == 0 ){ // pirate comes back, new resource's randomly generated and added
+            Resource res = new Resource(0,0,0,0,0);
+            res.generateRandom();
+            currentPlayer.addResource(res);
             currentPlayer.resetPirateCounter();
         }
         for ( int i = 0; i < players.size(); i++ ) {
@@ -261,21 +266,17 @@ public class Game implements Serializable {
         return currentPlayerNo;
     }
 
-    // EVENTS
-    
-    public boolean getEvent(){ // this function checks the dice number
-        if ( getDiceValue() == 7 ){ // this will move the robber
-            //moveRobber(x,y);
-            // how to get location
-        }
-        else if ( getDiceValue() == 12 && (currentPlayer.getCivilizationType() == Civilization.CivilizationEnum.MAYA )) {
+    // EVENTS -- NOT DONE YET
+
+    public Events getEvent(){ // this function checks whether an event is occuring
+        if ( getDiceValue() == 12 && (currentPlayer.getCivilizationType() == Civilization.CivilizationEnum.MAYA )) {
             currentPlayer.increaseDiceCounter();
             if ( currentPlayer.getDiceCounter() > 2 ){ // APOCALYPSE
                 for ( int i = 0; i < players.size(); i++)
                     map.destroy(players.get(i));
             }
+            return Events.APOCALYPSE;
         }
-
-        return false;
+        return null; // no event
     }
 }
