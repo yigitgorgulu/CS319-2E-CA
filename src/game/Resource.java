@@ -84,15 +84,12 @@ public class Resource implements Serializable {
         return ore;
     }
 
-    public Resource substract(Resource rsc) { // if the given resource is smaller than this.resource, this is decreased
-        if (getBrick() > rsc.getBrick() && getOre() > rsc.getOre() && getWheat() > rsc.getWheat()
-                && getWood() > rsc.getWood() && getSheep() > rsc.getSheep()) {
-            brick -= rsc.brick;
-            wood -= rsc.wood;
-            sheep -= rsc.sheep;
-            wheat -= rsc.wheat;
-            ore -= rsc.ore;
-        }
+    public Resource substract(Resource rsc) {
+        brick -= rsc.brick;
+        wood -= rsc.wood;
+        sheep -= rsc.sheep;
+        wheat -= rsc.wheat;
+        ore -= rsc.ore;
         return this;
     }
 
@@ -119,6 +116,22 @@ public class Resource implements Serializable {
         return brick + wood + sheep + wheat + ore;
     }
 
+    public void generateRandom(){
+        int no =  (int) (Math.random() * 6 + 2);
+        for ( int i = 0; i < no; i++ ){
+            int which = (int) (Math.random() * 5 + 1);
+            if ( which == 1 )
+                brick++;
+            else if ( which == 2)
+                wood++;
+            else if ( which == 3 )
+                sheep++;
+            else if ( which == 4 )
+                wheat++;
+            else if ( which == 5 )
+                ore++;
+        }
+    }
     public void removeRandom(int removeNo) { // removes given # of resources randomly
         for (int i = 0; i < removeNo; i++) {
             int which = new Random().nextInt(5);
