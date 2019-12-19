@@ -4,11 +4,9 @@ import display.DefaultUISpecifications;
 import display.MenuButton;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class NetworkMainMenu extends Parent {
@@ -27,16 +25,16 @@ public class NetworkMainMenu extends Parent {
         btnQuit.setOnMouseClicked(e->System.exit(0));
         btnCreateAGame.setOnMouseClicked(e-> {
             try {
-                ServerScene serverScene = new ServerScene(gameView);
-                gameView.setScene(serverScene.getScene());
+                ServerLobbyScene serverLobbyScene = new ServerLobbyScene(gameView);
+                gameView.setScene(serverLobbyScene.getScene());
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         });
         btnJoinAGame.setOnMouseClicked(e-> {
             try {
-                ClientScene clientScene = new ClientScene(gameView);
-                gameView.setScene(clientScene.getScene());
+                ClientLobbyScene clientLobbyScene = new ClientLobbyScene(gameView);
+                gameView.setScene(clientLobbyScene.getScene());
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
