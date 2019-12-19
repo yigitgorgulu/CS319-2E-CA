@@ -158,11 +158,13 @@ public class ServerConnection extends Connection {
                         if(((ServerGameScene) networkGameScene).getGame().getCurrentPlayer().equals(ply)) {
                             boolean built = ((ServerGameScene) networkGameScene).getGame().build(a.getLocation());
 
-                            MapButton mapB = networkGameScene.findMapButton(mb.x, mb.y);
+                            MapButton mapB = networkGameScene.findMapButton(mb);
                             mapB.update();
                             ((ServerGameScene) networkGameScene).updateResources(networkGameScene.getPlayer());
 
                             if (built) {
+                                ((BuildRequest)data).setPlayerInfo(new PlayerInfo(((ServerGameScene) networkGameScene)
+                                        .getGame().getCurrentPlayer()));
                                 send(data);
                             }
                         }

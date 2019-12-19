@@ -68,12 +68,16 @@ public class ClientConnection extends Connection {
 
                     }
                     else if(data instanceof BuildRequest) {
-                        System.out.println("OKEY");
 
                         Platform.runLater(() ->{
                             MapButton mb = ((BuildRequest)data).mapButton;
-                            MapButton mapB = networkGameScene.findMapButton(mb.x, mb.y);
-                            mapB.clientUpdate(new Player(((BuildRequest)data).playerInfo));
+                            MapButton mapB = networkGameScene.findMapButton(mb);
+                            Player builderPlayer = new Player(((BuildRequest)data).playerInfo);
+                            mapB.clientUpdate(builderPlayer);
+                            if(builderPlayer.equals(pl)) {
+                                System.out.println("UPDATING MY RES");
+                                networkGameScene.updateResourcesInTurn(builderPlayer);
+                            }
                         });
 
                     }

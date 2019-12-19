@@ -46,17 +46,23 @@ public abstract class NetworkGameScene extends GameScene {
     }
 
     public void updateResources(Player player, String playerName) {
+        updateResourcesInTurn(player);
+        turnOfPlayer.setText("Turn of player " + playerName);
+    }
+
+    public void updateResourcesInTurn(Player player) {
         resourceBoxes[0].update(player);
         resourceBoxes[1].update(player);
         resourceBoxes[2].update(player);
         resourceBoxes[3].update(player);
         resourceBoxes[4].update(player);
-        turnOfPlayer.setText("Turn of player " + playerName);
     }
 
-    public MapButton findMapButton(int x, int y) {
+    public MapButton findMapButton(MapButton mapButton) {
         for(MapButton button: mapButtonList) {
-            if (x == button.x && y == button.y) {
+            if (mapButton.getXLoc() == button.getXLoc() && mapButton.getYLoc() == button.getYLoc()
+                    //A location can be a corner or a side
+                    && mapButton.getLocType().equals(button.getLocType())) {
                 return button;
             }
         }
