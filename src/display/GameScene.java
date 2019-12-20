@@ -1,12 +1,8 @@
 package display;
 
 import game.map.*;
-import game.player.DevelopmentCards;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -41,7 +37,7 @@ public abstract class GameScene {
     protected Label turnOfPlayer;
     protected Die[] dice;
     protected HBox diceBox;
-    protected ListView<String> devCardList = new ListView<String>();
+    protected ListView<Button> devCardList = new ListView<Button>();
     // constructors
     public GameScene() throws IOException {
         root = new Group();

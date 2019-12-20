@@ -96,6 +96,7 @@ public class Game implements Serializable {
             for ( int i = 31; i < 31; i++ )
                 developmentCards.add(DevelopmentCards.MONOPOLY);
         }
+        Collections.shuffle(developmentCards);
         shuffleDevelopmentCards(20);
     }
 
@@ -169,44 +170,22 @@ public class Game implements Serializable {
         return false;
     }
 
-
-    public boolean playKnightCard(Location loc){
-        if ( currentPlayer.playKnightCard() ){
-            moveRobber(loc, true);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean playVictoryPointCard() {
-        return currentPlayer.playVictoryPointCard();
-    }
-
-    public boolean playMonopolyCard( int resourceType ) {
-        if ( currentPlayer.playMonopolyCard() ) {
-            for ( int i = 0; i < players.size(); i++ ) {
-                int add = ((players.get(i)).getRes()).monopolyDecrease(resourceType);
-                (currentPlayer.getRes()).monopolyIncrease(resourceType,add);
+    public boolean playDevelopmentCard(DevelopmentCards devCard) {
+        if(currentPlayer.playDevelopmentCard(devCard) ) {
+            switch(devCard) {
+                case KNIGHT:
+                    //moveRobber(loc, true);
+                    break;
+                case MONOPOLY:
+                    /*int add = ((players.get(i)).getRes()).monopolyDecrease(resourceType);
+                    (currentPlayer.getRes()).monopolyIncrease(resourceType,add);*/
+                    break;
+                case ROAD_BUILDING:
+                    roadsBuilt = Math.min(roadsBuilt-2,-2);
             }
             return true;
         }
         return false;
-    }
-
-    public boolean playYearOfPlentyCard() {
-        return currentPlayer.playYearOfPlentyCard();
-    }
-
-    public boolean playRoadBuilding(Location loc) {
-        if ( currentPlayer.playRoadBuildingCard() ) {
-            buildWithCard(loc);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean playPirateCard() {
-        return currentPlayer.playKnightCard();
     }
 
     public int getDiceValue () {

@@ -82,18 +82,21 @@ public class SingleGameScene extends GameScene {
     }
 
     private void updateDevCards(Player player) {
-        ObservableList<String> items = FXCollections.observableArrayList();
+        ObservableList<String> devCardNames = FXCollections.observableArrayList();
+        ObservableList<Button> devCardButtons = FXCollections.observableArrayList();
         List<DevelopmentCards> devCards = player.getDevelopmentCards();
         for( DevelopmentCards d : devCards ) {
             Button button = new Button(""+d);
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-                    //your action
+                    game.playDevelopmentCard(d);
+                    updateDevCards(player);
                 }
             });
+            devCardButtons.add(button);
         }
-        devCardList.setItems(items);
-        //System.out.println(devCardList);
+        devCardList.setItems(devCardButtons);
+        System.out.println(devCardList);
     }
 }
