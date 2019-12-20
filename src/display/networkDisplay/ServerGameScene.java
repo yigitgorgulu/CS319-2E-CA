@@ -45,7 +45,7 @@ public class ServerGameScene extends NetworkGameScene {
     }
 
     @Override
-    protected void setupEndTurnButton() {
+    protected void setupButtons() {
         endTurnButton.setOnAction(e->{
             endTurnProcess();
             endTurnButton.setDisable(true);

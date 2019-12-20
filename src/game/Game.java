@@ -99,10 +99,11 @@ public class Game implements Serializable {
         shuffleDevelopmentCards(20);
     }
 
-    public boolean getDevelopmentCards(){ // assigns the DC on the top to the currentPlayer if it is affordable
+    public boolean buyDevelopmentCard(){ // assigns the DC on the top to the currentPlayer if it is affordable
         if ( currentPlayer.canAfford(Player.Actions.BUY_DEV_CARD) ){
             currentPlayer.getDevelopmentCard(developmentCards.get(0));
             developmentCards.remove(0);
+            currentPlayer.payForAction(Player.Actions.BUY_DEV_CARD);
             return true;
         }
         return false;
@@ -122,14 +123,10 @@ public class Game implements Serializable {
                 ( ((cost == Player.Actions.BUILD_ROAD && roadsBuilt < 0)
                         || (cost == Player.Actions.BUILD_VILLAGE && villagesBuilt < 0)) );
         boolean paidSettle = currentPlayer.canAfford(cost) && !inSettlingPhase();
-        System.out.println("Game : free settle :" + freeSettle);
-        System.out.println("Game : paid settle :" + paidSettle);
         if ( paidSettle || freeSettle) {
             if (map.build(loc, currentPlayer)) {
                 if (paidSettle) {
-                    currentPlayer.makeAction(cost);
-                    System.out.println("Game : build : current player " + currentPlayer);
-                    System.out.println("Game : build : cost " + cost);
+                    currentPlayer.payForAction(cost);
                 }
                 if( cost == Player.Actions.BUILD_VILLAGE ) {
                     villagesBuilt += 1;
@@ -239,9 +236,7 @@ public class Game implements Serializable {
         } else if( gameTurns > noOfPlayers - 1 && gameTurns < 2 * noOfPlayers - 1 ) {
             gameDir = -1;
         }
-        gameTurns++;
-        System.out.println("Game: Game Turns:" + gameTurns);
-        currentPlayerNo = (currentPlayerNo + gameDir + players.size() ) % players.size();
+        gameTurns++;currentPlayerNo = (currentPlayerNo + gameDir + players.size() ) % players.size();
         currentPlayer = players.get(currentPlayerNo);
         if ( !inSettlingPhase() ) {
             map.generateResource(rollDice());
