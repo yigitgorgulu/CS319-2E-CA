@@ -234,7 +234,9 @@ public class Game implements Serializable {
     public void endTurn () {
         int gameDir = 1;
         map.setInSettlingPhase(inSettlingPhase());
-        if (inReverseSettlingPhase()) {
+        if ( gameTurns == noOfPlayers - 1 || gameTurns == 2 * noOfPlayers - 1 ) {
+            gameDir = 0;
+        } else if( gameTurns > noOfPlayers - 1 && gameTurns < 2 * noOfPlayers - 1 ) {
             gameDir = -1;
         }
         gameTurns++;
@@ -261,10 +263,6 @@ public class Game implements Serializable {
 
     public boolean inSettlingPhase () {
         return gameTurns < players.size() * 2;
-    }
-
-    public boolean inReverseSettlingPhase() {
-        return gameTurns >= players.size() && gameTurns < players.size() * 2;
     }
 
     public boolean endOfSettlingPhase() {
