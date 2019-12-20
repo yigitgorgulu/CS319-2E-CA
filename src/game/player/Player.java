@@ -166,7 +166,6 @@ public class Player implements Serializable {
     }
 
     public Resource payForAction(Actions a) {
-        System.out.println("Player make action : " + a );
         switch(a) {
             case BUILD_ROAD:
                 return res.substract(civ.roadCost);

@@ -63,7 +63,7 @@ public class Map implements Serializable {
             }
         }
         ArrayList<MapTile.Types> tileStack = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 20; i++) {
             if( i < 3 ) {
                 tileStack.add(MapTile.Types.MOUNTAIN);
                 tileStack.add(MapTile.Types.HILL);
