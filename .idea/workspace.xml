@@ -6,12 +6,21 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4f3e89fd-e61b-4e79-85eb-6d15b3a69185" name="Default Changelist" comment="">
+    <list default="true" id="4f3e89fd-e61b-4e79-85eb-6d15b3a69185" name="Default Changelist" comment="Added PopUp Class, Edited Server Lobby Scene">
+      <change afterPath="$PROJECT_DIR$/src/display/PopUp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/Resource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Resource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/map/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/map/Map.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/player/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CS319-2E-CA.iml" beforeDir="false" afterPath="$PROJECT_DIR$/CS319-2E-CA.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NetworkMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NetworkMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/display/MenuButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/MenuButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/ClientLobbyScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/networkDisplay/ClientLobbyScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/LobbyScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/networkDisplay/LobbyScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/NetworkMainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/networkDisplay/NetworkMainMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/ServerLobbyScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/networkDisplay/ServerLobbyScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/map/MapButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/map/MapButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/network/ClientConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/ClientConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/network/Connection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/Connection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/network/ServerConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/ServerConnection.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,6 +45,9 @@
     <option name="UPDATE_TYPE" value="MERGE" />
   </component>
   <component name="ProjectId" id="1TnNTV7fXy3zBrr7eb6ajNLpGu0" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -55,6 +67,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -144,6 +157,7 @@
       <workItem from="1576590730076" duration="110000" />
       <workItem from="1576676079002" duration="11967000" />
       <workItem from="1576748172190" duration="9130000" />
+      <workItem from="1576775500125" duration="36642000" />
     </task>
     <task id="LOCAL-00002" summary="Added display of dice.">
       <created>1574094483753</created>
@@ -313,7 +327,8 @@
     <MESSAGE value="Connection class added, abstract class for ClientConnection and ServerConnection." />
     <MESSAGE value="NetworkGameScene class created, base class for ClientGameScene and ServerGameScene. Shared functionality abstracted." />
     <MESSAGE value="LobbyScene class created as parent class for ServerLobbyScene and ClientLobbyScene. These two replace ServerScene and ClientScene." />
-    <option name="LAST_COMMIT_MESSAGE" value="LobbyScene class created as parent class for ServerLobbyScene and ClientLobbyScene. These two replace ServerScene and ClientScene." />
+    <MESSAGE value="Added PopUp Class, Edited Server Lobby Scene" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added PopUp Class, Edited Server Lobby Scene" />
   </component>
   <component name="WindowStateProjectService">
     <state x="658" y="294" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1576525693489">
@@ -421,9 +436,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/display/networkDisplay/ServerGameScene.java</url>
-          <line>23</line>
-          <option name="timeStamp" value="2" />
+          <url>file://$PROJECT_DIR$/src/network/ServerConnection.java</url>
+          <line>86</line>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
