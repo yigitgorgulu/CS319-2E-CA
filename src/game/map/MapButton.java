@@ -36,4 +36,5 @@ public class MapButton extends Circle implements Serializable {
     public Location.Types getLocType() {
         return me.getLocation().type;
     }
+
 }
