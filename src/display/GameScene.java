@@ -13,8 +13,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import network.requests.BuildRequest;
-import network.requests.PlayerInfo;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -34,6 +32,7 @@ public abstract class GameScene {
     protected ResourceBox[] resourceBoxes;
     protected Rectangle separatorRectangle;
     protected Button endTurnButton;
+    protected Button buyDevCardButton;
     protected Label turnOfPlayer;
     protected Die[] dice;
     protected HBox diceBox;
@@ -72,12 +71,13 @@ public abstract class GameScene {
         separatorRectangle = new Rectangle(20,0);
 
         endTurnButton = new Button("End Turn");
-        setupEndTurnButton();
+        buyDevCardButton = new Button( "Buy Development Card");
+        setupButtons();
 
         HBox hBox = new HBox();
         for ( ResourceBox rb : resourceBoxes )
             hBox.getChildren().add(rb);
-        hBox.getChildren().addAll(separatorRectangle, endTurnButton);
+        hBox.getChildren().addAll(separatorRectangle, endTurnButton, buyDevCardButton);
 
         turnOfPlayer = new Label("Turn of player 1");
         turnOfPlayer.setFont(new Font("Calibri", 14));
@@ -94,7 +94,7 @@ public abstract class GameScene {
 
     protected abstract void createPlayerResourceBoxes() throws IOException;
 
-    protected abstract void setupEndTurnButton();
+    protected abstract void setupButtons();
 
     protected void addBackground() {
         Rectangle bg = new Rectangle(DefaultUISpecifications.SCREEN_WIDTH, DefaultUISpecifications.SCREEN_HEIGHT);
