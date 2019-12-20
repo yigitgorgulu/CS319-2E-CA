@@ -5,6 +5,8 @@ import game.Resource;
 import javafx.scene.paint.Color;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Player implements Serializable {
 
@@ -23,6 +25,7 @@ public class Player implements Serializable {
     int monopolyCards = 0;
     int victoryPointCards = 0;
     int pirateCards = 0;
+    List<DevelopmentCards> devCards = new ArrayList<>();
 
     int victoryPoints = 0;
 
@@ -72,7 +75,8 @@ public class Player implements Serializable {
         return color;
     }
 
-    public boolean getDevelopmentCard( DevelopmentCards card ){
+    public boolean addDevelopmentCard( DevelopmentCards card ){
+        devCards.add(card);
         if ( card == DevelopmentCards.KNIGHT){
             knightCards++;
             return true;
@@ -98,6 +102,14 @@ public class Player implements Serializable {
             return true;
         }
         return false;
+    }
+
+    public List<DevelopmentCards> getDevelopmentCards() {
+        return devCards;
+    };
+
+    public boolean playDevelopmentCard( DevelopmentCards devCard ) {
+        return true;
     }
 
     public boolean canAfford(Actions a) {
@@ -194,7 +206,7 @@ public class Player implements Serializable {
     }
 
     public Resource decreaseResource(Resource res ){
-        this.res.decrease(res);
+        this.res.substract(res);
         return this.res;
     }
 

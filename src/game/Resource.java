@@ -55,15 +55,6 @@ public class Resource implements Serializable {
         return this;
     }
 
-    public Resource decrease(Resource rsc) { // decrease the resources that is given
-        brick -= rsc.brick;
-        wood -= rsc.wood;
-        sheep -= rsc.sheep;
-        wheat -= rsc.wheat;
-        ore -= rsc.ore;
-        return this;
-    }
-
     public int getBrick() {
         return brick;
     }

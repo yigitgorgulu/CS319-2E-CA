@@ -101,7 +101,7 @@ public class Game implements Serializable {
 
     public boolean buyDevelopmentCard(){ // assigns the DC on the top to the currentPlayer if it is affordable
         if ( !inSettlingPhase() && currentPlayer.canAfford(Player.Actions.BUY_DEV_CARD) ){
-            currentPlayer.getDevelopmentCard(developmentCards.get(0));
+            currentPlayer.addDevelopmentCard(developmentCards.get(0));
             developmentCards.remove(0);
             currentPlayer.payForAction(Player.Actions.BUY_DEV_CARD);
             return true;

@@ -1,11 +1,16 @@
 package display;
 
 import game.map.*;
+import game.player.DevelopmentCards;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -36,7 +41,7 @@ public abstract class GameScene {
     protected Label turnOfPlayer;
     protected Die[] dice;
     protected HBox diceBox;
-
+    protected ListView<String> devCardList = new ListView<String>();
     // constructors
     public GameScene() throws IOException {
         root = new Group();
@@ -100,6 +105,10 @@ public abstract class GameScene {
         Rectangle bg = new Rectangle(DefaultUISpecifications.SCREEN_WIDTH, DefaultUISpecifications.SCREEN_HEIGHT);
         bg.setFill(Color.LIGHTSKYBLUE);
         root.getChildren().add(bg);
+    }
+
+    protected void createDevCardList() {
+        root.getChildren().add(devCardList);
     }
 
     protected void createGameAndTiles() throws FileNotFoundException {
