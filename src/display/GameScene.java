@@ -38,6 +38,7 @@ public abstract class GameScene {
     protected Die[] dice;
     protected HBox diceBox;
     protected ListView<Button> devCardList = new ListView<Button>();
+    protected ListView<String> playerList = new ListView<>();
     // constructors
     public GameScene() throws IOException {
         root = new Group();
@@ -106,6 +107,7 @@ public abstract class GameScene {
     protected void createDevCardList() {
         root.getChildren().add(devCardList);
     }
+    protected void createPlayerList() { root.getChildren().add(playerList); }
 
     protected void createGameAndTiles() throws FileNotFoundException {
         font = javafx.scene.text.Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), 30);

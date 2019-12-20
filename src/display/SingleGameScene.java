@@ -31,6 +31,7 @@ public class SingleGameScene extends GameScene {
         createGameAndTiles();
         addPlayerResourcesMenu();
         createDevCardList();
+        //createPlayerList();
         displayDice(game.getDie1(), game.getDie2());
     }
 
@@ -43,12 +44,15 @@ public class SingleGameScene extends GameScene {
         resourceBoxes[4] = new ResourceBox(players[0], "ORE");
     }
 
+
     @Override
     protected void setupButtons() {
         endTurnButton.setOnAction(e -> {
             game.endTurn();
             updateResources(game.getCurrentPlayer());
+            updateDevCards(game.getCurrentPlayer());
             displayDice(game.getDie1(), game.getDie2());
+            updatePlayerList();
         });
         buyDevCardButton.setOnAction(e -> {
             game.buyDevelopmentCard();
@@ -81,6 +85,15 @@ public class SingleGameScene extends GameScene {
         turnOfPlayer.setText("Turn of player " + game.getCurrentPlayerNo());
     }
 
+
+    protected void updatePlayerList() {
+        ObservableList<String> playerStrings = FXCollections.observableArrayList();
+        for( Player p : game.getPlayers() ) {
+            playerStrings.add(""+p);
+        }
+        playerList.setItems(playerStrings);
+    }
+
     private void updateDevCards(Player player) {
         ObservableList<String> devCardNames = FXCollections.observableArrayList();
         ObservableList<Button> devCardButtons = FXCollections.observableArrayList();
@@ -92,11 +105,11 @@ public class SingleGameScene extends GameScene {
                 public void handle(ActionEvent actionEvent) {
                     game.playDevelopmentCard(d);
                     updateDevCards(player);
+                    updatePlayerList();
                 }
             });
             devCardButtons.add(button);
         }
         devCardList.setItems(devCardButtons);
-        System.out.println(devCardList);
     }
 }

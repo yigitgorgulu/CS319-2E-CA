@@ -34,6 +34,10 @@ public class Game implements Serializable {
         setDevelopmentCards();
     }
 
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
     public int getDie1() {
         return die1;
     }
@@ -120,7 +124,7 @@ public class Game implements Serializable {
 
     public boolean build(Location loc) {
         Player.Actions cost = map.getCost(loc);
-        boolean freeSettle = inSettlingPhase() &&
+        boolean freeSettle =
                 ( ((cost == Player.Actions.BUILD_ROAD && roadsBuilt < 0)
                         || (cost == Player.Actions.BUILD_VILLAGE && villagesBuilt < 0)) );
         boolean paidSettle = currentPlayer.canAfford(cost) && !inSettlingPhase();
@@ -145,28 +149,6 @@ public class Game implements Serializable {
                 return true;
             }
         }
-        return false;
-    }
-
-    public boolean buildWithCard(Location loc) {
-        /*Player.Actions cost = map.getCost(loc);
-
-        if ( ( !inSettlingPhase() ) ) {
-            if (map.build(loc, currentPlayer)) {
-                if( cost == Player.Actions.BUILD_VILLAGE ) {
-                    builtVillage = true;
-                }
-                if( cost == Player.Actions.BUILD_ROAD ) {
-                    builtRoad = true;
-                } else {
-                    if(currentPlayer.checkVictory()) {
-                        System.out.println( currentPlayer.name + " Won");
-                    }
-                    currentPlayer.incrementVictoryPoints(1);
-                }
-                return true;
-            }
-        }*/
         return false;
     }
 
