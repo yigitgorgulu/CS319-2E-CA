@@ -38,6 +38,11 @@ public class ClientGameScene extends NetworkGameScene {
     }
 
     @Override
+    protected void tileMouseClicked(MapButton mb, MapTile a) {
+        return;
+    }
+
+    @Override
     protected void nonTileMouseClicked(MapButton mb, MapElement a) {
         mb.setOnMouseClicked(e -> super.nonTileMouseClicked(mb, a));
         mapButtonList.add(mb);

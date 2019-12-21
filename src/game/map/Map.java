@@ -21,6 +21,8 @@ public class Map implements Serializable {
             new Point(0,1), new Point(1,1), new Point( 1, 0), new Point(0, -1),
             new Point(-1,-1), new Point(-1,0)
     ));
+    public boolean twinSheeps = false;
+    public boolean noCrops = false;
 
     boolean inSettlingPhase = true;
 
@@ -156,17 +158,26 @@ public class Map implements Serializable {
         for( MapElement[] t : tiles ) {
             for( MapElement tx : t ) {
                 MapTile tile = (MapTile) tx;
-                if( tile != null && ( tile.number == dice || dice == 1 ) ) {
+                if( tile != null && ( tile.number == dice || dice == 1 ) && tile.getLocation() != robber) {
                     List<MapElement> els = getMapElement(tile.loc.getAdjacentCorners());
                     Resource res = tile.getResource();
                     for( MapElement e : els) {
                         MapCorner cor = (MapCorner) e;
                         if( cor.player != null ) {
                             if( cor.type == MapCorner.Types.VILLAGE)
-                                cor.player.addResource( res );
+                                continue;
                             if( cor.type == MapCorner.Types.CITY) {
-                                cor.player.addResource( res );
-                                cor.player.multiplyResource( res );
+                                res.add(res);
+                            }
+                            if( twinSheeps ) {
+                                res.multiply(new Resource(1,1,2,1,1));
+                            }
+                            if( noCrops ) {
+                                res.multiply(new Resource(1,1,1,0,1));
+                            }
+                            if( cor.player.isBereketli() ) {
+                                res.multiply(new Resource(2,2,2,2,2));
+                                cor.player.changeBereket(-1);
                             }
                         }
                         // bereket mode for ottomans

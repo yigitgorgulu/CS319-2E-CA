@@ -10,6 +10,10 @@ import java.util.List;
 
 public class Player implements Serializable {
 
+    public void changeBereket(int amount) {
+        bereketLeft += amount;
+    }
+
     public enum Actions { BUILD_ROAD, BUILD_VILLAGE, BUILD_CITY, BUY_DEV_CARD };
     public String name;
 
@@ -19,10 +23,10 @@ public class Player implements Serializable {
     int armySize = 0;
     int roadLength = 0;
     List<DevelopmentCards> devCards = new ArrayList<>();
-
     int victoryPoints = 0;
+    int bereketLeft = 0;
 
-    int diceCounter = 0; // the event occurs if the needed # of dice comes 3 times
+    //int diceCounter = 0; // the event occurs if the needed # of dice comes 3 times
     private int pirateCounter = -1;
     
     public Resource getRes() {
@@ -193,16 +197,18 @@ public class Player implements Serializable {
         pirateCounter = -1;
     }
 
-    public boolean isBereket(){
-        return false;
+    public boolean isBereketli(){
+        return bereketLeft >= 0;
     }
 
     public void resetResources(){
         res.resetResources();
     }
 
-    public void resetSheep(){
+    public int resetSheep(){
+        int result = res.getSheep();
         res.resetSheep();
+        return result;
     }
 
     public boolean decreaseArmySize(int no){
@@ -215,13 +221,13 @@ public class Player implements Serializable {
     public void increaseArmySize(int no){
         armySize += no;
     }
-    public int getDiceCounter(){
+    /*public int getDiceCounter(){
         return diceCounter;
     }
     public void increaseDiceCounter(){
         diceCounter++;
     }
-    public  void resetDiceCounter(){ diceCounter = -1;}
+    public  void resetDiceCounter(){ diceCounter = -1;}*/
     public boolean checkVictory () {
         return victoryPoints >= 10;
     }
