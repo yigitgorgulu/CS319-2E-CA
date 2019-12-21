@@ -78,6 +78,13 @@ public class SingleGameScene extends GameScene {
         super.createGameAndTiles();
     }
 
+    @Override
+    protected void tileMouseClicked(MapButton mb, MapTile a) {
+        mb.setOnMouseClicked(e->{
+            game.moveRobber(a.getLocation());
+        });
+    }
+
     private void updateResources(Player player) {
         for ( int i = 0; i < resourceBoxes.length; i++ ) {
             resourceBoxes[i].update(player);

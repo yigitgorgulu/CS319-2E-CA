@@ -2,6 +2,7 @@ package game;
 
 import game.map.Location;
 import game.map.Map;
+import game.map.MapTile;
 import game.player.Civilization;
 import game.player.DevelopmentCards;
 import game.player.Player;
@@ -25,6 +26,7 @@ public class Game implements Serializable {
     Location loc = null;
     Player longestRoadOwner = null;
     Player largestArmyOwner = null;
+    boolean canMoveRobber = false;
 
     public Game(Map m, ArrayList<Player> p) {
         map = m;
@@ -46,33 +48,14 @@ public class Game implements Serializable {
         return die2;
     }
 
-    public void moveRobber(Location loc, boolean isKnight){
-        if ( isKnight ){
-            map.setRoberLocation(loc);
-            if ( currentPlayer.getArmySize() >= 3 && (largestArmyOwner == null) ){
-                largestArmyOwner = currentPlayer;
-                currentPlayer.incrementVictoryPoints(2);
-            }
-            else if ( currentPlayer.getArmySize() > largestArmyOwner.getArmySize() ){
-                largestArmyOwner.decreaseVictoryPoints(2);
-                currentPlayer.incrementVictoryPoints(2);
-                largestArmyOwner = currentPlayer;
-
-            }
-        }
-
-        else if ( getDiceValue() == 7 ){
-            // every player who has more than 7 resource should give half
-            for ( int i = 0; i < players.size(); i++ ){
-                boolean remove = (players.get(i)).totalResource() > 7;
-                if ( remove ){
-                    players.get(i).looseResource(players.get(i).totalResource()/2);
-                }
-            }
-            map.setRoberLocation(loc);
-            // steal one card from one of the robber-adj players -NOT ADDED YET
-        }
-    }
+    public boolean moveRobber(Location loc) {
+        if( !canMoveRobber )
+            return false;
+        System.out.println(loc);
+        map.setRoberLocation(loc);
+        canMoveRobber = false;
+        return true;
+    }// steal one card from one of the robber-adj players -NOT ADDED YET
 
     public void setDevelopmentCards(){ // creates development cards array list considering the # of players
         developmentCards = new ArrayList<>();
@@ -198,7 +181,7 @@ public class Game implements Serializable {
         if(currentPlayer.playDevelopmentCard(devCard) ) {
             switch(devCard) {
                 case KNIGHT:
-                    //moveRobber(loc, true);
+                    canMoveRobber = true;
                     if( currentPlayer.getArmySize() >= 3) {
                         if (largestArmyOwner == null ) {
                             largestArmyOwner = currentPlayer;
@@ -242,6 +225,15 @@ public class Game implements Serializable {
         }
         die1 = (int) (Math.random() * 6 + 1);
         die2 = (int) (Math.random() * 6 + 1);
+        if( getDiceValue() == 7) {
+            for (int i = 0; i < players.size(); i++) {
+                boolean remove = (players.get(i)).totalResource() > 7;
+                if (remove) {
+                    players.get(i).looseResource(players.get(i).totalResource() / 2);
+                }
+            }
+            canMoveRobber = true;
+        }
         return getDiceValue();
     }
 
@@ -269,6 +261,7 @@ public class Game implements Serializable {
             map.generateResource(1);
             map.setInSettlingPhase(false);
         }
+        canMoveRobber = false;
     }
 
     private int calculateNextPlayerNo() {

@@ -118,15 +118,18 @@ public abstract class GameScene {
         hexagon_short_diagonal_length = differenceX;
         hexagon_long_diagonal_length = hexagon_edge_length * 2;
 
+        //set tile images
         map.getTileElements().forEach(a -> {
             double x = a.getLocation().getRawDisplayPosition().getX();
             double y = a.getLocation().getRawDisplayPosition().getY();
+            double r = 20.0;
             try {
                 setImage(a.getType(),x,y,root);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
+
 
         map.getNonTileElements().forEach(a -> {
             double x = a.getLocation().getRawDisplayPosition().getX();
@@ -138,7 +141,7 @@ public abstract class GameScene {
                 r = 11.0;
             MapButton mb = new MapButton(x, y, r, a);
             mb.setFill(Color.GRAY);
-            mb.setOpacity(0.0);
+            mb.setOpacity(0.5);
             nonTileMouseClicked(mb, a);
             root.getChildren().add(mb);
         });
@@ -163,8 +166,23 @@ public abstract class GameScene {
                 vBox.setTranslateY(y - radius);
                 root.getChildren().addAll(nextToken, vBox);
             }
+
+        });
+
+        //set tile selection buttons for moving robber
+        map.getTileElements().forEach(a -> {
+            double x = a.getLocation().getRawDisplayPosition().getX();
+            double y = a.getLocation().getRawDisplayPosition().getY();
+            double r = 20.0;
+            MapButton mb = new MapButton(x+hexagon_short_diagonal_length / 2.0,y+hexagon_edge_length/2.0,r,a);
+            mb.setFill(Color.GRAY);
+            mb.setOpacity(0.5);
+            tileMouseClicked(mb, a);
+            root.getChildren().add(mb);
         });
     }
+
+    protected abstract void tileMouseClicked(MapButton mb, MapTile a);
 
     protected void setImage(MapTile.Types a, double x, double y, Group root) throws IOException {
         InputStream is;

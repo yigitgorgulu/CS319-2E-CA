@@ -53,6 +53,11 @@ public class ServerGameScene extends NetworkGameScene {
     }
 
     @Override
+    protected void tileMouseClicked(MapButton mb, MapTile a) {
+        return;
+    }
+
+    @Override
     protected void nonTileMouseClicked(MapButton mb, MapElement a) {
         mb.setOnMouseClicked(e -> {
             System.out.println(player.name);
