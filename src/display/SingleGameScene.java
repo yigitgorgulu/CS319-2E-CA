@@ -36,11 +36,15 @@ public class SingleGameScene extends GameScene {
     }
 
     @Override
-    protected void setupEndTurnButton() {
+    protected void setupButtons() {
         endTurnButton.setOnAction(e -> {
             game.endTurn();
             updateResources(game.getCurrentPlayer());
             displayDice(game.getDie1(), game.getDie2());
+        });
+        buyDevCardButton.setOnAction(e -> {
+            game.buyDevelopmentCard();
+            updateResources(game.getCurrentPlayer());
         });
     }
 

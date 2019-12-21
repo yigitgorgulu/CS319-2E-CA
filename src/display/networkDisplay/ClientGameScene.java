@@ -24,7 +24,7 @@ public class ClientGameScene extends NetworkGameScene {
     }
 
     @Override
-    protected void setupEndTurnButton() {
+    protected void setupButtons() {
         endTurnButton.setDisable(true);
         endTurnButton.setOnAction(e->{
             try {

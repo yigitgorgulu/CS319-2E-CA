@@ -6,14 +6,10 @@ import javafx.scene.shape.Circle;
 import java.io.Serializable;
 
 public class MapButton extends Circle implements Serializable {
-    public int x;
-    public int y;
-    MapElement me;
+    private MapElement me;
 
     public MapButton(double x, double y, double r, MapElement me) {
         super( x, y, r );
-        this.x = (int) x;
-        this.y = (int) y;
         this.me = me;
     }
 
@@ -29,6 +25,16 @@ public class MapButton extends Circle implements Serializable {
         this.setOpacity(0.7);
         this.setFill(player.getColor());
 
+    }
+
+    public int getXLoc() {
+        return me.getLocation().x;
+    }
+    public int getYLoc() {
+        return me.getLocation().y;
+    }
+    public Location.Types getLocType() {
+        return me.getLocation().type;
     }
 
 }

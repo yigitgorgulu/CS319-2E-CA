@@ -20,29 +20,26 @@ import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 public class ServerConnection extends Connection {
-    private final int PLAYER_COUNT = 2;
+    private int playerCount;
     Client[] clients;
 
     ObjectInputStream is;
     boolean gameInit = false;
-    List<Serializable> requests;
     ArrayList<Player> players;
     ServerSocket ss;
     Socket s;
 
-    static int initRequestCount = 0;
+    static int initRequestCount = 1;
     CountDownLatch endTurnCount;
+    private int currentConnectedClient = 1;
 
-    public ServerConnection(Stage gameView) {
+    public ServerConnection(Stage gameView, String roomName, String selectedVersion, int playerCount) {
         super(gameView);
-        clients = new Client[PLAYER_COUNT - 1];
-
-        requests = Collections.synchronizedList(new ArrayList<>());
+        this.playerCount = playerCount;
+        clients = new Client[playerCount - 1];
         players = new ArrayList<>();
         System.out.println("ADDED OTTOMANS");
         players.add(new Player(Color.RED, Civilization.CivilizationEnum.OTTOMANS, "server"));
@@ -66,13 +63,14 @@ public class ServerConnection extends Connection {
             e.printStackTrace();
         }
         int playerCount = 0;
-        while (playerCount < PLAYER_COUNT - 1) {
+        while (playerCount < this.playerCount - 1) {
 
             try {
 
                 Socket s = ss.accept();
                 ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
                 ObjectInputStream in = new ObjectInputStream(s.getInputStream());
+                currentConnectedClient++;
 
                 System.out.println("Someting Happened");
 
@@ -104,7 +102,7 @@ public class ServerConnection extends Connection {
                     if(data.equals(Requests.GAME_INIT)) {
                         initRequestCount++;
                     }
-                    if(initRequestCount == PLAYER_COUNT - 1) {
+                    if(initRequestCount == this.playerCount - 1) {
 
                         Platform.runLater(() -> {
                             try {
@@ -115,6 +113,7 @@ public class ServerConnection extends Connection {
                                 }
                                 System.out.println("---------");
                                 ServerGameScene serverGameScene = new ServerGameScene(players, this);
+                                closePopUp();
 
                                 gameView.setScene(serverGameScene.getScene());
                                 this.networkGameScene = serverGameScene;
@@ -158,11 +157,13 @@ public class ServerConnection extends Connection {
                         if(((ServerGameScene) networkGameScene).getGame().getCurrentPlayer().equals(ply)) {
                             boolean built = ((ServerGameScene) networkGameScene).getGame().build(a.getLocation());
 
-                            MapButton mapB = networkGameScene.findMapButton(mb.x, mb.y);
+                            MapButton mapB = networkGameScene.findMapButton(mb);
                             mapB.update();
                             ((ServerGameScene) networkGameScene).updateResources(networkGameScene.getPlayer());
 
                             if (built) {
+                                ((BuildRequest)data).setPlayerInfo(new PlayerInfo(((ServerGameScene) networkGameScene)
+                                        .getGame().getCurrentPlayer()));
                                 send(data);
                             }
                         }
@@ -189,4 +190,13 @@ public class ServerConnection extends Connection {
             ex.printStackTrace();
         }
     }
+
+    public int getCurrentPlayerCount(){
+        return currentConnectedClient;
+    }
+
+    public int getMaxPlayerCount() {
+        return playerCount;
+    }
+
 }

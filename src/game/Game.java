@@ -16,8 +16,8 @@ public class Game implements Serializable {
     Player currentPlayer;
     int noOfPlayers;
     public int gameTurns = 0;
-    boolean builtRoad = false;
-    boolean builtVillage = false;
+    int roadsBuilt = -1;
+    int villagesBuilt = -1;
     Map map;
     int die1 = 0;
     int die2 = 0;
@@ -25,8 +25,6 @@ public class Game implements Serializable {
     Location loc = null;
     Player e = null;
     Player largestArmyOwner = null;
-
-    public enum Events{MOVE_ROBBER, APOCALYPSE}
 
     public Game(Map m, ArrayList<Player> p) {
         map = m;
@@ -74,7 +72,7 @@ public class Game implements Serializable {
 
     public void setDevelopmentCards(){ // creates development cards array list considering the # of players
         developmentCards = new ArrayList<>();
-        if ( noOfPlayers < 5 ){
+        if ( noOfPlayers <= 5 ){
             for ( int i = 0; i < 14; i++ )
                 developmentCards.add(DevelopmentCards.KNIGHT);
             for ( int i = 14; i < 19; i++)
@@ -86,7 +84,7 @@ public class Game implements Serializable {
             for ( int i = 23; i < 24; i++ )
                 developmentCards.add(DevelopmentCards.MONOPOLY);
         }
-        else if ( noOfPlayers > 4 ) {
+        else if ( noOfPlayers >= 4 ) {
             for (int i = 0; i < 5; i++)
                 developmentCards.add(DevelopmentCards.VICTORY_POINT);
             for (int i = 5; i < 8; i++)
@@ -101,14 +99,14 @@ public class Game implements Serializable {
         shuffleDevelopmentCards(20);
     }
 
-    public DevelopmentCards getDevelopmentCards(){ // assigns the DC on the top to the currentPlayer if it is affordable
-        if ( currentPlayer.canAfford(Player.Actions.BUY_DEV_CARD) ){
-            DevelopmentCards d = developmentCards.get(0);
-            currentPlayer.getDevelopmentCard(d);
+    public boolean buyDevelopmentCard(){ // assigns the DC on the top to the currentPlayer if it is affordable
+        if ( !inSettlingPhase() && currentPlayer.canAfford(Player.Actions.BUY_DEV_CARD) ){
+            currentPlayer.getDevelopmentCard(developmentCards.get(0));
             developmentCards.remove(0);
-            return d;
+            currentPlayer.payForAction(Player.Actions.BUY_DEV_CARD);
+            return true;
         }
-        return null;
+        return false;
     }
 
     public void shuffleDevelopmentCards(int time){
@@ -121,23 +119,27 @@ public class Game implements Serializable {
 
     public boolean build(Location loc) {
         Player.Actions cost = map.getCost(loc);
-        boolean settle = inSettlingPhase() &&
-                ( ((cost == Player.Actions.BUILD_ROAD && !builtRoad)
-                        || (cost == Player.Actions.BUILD_VILLAGE && !builtVillage)) );
-        if ( ( currentPlayer.canAfford(cost) && !inSettlingPhase() ) || settle) {
+        boolean freeSettle = inSettlingPhase() &&
+                ( ((cost == Player.Actions.BUILD_ROAD && roadsBuilt < 0)
+                        || (cost == Player.Actions.BUILD_VILLAGE && villagesBuilt < 0)) );
+        boolean paidSettle = currentPlayer.canAfford(cost) && !inSettlingPhase();
+        if ( paidSettle || freeSettle) {
             if (map.build(loc, currentPlayer)) {
-                if (!settle)
-                    currentPlayer.makeAction(cost);
+                if (paidSettle) {
+                    currentPlayer.payForAction(cost);
+                }
                 if( cost == Player.Actions.BUILD_VILLAGE ) {
-                    builtVillage = true;
+                    villagesBuilt += 1;
+                    currentPlayer.incrementVictoryPoints(1);
+                }
+                if( cost == Player.Actions.BUILD_CITY) {
+                    currentPlayer.incrementVictoryPoints(1);
                 }
                 if( cost == Player.Actions.BUILD_ROAD ) {
-                    builtRoad = true;
-                } else {
-                    if(currentPlayer.checkVictory()) {
-                        System.out.println( currentPlayer.name + " Won");
-                    }
-                    currentPlayer.incrementVictoryPoints(1);
+                    roadsBuilt += 1;
+                }
+                if(currentPlayer.checkVictory()) {
+                    System.out.println(currentPlayer.name + " Won");
                 }
                 return true;
             }
@@ -145,8 +147,8 @@ public class Game implements Serializable {
         return false;
     }
 
-    public boolean buildWithCard(Location loc) { // NOT TESTED YET
-        Player.Actions cost = map.getCost(loc);
+    public boolean buildWithCard(Location loc) {
+        /*Player.Actions cost = map.getCost(loc);
 
         if ( ( !inSettlingPhase() ) ) {
             if (map.build(loc, currentPlayer)) {
@@ -163,7 +165,7 @@ public class Game implements Serializable {
                 }
                 return true;
             }
-        }
+        }*/
         return false;
     }
 
@@ -212,10 +214,8 @@ public class Game implements Serializable {
     }
 
     public int rollDice() {
-        if ( currentPlayer.getPirateCounter() == 0 ){ // pirate comes back, new resource's randomly generated and added
-            Resource res = new Resource(0,0,0,0,0);
-            res.generateRandom();
-            currentPlayer.addResource(res);
+        if ( currentPlayer.getPirateCounter() == 0 ){
+            // PIRATE COMES BACK - LATER
             currentPlayer.resetPirateCounter();
         }
         for ( int i = 0; i < players.size(); i++ ) {
@@ -231,27 +231,33 @@ public class Game implements Serializable {
     public void endTurn () {
         int gameDir = 1;
         map.setInSettlingPhase(inSettlingPhase());
-        if (inReverseSettlingPhase()) {
+        if ( gameTurns == noOfPlayers - 1 || gameTurns == 2 * noOfPlayers - 1 ) {
+            gameDir = 0;
+        } else if( gameTurns > noOfPlayers - 1 && gameTurns < 2 * noOfPlayers - 1 ) {
             gameDir = -1;
         }
-        gameTurns++;
-        System.out.println(gameTurns);
-        currentPlayerNo = (currentPlayerNo + gameDir + players.size() ) % players.size();
+        gameTurns++;currentPlayerNo = (currentPlayerNo + gameDir + players.size() ) % players.size();
         currentPlayer = players.get(currentPlayerNo);
-        if ( !inSettlingPhase() )
+        if ( !inSettlingPhase() ) {
             map.generateResource(rollDice());
-        if ( endOfSettlingPhase() )
+            roadsBuilt = 0;
+            villagesBuilt = 0;
+        }
+        if( inSettlingPhase() ) {
+            roadsBuilt = -1;
+            villagesBuilt = -1;
+            map.setInSettlingPhase(true);
+        }
+        if ( endOfSettlingPhase() ) {
+            roadsBuilt = 0;
+            villagesBuilt = 0;
             map.generateResource(1);
-        builtRoad = false;
-        builtVillage = false;
+            map.setInSettlingPhase(false);
+        }
     }
 
     public boolean inSettlingPhase () {
         return gameTurns < players.size() * 2;
-    }
-
-    public boolean inReverseSettlingPhase() {
-        return gameTurns >= players.size() && gameTurns < players.size() * 2;
     }
 
     public boolean endOfSettlingPhase() {
@@ -266,17 +272,21 @@ public class Game implements Serializable {
         return currentPlayerNo;
     }
 
-    // EVENTS -- NOT DONE YET
-
-    public Events getEvent(){ // this function checks whether an event is occuring
-        if ( getDiceValue() == 12 && (currentPlayer.getCivilizationType() == Civilization.CivilizationEnum.MAYA )) {
+    // EVENTS
+    
+    public boolean getEvent(){ // this function checks the dice number
+        if ( getDiceValue() == 7 ){ // this will move the robber
+            //moveRobber(x,y);
+            // how to get location
+        }
+        else if ( getDiceValue() == 12 && (currentPlayer.getCivilizationType() == Civilization.CivilizationEnum.MAYA )) {
             currentPlayer.increaseDiceCounter();
             if ( currentPlayer.getDiceCounter() > 2 ){ // APOCALYPSE
                 for ( int i = 0; i < players.size(); i++)
                     map.destroy(players.get(i));
             }
-            return Events.APOCALYPSE;
         }
-        return null; // no event
+
+        return false;
     }
 }

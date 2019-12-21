@@ -27,18 +27,20 @@ public class NetworkMain extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        //primaryStage.setFullScreen(true);
         DefaultUISpecifications specifications = new DefaultUISpecifications();
         specifications.setScreenDimensions(primaryStage);
         Pane root = new Pane();
         root.setPrefSize(DefaultUISpecifications.SCREEN_WIDTH,DefaultUISpecifications.SCREEN_HEIGHT);
 
         //Set an Image here
-        networkMainMenu = new NetworkMainMenu(primaryStage);
+        networkMainMenu = new NetworkMainMenu(primaryStage,root);
         root.getChildren().addAll(getImgView(), createText(), networkMainMenu);
 
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         new Sound(root);
+        networkMainMenu.setScene(scene);
         primaryStage.show();
     }
 

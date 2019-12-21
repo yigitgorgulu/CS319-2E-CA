@@ -63,7 +63,7 @@ public class Map implements Serializable {
             }
         }
         ArrayList<MapTile.Types> tileStack = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 20; i++) {
             if( i < 3 ) {
                 tileStack.add(MapTile.Types.MOUNTAIN);
                 tileStack.add(MapTile.Types.HILL);
@@ -127,7 +127,7 @@ public class Map implements Serializable {
         {
             ( (Buildable) me).build( currentPlayer );
             if(canRoad) {
-                System.out.println(roadLength(loc, new ArrayList<>(), currentPlayer));
+                //System.out.println(roadLength(loc, new ArrayList<>(), currentPlayer));
             }
             return true;
         }

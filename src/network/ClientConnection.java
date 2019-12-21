@@ -21,10 +21,12 @@ import java.net.Socket;
 
 public class ClientConnection extends Connection {
     String name;
+    String IPAddress;
 
-    public ClientConnection(Stage gameView, String name) {
+    public ClientConnection(Stage gameView, String name, String IPAddress) {
         super(gameView);
         this.name = name;
+        this.IPAddress = IPAddress;
     }
 
     @Override
@@ -37,7 +39,7 @@ public class ClientConnection extends Connection {
 
         System.out.println("Something Happened");
 
-        try (Socket s = new Socket("localhost", 31923);
+        try (Socket s = new Socket(IPAddress, 31923);
              ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
              ObjectInputStream in = new ObjectInputStream(s.getInputStream())
         ) {
@@ -60,6 +62,7 @@ public class ClientConnection extends Connection {
                                 ClientGameScene clientGameScene = new ClientGameScene(mapLatch, (Map)data, this, pl);
                                 gameView.setScene(clientGameScene.getScene());
                                 this.networkGameScene = clientGameScene;
+                                closePopUp();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -68,12 +71,16 @@ public class ClientConnection extends Connection {
 
                     }
                     else if(data instanceof BuildRequest) {
-                        System.out.println("OKEY");
 
                         Platform.runLater(() ->{
                             MapButton mb = ((BuildRequest)data).mapButton;
-                            MapButton mapB = networkGameScene.findMapButton(mb.x, mb.y);
-                            mapB.clientUpdate(new Player(((BuildRequest)data).playerInfo));
+                            MapButton mapB = networkGameScene.findMapButton(mb);
+                            Player builderPlayer = new Player(((BuildRequest)data).playerInfo);
+                            mapB.clientUpdate(builderPlayer);
+                            if(builderPlayer.equals(pl)) {
+                                System.out.println("UPDATING MY RES");
+                                networkGameScene.updateResourcesInTurn(builderPlayer);
+                            }
                         });
 
                     }
@@ -101,16 +108,12 @@ public class ClientConnection extends Connection {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Problem");
         }
     }
-
 
 }
 

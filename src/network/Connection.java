@@ -11,6 +11,7 @@ public abstract class Connection extends Thread {
     // properties
     ObjectOutputStream os;
     Stage gameView;
+    Stage popUp;
     NetworkGameScene networkGameScene;
     CountDownLatch mapLatch;
 
@@ -27,4 +28,11 @@ public abstract class Connection extends Thread {
     public abstract void run();
 
 
+    public void closePopUp(){
+        popUp.close();
+    }
+
+    public void setPopUp(Stage window) {
+        popUp = window;
+    }
 }

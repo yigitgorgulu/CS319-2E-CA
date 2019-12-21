@@ -84,15 +84,12 @@ public class Resource implements Serializable {
         return ore;
     }
 
-    public Resource substract(Resource rsc) { // if the given resource is smaller than this.resource, this is decreased
-        if (getBrick() > rsc.getBrick() && getOre() > rsc.getOre() && getWheat() > rsc.getWheat()
-                && getWood() > rsc.getWood() && getSheep() > rsc.getSheep()) {
-            brick -= rsc.brick;
-            wood -= rsc.wood;
-            sheep -= rsc.sheep;
-            wheat -= rsc.wheat;
-            ore -= rsc.ore;
-        }
+    public Resource substract(Resource rsc) {
+        brick -= rsc.brick;
+        wood -= rsc.wood;
+        sheep -= rsc.sheep;
+        wheat -= rsc.wheat;
+        ore -= rsc.ore;
         return this;
     }
 

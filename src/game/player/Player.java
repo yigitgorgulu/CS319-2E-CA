@@ -7,13 +7,6 @@ import javafx.scene.paint.Color;
 import java.io.Serializable;
 
 public class Player implements Serializable {
-    public Resource getRes() {
-        return res;
-    }
-
-    public void setRes(Resource res) {
-        this.res = res;
-    }
 
     public enum Actions { BUILD_ROAD, BUILD_VILLAGE, BUILD_CITY, BUY_DEV_CARD };
     public String name;
@@ -23,7 +16,6 @@ public class Player implements Serializable {
     private Resource res;
     int armySize = 0;
     int roadLength = 0;
-
     // cards numbers
     int roadBuildingCards = 0;
     int yearOfPlentyCards = 0;
@@ -36,7 +28,14 @@ public class Player implements Serializable {
 
     int diceCounter = 0; // the event occurs if the needed # of dice comes 3 times
     private int pirateCounter = -1;
+    
+    public Resource getRes() {
+        return res;
+    }
 
+    public void setRes(Resource res) {
+        this.res = res;
+    }
 
     @Override
     public String toString() {
@@ -166,7 +165,7 @@ public class Player implements Serializable {
         return false;
     }
 
-    public Resource makeAction(Actions a) {
+    public Resource payForAction(Actions a) {
         switch(a) {
             case BUILD_ROAD:
                 return res.substract(civ.roadCost);
