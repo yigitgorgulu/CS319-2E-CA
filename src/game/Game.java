@@ -198,17 +198,18 @@ public class Game implements Serializable {
         if(currentPlayer.playDevelopmentCard(devCard) ) {
             switch(devCard) {
                 case KNIGHT:
-                    moveRobber(loc, true);
-                    if ( largestArmyOwner == null && currentPlayer.getArmySize() >= 3 ){
-                        largestArmyOwner = currentPlayer;
-                        currentPlayer.incrementVictoryPoints(2);
+                    //moveRobber(loc, true);
+                    if( currentPlayer.getArmySize() >= 3) {
+                        if (largestArmyOwner == null ) {
+                            largestArmyOwner = currentPlayer;
+                            currentPlayer.incrementVictoryPoints(2);
+                        } else if (currentPlayer.getArmySize() > largestArmyOwner.getArmySize()) {
+                            largestArmyOwner.decreaseVictoryPoints(2);
+                            currentPlayer.incrementVictoryPoints(2);
+                            largestArmyOwner = currentPlayer;
+                        }
+                        break;
                     }
-                    else if ( currentPlayer.getArmySize() > largestArmyOwner.getArmySize() ){
-                        largestArmyOwner.decreaseVictoryPoints(2);
-                        currentPlayer.incrementVictoryPoints(2);
-                        largestArmyOwner = currentPlayer;
-                    }
-                    break;
                 case MONOPOLY:
                     /*int add = ((players.get(i)).getRes()).monopolyDecrease(resourceType);
                     (currentPlayer.getRes()).monopolyIncrease(resourceType,add);*/
