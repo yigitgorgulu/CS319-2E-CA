@@ -32,7 +32,7 @@ public class ServerConnection extends Connection {
     ServerSocket ss;
     Socket s;
 
-    static int initRequestCount = 1;
+    static int initRequestCount = 0;
     CountDownLatch endTurnCount;
     private int currentConnectedClient = 1;
 

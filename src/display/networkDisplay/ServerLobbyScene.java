@@ -64,7 +64,7 @@ public class ServerLobbyScene extends LobbyScene {
         /*Creates the buttons for selection between classic and extended Catan versions. Puts buttons in a HBox,
         then puts them and "Version: " text to a VBox*/
         VBox versionBox = new VBox();
-        Text version = new Text("Version: CLASSIC");
+        Text version = new Text("Version: Classic");
         HBox versionButtons = new HBox();
         display.MenuButton classicButton = new display.MenuButton("Catan Classic");
         display.MenuButton extendedButton = new display.MenuButton("Catan Extended");
