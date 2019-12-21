@@ -154,14 +154,14 @@ public class Game implements Serializable {
 
     public boolean getEvent(){ // within a game, an event can only occur once
         if ( getDiceValue() == 12 ){
-            Civilization.CivilizationEnum type = currentPlayer.getCivilizationType();
+            Civilization.CivType type = currentPlayer.getCivilizationType();
             if ( currentPlayer.getDiceCounter() != -1 )
                 currentPlayer.increaseDiceCounter();
             if ( currentPlayer.getDiceCounter() > 2 ){
                 switch (type){
                     case OTTOMANS:
                         currentPlayer.resetSheep();
-                        (currentPlayer.getCivilization()).bereketMode();
+                        /*(currentPlayer.getCivilization()).bereketMode();*/
                         break;
                     case TURKEY:
                         break;
@@ -188,6 +188,7 @@ public class Game implements Serializable {
                         break;
                 }
                 currentPlayer.resetDiceCounter();
+                return true;
             }
         }
         return false;
@@ -214,6 +215,7 @@ public class Game implements Serializable {
                     break;
                 case ROAD_BUILDING:
                     roadsBuilt = Math.min(roadsBuilt-2,-2);
+                    break;
             }
             return true;
         }
@@ -243,14 +245,12 @@ public class Game implements Serializable {
     }
 
     public void endTurn () {
-        int gameDir = 1;
         map.setInSettlingPhase(inSettlingPhase());
-        if ( gameTurns == noOfPlayers - 1 || gameTurns == 2 * noOfPlayers - 1 ) {
-            gameDir = 0;
-        } else if( gameTurns > noOfPlayers - 1 && gameTurns < 2 * noOfPlayers - 1 ) {
-            gameDir = -1;
-        }
-        gameTurns++;currentPlayerNo = (currentPlayerNo + gameDir + players.size() ) % players.size();
+
+        //calculateNextPlayerNo uses gameTurns. Therefore, line order is important.
+        currentPlayerNo = calculateNextPlayerNo();
+        gameTurns++;
+
         currentPlayer = players.get(currentPlayerNo);
         if ( !inSettlingPhase() ) {
             map.generateResource(rollDice());
@@ -270,6 +270,18 @@ public class Game implements Serializable {
         }
     }
 
+    private int calculateNextPlayerNo() {
+        int gameDir = 1;
+
+        if ( gameTurns == noOfPlayers - 1 || gameTurns == 2 * noOfPlayers - 1 ) {
+            gameDir = 0;
+        } else if( gameTurns > noOfPlayers - 1 && gameTurns < 2 * noOfPlayers - 1 ) {
+            gameDir = -1;
+        }
+
+        return (currentPlayerNo + gameDir + players.size() ) % players.size();
+    }
+
     public boolean inSettlingPhase () {
         return gameTurns < players.size() * 2;
     }
@@ -284,5 +296,9 @@ public class Game implements Serializable {
 
     public int getCurrentPlayerNo() {
         return currentPlayerNo;
+    }
+
+    public Player getNextPlayer() {
+        return players.get(calculateNextPlayerNo());
     }
 }

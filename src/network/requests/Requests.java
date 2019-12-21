@@ -1,5 +1,5 @@
 package network.requests;
 
 public enum Requests {
-    GAME_INIT, ADDED, BUILD_ACCEPTED, END_TURN
+    GAME_INIT, END_TURN, PLAYER_OK
 }

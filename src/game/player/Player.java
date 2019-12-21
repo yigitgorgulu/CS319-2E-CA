@@ -55,10 +55,10 @@ public class Player implements Serializable {
         this.name = playerInfo.name;
     }
 
-    public Player(Color c, Civilization.CivilizationEnum civilizationEnum, String name) {
+    public Player(Color c, Civilization.CivType civType, String name) {
         color = c;
         res = new Resource( 4, 4, 4, 4, 4);
-        civ = new Civilization(civilizationEnum);
+        civ = new Civilization(civType);
         this.name = name;
     }
 
@@ -95,14 +95,20 @@ public class Player implements Serializable {
                     incrementVictoryPoints(1);
                     break;
                 case PIRATE:
-                    pirateCounter = (int) (Math.random() * 15 + 1);
-                    break;
+                    if ( pirateCall() ) {
+                        pirateCounter = (int) (Math.random() * 15 + 1);
+                        return true;
+                    }
+                    return false;
             }
             return true;
         }
         return false;
     }
 
+    public boolean pirateCall(){
+        return res.pirateCall();
+    }
     public boolean canAfford(Actions a) {
         switch(a) {
             case BUILD_ROAD:
@@ -150,8 +156,8 @@ public class Player implements Serializable {
         return this.res;
     }
 
-    public Civilization.CivilizationEnum getCivilizationType(){
-        return civ.cEnum;
+    public Civilization.CivType getCivilizationType(){
+        return civ.civType;
     }
 
     public int getWood(){
@@ -195,7 +201,7 @@ public class Player implements Serializable {
     }
 
     public boolean isBereket(){
-        return civ.isBereket();
+        return false;
     }
 
     public void resetResources(){

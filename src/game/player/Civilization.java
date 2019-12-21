@@ -2,54 +2,49 @@ package game.player;
 import game.Resource;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Civilization implements Serializable {
     Resource roadCost;
     Resource villageCost;
     Resource cityCost;
     Resource devCardCost;
-    CivilizationEnum cEnum;
-    boolean bereket = false;
+    CivType civType;
+    List<CivBonus> civBonuses= new ArrayList<>();
 
-    Civilization(CivilizationEnum civilizationEnum){
+    Civilization(CivType civ){
         roadCost = new Resource(1,1,0,0,0);
         villageCost = new Resource(1,1,1,1,0);
         cityCost = new Resource(0,0,1,2,3);
         devCardCost = new Resource(0,0,1,1,1);
-        cEnum = civilizationEnum;
+        civType = civ;
 
-        if ( civilizationEnum == CivilizationEnum.OTTOMANS ){
-            villageCost.substract(new Resource(0,0,0,1,0));
-        }
-
-        else if ( civilizationEnum == CivilizationEnum.ENGLAND ){
-            devCardCost.add(new Resource(1,0,0,0,0));
-            cityCost.substract(new Resource(0,0,1,0,0));
-        }
-
-        else if ( civilizationEnum == CivilizationEnum.FRANCE){
-            villageCost.substract(new Resource(0,1,0,0,0));
-        }
-
-        else if ( civilizationEnum == CivilizationEnum.MAYA ){
-            roadCost.add(new Resource(0,0,1,0,0));
-        }
-
-        else if ( civilizationEnum == CivilizationEnum.SPAIN){
-            roadCost.substract(new Resource(1,0,0,0,0));
-            roadCost.add(new Resource(0,1,0,0,0));
-
+        switch(civ) {
+            case OTTOMANS:
+                villageCost.substract(new Resource(0,0,0,1,0));
+                break;
+            case ENGLAND:
+                devCardCost.add(new Resource(1,0,0,0,0));
+                cityCost.substract(new Resource(0,0,1,0,0));
+                break;
+            case FRANCE:
+                villageCost.substract(new Resource(0,1,0,0,0));
+                break;
+            case MAYA:
+                roadCost.add(new Resource(0,0,1,0,0));
+            case SPAIN:
+                roadCost.substract(new Resource(1,0,0,0,0));
+                roadCost.add(new Resource(0,1,0,0,0));
+                break;
         }
     }
 
-    public void bereketMode(){
-        bereket = true;
+    public boolean hasBonus( CivBonus c ) {
+        return civBonuses.contains(c);
     }
 
-    public boolean isBereket() {
-        return bereket;
-    }
-
-    public enum CivilizationEnum {OTTOMANS, ENGLAND, FRANCE, MAYA, SPAIN, TURKEY};
+    public enum CivType {OTTOMANS, ENGLAND, FRANCE, MAYA, SPAIN, TURKEY};
+    public enum CivBonus {HOLIDAY_OF_SACRIFICE, DOOMSDAY};
 
 }

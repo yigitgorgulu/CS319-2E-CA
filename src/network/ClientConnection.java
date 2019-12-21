@@ -1,7 +1,6 @@
 package network;
 
 import display.networkDisplay.ClientGameScene;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import network.requests.BuildRequest;
 import network.requests.EndTurnInfo;
@@ -50,11 +49,22 @@ public class ClientConnection extends Connection {
 
             os = out;
 
-            //Player ınfolar doldur
+            Player px = null;
+            boolean playerAccepted = false;
+            while(!playerAccepted) {
+                px = new Player(Color.GREEN, Civilization.CivType.SPAIN, name);
+                PlayerInfo playerInfo = new PlayerInfo(px);
+                send(playerInfo);
 
-            Player pl = new Player(Color.GREEN, Civilization.CivilizationEnum.SPAIN, name);
-            PlayerInfo playerInfo = new PlayerInfo(pl);
-            send(playerInfo);
+                System.out.println("YAAAY");
+                Requests playerAcceptedResult = (Requests) in.readObject();
+                if(playerAcceptedResult.equals(Requests.PLAYER_OK)) {
+                    send(Requests.GAME_INIT);
+                    playerAccepted = true;
+                }
+            }
+            Player pl = px;
+
 
             while (true) {
 
@@ -107,10 +117,7 @@ public class ClientConnection extends Connection {
 
 
                     }
-                    else if(data.equals(Requests.ADDED)) {
-                        System.out.println("SENDIN");
-                        send(Requests.GAME_INIT);
-                    }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -118,7 +125,6 @@ public class ClientConnection extends Connection {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Problem");
-            connectionFailed.set(true);
         }
     }
 
