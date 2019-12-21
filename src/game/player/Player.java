@@ -5,6 +5,8 @@ import game.Resource;
 import javafx.scene.paint.Color;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Player implements Serializable {
 
@@ -23,6 +25,7 @@ public class Player implements Serializable {
     int monopolyCards = 0;
     int victoryPointCards = 0;
     int pirateCards = 0;
+    List<DevelopmentCards> devCards = new ArrayList<>();
 
     int victoryPoints = 0;
 
@@ -72,29 +75,29 @@ public class Player implements Serializable {
         return color;
     }
 
-    public boolean getDevelopmentCard( DevelopmentCards card ){
-        if ( card == DevelopmentCards.KNIGHT){
-            knightCards++;
-            return true;
-        }
-        else if ( card == DevelopmentCards.ROAD_BUILDING){
-            roadBuildingCards++;
-            return true;
-        }
-        else if ( card == DevelopmentCards.VICTORY_POINT){
-            victoryPointCards++;
-            return true;
-        }
-        else if ( card == DevelopmentCards.YEAR_OF_PLENTY ){
-            yearOfPlentyCards++;
-            return true;
-        }
-        else if ( card == DevelopmentCards.PIRATE ){
-            pirateCards++;
-            return true;
-        }
-        else if ( card == DevelopmentCards.MONOPOLY ){
-            monopolyCards++;
+    public boolean addDevelopmentCard( DevelopmentCards card ){
+        devCards.add(card);
+        return true;
+    }
+
+    public List<DevelopmentCards> getDevelopmentCards() {
+        return devCards;
+    };
+
+    public boolean playDevelopmentCard( DevelopmentCards devCard ) {
+        if(devCards.contains(devCard)) {
+            devCards.remove(devCard);
+            switch (devCard) {
+                case KNIGHT:
+                    armySize++;
+                    break;
+                case VICTORY_POINT:
+                    incrementVictoryPoints(1);
+                    break;
+                case PIRATE:
+                    pirateCounter = (int) (Math.random() * 15 + 1);
+                    break;
+            }
             return true;
         }
         return false;
@@ -110,57 +113,6 @@ public class Player implements Serializable {
                 return res.biggerEquals(civ.cityCost);
             case BUY_DEV_CARD:
                 return res.biggerEquals(civ.devCardCost);
-        }
-        return false;
-    }
-
-    public boolean playKnightCard(){
-        if ( knightCards > 0 ){
-            knightCards--;
-            armySize++;
-            return true;
-        }
-        return false;
-    }
-
-    public boolean playVictoryPointCard(){
-        if ( victoryPointCards > 0 ){
-            incrementVictoryPoints(1);
-            victoryPointCards--;
-            return true;
-        }
-        return false;
-    }
-
-    public boolean playMonopolyCard(){
-        if ( monopolyCards > 0 ){
-            monopolyCards--;
-            return true;
-        }
-        return false;
-    }
-
-    public boolean playYearOfPlentyCard(){
-        if ( yearOfPlentyCards > 0 ) {
-            yearOfPlentyCards--;
-            return true;
-        }
-        return false;
-    }
-
-    public boolean playPirateCard(){
-        if ( pirateCards > 0 && pirateCounter == -1 ) {
-            pirateCards--;
-            pirateCounter = (int) (Math.random() * 15 + 1);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean playRoadBuildingCard(){
-        if ( roadBuildingCards > 0 ){
-            roadBuildingCards--;
-            return true;
         }
         return false;
     }
@@ -194,7 +146,7 @@ public class Player implements Serializable {
     }
 
     public Resource decreaseResource(Resource res ){
-        this.res.decrease(res);
+        this.res.substract(res);
         return this.res;
     }
 

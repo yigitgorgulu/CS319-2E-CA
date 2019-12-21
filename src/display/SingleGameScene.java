@@ -3,12 +3,19 @@ package display;
 import game.Game;
 import game.map.*;
 import game.player.Civilization;
+import game.player.DevelopmentCards;
 import game.player.Player;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class SingleGameScene extends GameScene {
     final int NUMBER_OF_PLAYERS = 3;
@@ -23,6 +30,8 @@ public class SingleGameScene extends GameScene {
         addBackground();
         createGameAndTiles();
         addPlayerResourcesMenu();
+        createDevCardList();
+        //createPlayerList();
         displayDice(game.getDie1(), game.getDie2());
     }
 
@@ -35,16 +44,20 @@ public class SingleGameScene extends GameScene {
         resourceBoxes[4] = new ResourceBox(players[0], "ORE");
     }
 
+
     @Override
     protected void setupButtons() {
         endTurnButton.setOnAction(e -> {
             game.endTurn();
             updateResources(game.getCurrentPlayer());
+            updateDevCards(game.getCurrentPlayer());
             displayDice(game.getDie1(), game.getDie2());
+            updatePlayerList();
         });
         buyDevCardButton.setOnAction(e -> {
             game.buyDevelopmentCard();
             updateResources(game.getCurrentPlayer());
+            updateDevCards(game.getCurrentPlayer());
         });
     }
 
@@ -70,5 +83,33 @@ public class SingleGameScene extends GameScene {
             resourceBoxes[i].update(player);
         }
         turnOfPlayer.setText("Turn of player " + game.getCurrentPlayerNo());
+    }
+
+
+    protected void updatePlayerList() {
+        ObservableList<String> playerStrings = FXCollections.observableArrayList();
+        for( Player p : game.getPlayers() ) {
+            playerStrings.add(""+p);
+        }
+        playerList.setItems(playerStrings);
+    }
+
+    private void updateDevCards(Player player) {
+        ObservableList<String> devCardNames = FXCollections.observableArrayList();
+        ObservableList<Button> devCardButtons = FXCollections.observableArrayList();
+        List<DevelopmentCards> devCards = player.getDevelopmentCards();
+        for( DevelopmentCards d : devCards ) {
+            Button button = new Button(""+d);
+            button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    game.playDevelopmentCard(d);
+                    updateDevCards(player);
+                    updatePlayerList();
+                }
+            });
+            devCardButtons.add(button);
+        }
+        devCardList.setItems(devCardButtons);
     }
 }

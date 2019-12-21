@@ -34,6 +34,10 @@ public class Game implements Serializable {
         setDevelopmentCards();
     }
 
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
     public int getDie1() {
         return die1;
     }
@@ -96,12 +100,13 @@ public class Game implements Serializable {
             for ( int i = 31; i < 31; i++ )
                 developmentCards.add(DevelopmentCards.MONOPOLY);
         }
+        Collections.shuffle(developmentCards);
         shuffleDevelopmentCards(20);
     }
 
     public boolean buyDevelopmentCard(){ // assigns the DC on the top to the currentPlayer if it is affordable
         if ( !inSettlingPhase() && currentPlayer.canAfford(Player.Actions.BUY_DEV_CARD) ){
-            currentPlayer.getDevelopmentCard(developmentCards.get(0));
+            currentPlayer.addDevelopmentCard(developmentCards.get(0));
             developmentCards.remove(0);
             currentPlayer.payForAction(Player.Actions.BUY_DEV_CARD);
             return true;
@@ -119,7 +124,7 @@ public class Game implements Serializable {
 
     public boolean build(Location loc) {
         Player.Actions cost = map.getCost(loc);
-        boolean freeSettle = inSettlingPhase() &&
+        boolean freeSettle =
                 ( ((cost == Player.Actions.BUILD_ROAD && roadsBuilt < 0)
                         || (cost == Player.Actions.BUILD_VILLAGE && villagesBuilt < 0)) );
         boolean paidSettle = currentPlayer.canAfford(cost) && !inSettlingPhase();
@@ -147,66 +152,22 @@ public class Game implements Serializable {
         return false;
     }
 
-    public boolean buildWithCard(Location loc) {
-        /*Player.Actions cost = map.getCost(loc);
-
-        if ( ( !inSettlingPhase() ) ) {
-            if (map.build(loc, currentPlayer)) {
-                if( cost == Player.Actions.BUILD_VILLAGE ) {
-                    builtVillage = true;
-                }
-                if( cost == Player.Actions.BUILD_ROAD ) {
-                    builtRoad = true;
-                } else {
-                    if(currentPlayer.checkVictory()) {
-                        System.out.println( currentPlayer.name + " Won");
-                    }
-                    currentPlayer.incrementVictoryPoints(1);
-                }
-                return true;
-            }
-        }*/
-        return false;
-    }
-
-
-    public boolean playKnightCard(Location loc){
-        if ( currentPlayer.playKnightCard() ){
-            moveRobber(loc, true);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean playVictoryPointCard() {
-        return currentPlayer.playVictoryPointCard();
-    }
-
-    public boolean playMonopolyCard( int resourceType ) {
-        if ( currentPlayer.playMonopolyCard() ) {
-            for ( int i = 0; i < players.size(); i++ ) {
-                int add = ((players.get(i)).getRes()).monopolyDecrease(resourceType);
-                (currentPlayer.getRes()).monopolyIncrease(resourceType,add);
+    public boolean playDevelopmentCard(DevelopmentCards devCard) {
+        if(currentPlayer.playDevelopmentCard(devCard) ) {
+            switch(devCard) {
+                case KNIGHT:
+                    //moveRobber(loc, true);
+                    break;
+                case MONOPOLY:
+                    /*int add = ((players.get(i)).getRes()).monopolyDecrease(resourceType);
+                    (currentPlayer.getRes()).monopolyIncrease(resourceType,add);*/
+                    break;
+                case ROAD_BUILDING:
+                    roadsBuilt = Math.min(roadsBuilt-2,-2);
             }
             return true;
         }
         return false;
-    }
-
-    public boolean playYearOfPlentyCard() {
-        return currentPlayer.playYearOfPlentyCard();
-    }
-
-    public boolean playRoadBuilding(Location loc) {
-        if ( currentPlayer.playRoadBuildingCard() ) {
-            buildWithCard(loc);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean playPirateCard() {
-        return currentPlayer.playKnightCard();
     }
 
     public int getDiceValue () {
