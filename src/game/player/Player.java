@@ -95,14 +95,20 @@ public class Player implements Serializable {
                     incrementVictoryPoints(1);
                     break;
                 case PIRATE:
-                    pirateCounter = (int) (Math.random() * 15 + 1);
-                    break;
+                    if ( pirateCall() ) {
+                        pirateCounter = (int) (Math.random() * 15 + 1);
+                        return true;
+                    }
+                    return false;
             }
             return true;
         }
         return false;
     }
 
+    public boolean pirateCall(){
+        return res.pirateCall();
+    }
     public boolean canAfford(Actions a) {
         switch(a) {
             case BUILD_ROAD:

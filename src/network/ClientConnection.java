@@ -46,9 +46,22 @@ public class ClientConnection extends Connection {
 
             os = out;
 
-            Player pl = new Player(Color.GREEN, Civilization.CivType.SPAIN, name);
-            PlayerInfo playerInfo = new PlayerInfo(pl);
-            send(playerInfo);
+            Player px = null;
+            boolean playerAccepted = false;
+            while(!playerAccepted) {
+                px = new Player(Color.GREEN, Civilization.CivilizationEnum.SPAIN, name);
+                PlayerInfo playerInfo = new PlayerInfo(px);
+                send(playerInfo);
+
+                System.out.println("YAAAY");
+                Requests playerAcceptedResult = (Requests) in.readObject();
+                if(playerAcceptedResult.equals(Requests.PLAYER_OK)) {
+                    send(Requests.GAME_INIT);
+                    playerAccepted = true;
+                }
+            }
+            Player pl = px;
+
 
             while (true) {
 
@@ -101,10 +114,7 @@ public class ClientConnection extends Connection {
 
 
                     }
-                    else if(data.equals(Requests.ADDED)) {
-                        System.out.println("SENDIN");
-                        send(Requests.GAME_INIT);
-                    }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -188,7 +188,7 @@ public class Game implements Serializable {
                         break;
                 }
                 currentPlayer.resetDiceCounter();
-                return true; 
+                return true;
             }
         }
         return false;
@@ -215,6 +215,7 @@ public class Game implements Serializable {
                     break;
                 case ROAD_BUILDING:
                     roadsBuilt = Math.min(roadsBuilt-2,-2);
+                    break;
             }
             return true;
         }

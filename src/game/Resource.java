@@ -55,6 +55,14 @@ public class Resource implements Serializable {
         return this;
     }
 
+    public boolean pirateCall(){
+        if ( brick > 2 ) {
+            brick -= -2;
+            return true;
+        }
+        return false;
+    }
+
     public int getBrick() {
         return brick;
     }
