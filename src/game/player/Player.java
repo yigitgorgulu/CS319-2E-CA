@@ -194,12 +194,16 @@ public class Player implements Serializable {
         pirateCounter = -1;
     }
 
+    public boolean isBereket(){
+        return civ.isBereket();
+    }
     public int getDiceCounter(){
         return diceCounter;
     }
     public void increaseDiceCounter(){
         diceCounter++;
     }
+    public  void resetDiceCounter(){ diceCounter = -1;}
     public boolean checkVictory () {
         return victoryPoints >= 10;
     }

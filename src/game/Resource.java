@@ -141,6 +141,10 @@ public class Resource implements Serializable {
         }
     }
 
+    public void resetSheep(){
+        sheep = 0;
+    }
+
     boolean isZero() {
         return this.totalCount() == 0;
     }

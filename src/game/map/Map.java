@@ -169,6 +169,11 @@ public class Map implements Serializable {
                                 cor.player.multiplyResource( res );
                             }
                         }
+                        // bereket mode for ottomans
+                        if ( (cor.player).isBereket() ) {
+                            Resource addition = new Resource(1,0,0,1,0);
+                            cor.player.addResource(addition);
+                        }
                     }
                 }
             }

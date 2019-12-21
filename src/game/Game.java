@@ -152,6 +152,37 @@ public class Game implements Serializable {
         return false;
     }
 
+    public boolean getEvent(){ // within a game, an event can only occur once
+        if ( getDiceValue() == 12 ){
+            Civilization.CivilizationEnum type = currentPlayer.getCivilizationType();
+            if ( currentPlayer.getDiceCounter() != -1 )
+                currentPlayer.increaseDiceCounter();
+            if ( currentPlayer.getDiceCounter() > 2 ){
+                switch (type){
+                    case OTTOMANS:
+                        (currentPlayer.getRes()).resetSheep();
+                        (currentPlayer.getCivilization()).bereketMode();
+                        break;
+                    case TURKEY:
+                        break;
+                    case MAYA:
+                        for ( int i = 0; i < players.size(); i++)
+                            map.destroy(players.get(i));
+                        break;
+                    case SPAIN:
+                        break;
+                    case ENGLAND:
+                        Resource res = new Resource(0,0,0,0,3);
+                        break;
+                    case FRANCE:
+                        break;
+                }
+                currentPlayer.resetDiceCounter();
+            }
+        }
+        return false;
+    }
+
     public boolean playDevelopmentCard(DevelopmentCards devCard) {
         if(currentPlayer.playDevelopmentCard(devCard) ) {
             switch(devCard) {
@@ -243,23 +274,5 @@ public class Game implements Serializable {
 
     public int getCurrentPlayerNo() {
         return currentPlayerNo;
-    }
-
-    // EVENTS
-    
-    public boolean getEvent(){ // this function checks the dice number
-        if ( getDiceValue() == 7 ){ // this will move the robber
-            //moveRobber(x,y);
-            // how to get location
-        }
-        else if ( getDiceValue() == 12 && (currentPlayer.getCivilizationType() == Civilization.CivilizationEnum.MAYA )) {
-            currentPlayer.increaseDiceCounter();
-            if ( currentPlayer.getDiceCounter() > 2 ){ // APOCALYPSE
-                for ( int i = 0; i < players.size(); i++)
-                    map.destroy(players.get(i));
-            }
-        }
-
-        return false;
     }
 }

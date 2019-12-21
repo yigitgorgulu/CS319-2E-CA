@@ -9,6 +9,7 @@ public class Civilization implements Serializable {
     Resource cityCost;
     Resource devCardCost;
     CivilizationEnum cEnum;
+    boolean bereket = false;
 
     Civilization(CivilizationEnum civilizationEnum){
         roadCost = new Resource(1,1,0,0,0);
@@ -39,6 +40,14 @@ public class Civilization implements Serializable {
             roadCost.add(new Resource(0,1,0,0,0));
 
         }
+    }
+
+    public void bereketMode(){
+        bereket = true;
+    }
+
+    public boolean isBereket() {
+        return bereket;
     }
 
     public enum CivilizationEnum {OTTOMANS, ENGLAND, FRANCE, MAYA, SPAIN, TURKEY};
