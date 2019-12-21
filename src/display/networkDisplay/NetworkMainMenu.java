@@ -25,7 +25,7 @@ public class NetworkMainMenu extends Parent {
         MenuButton btnCreateOfflineGame = new MenuButton( "Create an Offline Game" ,paneMainMenu);
         MenuButton btnCreateAGame = new MenuButton("Create an Online Game" ,paneMainMenu);
         MenuButton btnJoinAGame = new MenuButton("Join an existing game" ,paneMainMenu);
-        MenuButton btnSettingsCredits = new MenuButton("Settings and Credits" ,paneMainMenu);
+        MenuButton btnCredits = new MenuButton("Credits" ,paneMainMenu);
         MenuButton btnQuit = new MenuButton("Quit Game" ,paneMainMenu);
         btnQuit.setOnMouseClicked(e->System.exit(0));
 
@@ -54,15 +54,15 @@ public class NetworkMainMenu extends Parent {
             }
         });
 
-        btnSettingsCredits.setOnMouseClicked(e->{
+        btnCredits.setOnMouseClicked(e->{
             try {
-                SettingsAndCredits settingsAndCredits = new SettingsAndCredits(gameView);
-            } catch (IOException ex) {
+                Credits settingsAndCredits = new Credits(gameView,root);
+            } catch (IOException | InterruptedException ex) {
                 ex.printStackTrace();
             }
         });
         menu0.setAlignment(Pos.CENTER);
-        menu0.getChildren().addAll(btnCreateOfflineGame,btnCreateAGame,btnJoinAGame,btnSettingsCredits,btnQuit);
+        menu0.getChildren().addAll(btnCreateOfflineGame,btnCreateAGame,btnJoinAGame,btnCredits,btnQuit);
 
         //Rectangle bg = new Rectangle(SCREEN_WIDTH,SCREEN_HEIGHT);
         //bg.setFill(Color.GRAY);
