@@ -46,7 +46,7 @@ public class ClientConnection extends Connection {
 
             os = out;
 
-            Player pl = new Player(Color.GREEN, Civilization.CivilizationEnum.SPAIN, name);
+            Player pl = new Player(Color.GREEN, Civilization.CivType.SPAIN, name);
             PlayerInfo playerInfo = new PlayerInfo(pl);
             send(playerInfo);
 

@@ -154,14 +154,14 @@ public class Game implements Serializable {
 
     public boolean getEvent(){ // within a game, an event can only occur once
         if ( getDiceValue() == 12 ){
-            Civilization.CivilizationEnum type = currentPlayer.getCivilizationType();
+            Civilization.CivType type = currentPlayer.getCivilizationType();
             if ( currentPlayer.getDiceCounter() != -1 )
                 currentPlayer.increaseDiceCounter();
             if ( currentPlayer.getDiceCounter() > 2 ){
                 switch (type){
                     case OTTOMANS:
                         currentPlayer.resetSheep();
-                        (currentPlayer.getCivilization()).bereketMode();
+                        /*(currentPlayer.getCivilization()).bereketMode();*/
                         break;
                     case TURKEY:
                         break;

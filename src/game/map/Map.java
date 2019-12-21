@@ -140,7 +140,7 @@ public class Map implements Serializable {
                 if (((corners[y][x]).getLocation()).type == Location.Types.CORNER) {
                     Location loc = (corners[y][x]).getLocation();
                     MapCorner mc = new MapCorner(loc);
-                    if ( !mc.isEmpty() && player.getCivilizationType() != Civilization.CivilizationEnum.TURKEY ){
+                    if ( !mc.isEmpty() && player.getCivilizationType() != Civilization.CivType.TURKEY ){
                         if ( mc.type == MapCorner.Types.CITY ){
                             mc.type = MapCorner.Types.EMPTY;
                             return true;
@@ -170,10 +170,10 @@ public class Map implements Serializable {
                             }
                         }
                         // bereket mode for ottomans
-                        if ( (cor.player).isBereket() ) {
+                        /*if ( (cor.player).isBereket() ) {
                             Resource addition = new Resource(1,0,0,1,0);
                             cor.player.addResource(addition);
-                        }
+                        }*/
                     }
                 }
             }

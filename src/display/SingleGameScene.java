@@ -71,9 +71,9 @@ public class SingleGameScene extends GameScene {
 
     @Override
     protected void createGameAndTiles() throws FileNotFoundException {
-        players[0] = new Player(Color.RED, Civilization.CivilizationEnum.OTTOMANS, "Player 1");
-        players[1] = new Player(Color.GREEN, Civilization.CivilizationEnum.SPAIN, "Player 2");
-        players[2] = new Player(Color.BLUE, Civilization.CivilizationEnum.ENGLAND, "Player 3");
+        players[0] = new Player(Color.RED, Civilization.CivType.OTTOMANS, "Player 1");
+        players[1] = new Player(Color.GREEN, Civilization.CivType.SPAIN, "Player 2");
+        players[2] = new Player(Color.BLUE, Civilization.CivType.ENGLAND, "Player 3");
         game = new Game(map, new ArrayList<Player>(Arrays.asList(players)));
         super.createGameAndTiles();
     }
