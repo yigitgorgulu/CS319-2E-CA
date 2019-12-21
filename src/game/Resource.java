@@ -57,7 +57,7 @@ public class Resource implements Serializable {
 
     public boolean pirateCall(){
         if ( brick > 2 ) {
-            brick -= -2;
+            brick -= 2;
             return true;
         }
         return false;
