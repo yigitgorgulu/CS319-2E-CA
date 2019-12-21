@@ -49,7 +49,7 @@ public class ClientConnection extends Connection {
             Player px = null;
             boolean playerAccepted = false;
             while(!playerAccepted) {
-                px = new Player(Color.GREEN, Civilization.CivilizationEnum.SPAIN, name);
+                px = new Player(Color.GREEN, Civilization.CivType.SPAIN, name);
                 PlayerInfo playerInfo = new PlayerInfo(px);
                 send(playerInfo);
 
