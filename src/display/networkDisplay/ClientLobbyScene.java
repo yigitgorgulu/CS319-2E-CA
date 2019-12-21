@@ -15,9 +15,6 @@ public class ClientLobbyScene extends LobbyScene {
     public ClientLobbyScene(Stage gameView, String IPAddress, SimpleBooleanProperty connectionFailed) throws IOException {
         super();
         String name = ((int)(Math.random() * 9999999)) + "";
-        //CivilizationSelectionScene civilizationSelectionScene = new CivilizationSelectionScene(gameView);
-
-
         setConnection(gameView,name, IPAddress ,connectionFailed);
     }
 

@@ -1,8 +1,12 @@
 package display;
 
+import game.Sound;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -21,7 +25,7 @@ public class MenuButton extends StackPane{
     public static Font fsmall;
     private Rectangle bg;
 
-    public MenuButton(String name) throws FileNotFoundException {
+    public MenuButton(String name, Node pane) throws FileNotFoundException {
         fsmall = Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), 16);
         text = new Text(name);
         text.setFont(fsmall);
@@ -49,6 +53,7 @@ public class MenuButton extends StackPane{
 
         setOnMousePressed(e->{
             setEffect(drop);
+            Sound.menuButtonSound((Pane) pane);
         });
 
         setOnMouseReleased(e->setEffect(null));

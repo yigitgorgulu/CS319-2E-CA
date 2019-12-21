@@ -39,7 +39,7 @@ public class NetworkMain extends Application {
 
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
-        new Sound(root);
+        Sound.gymnopedie(root);
         networkMainMenu.setScene(scene);
         primaryStage.show();
     }

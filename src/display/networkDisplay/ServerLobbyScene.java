@@ -67,13 +67,15 @@ public class ServerLobbyScene extends LobbyScene {
         VBox versionBox = new VBox();
         Text version = new Text("Version: Classic");
         HBox versionButtons = new HBox();
-        display.MenuButton classicButton = new display.MenuButton("Catan Classic");
-        display.MenuButton extendedButton = new display.MenuButton("Catan Extended");
+        Pane sounds = new Pane();
+        sounds.setPrefSize(0,0);
+        display.MenuButton classicButton = new display.MenuButton("Catan Classic",sounds);
+        display.MenuButton extendedButton = new display.MenuButton("Catan Extended",sounds);
         createVersionButtonsAndSetListeners(versionBox,version,versionButtons,classicButton, extendedButton);
 
         //Creates the return and continue buttons. Gives necessary functionality to them and puts them in a HBox.
-        display.MenuButton returnButton = new display.MenuButton("Return");
-        display.MenuButton continueButton = new display.MenuButton("Continue");
+        display.MenuButton returnButton = new display.MenuButton("Return",sounds);
+        display.MenuButton continueButton = new display.MenuButton("Continue",sounds);
         continueButton.setOpacity(0.5);
         HBox returnContinueButtons = new HBox();
         createReturnAndContinueButtons(returnButton,continueButton,returnContinueButtons, classicButton, extendedButton,version,roomSizeComboBox,gameView,roomNameTextField, roomName, group, root);
@@ -81,7 +83,7 @@ public class ServerLobbyScene extends LobbyScene {
         //Align all the boxes and put them together.
         group.setAlignment(Pos.CENTER);
         group.setSpacing(SPACING_BETWEEN_OBJECTS_IN_THE_DIFFERENT_GROUPS);
-        group.getChildren().addAll(createAGame,roomNameBox,roomSizeBox,versionBox, returnContinueButtons);
+        group.getChildren().addAll(createAGame,roomNameBox,roomSizeBox,versionBox, returnContinueButtons,sounds);
         this.root.getChildren().add(group);
     }
 
@@ -162,7 +164,6 @@ public class ServerLobbyScene extends LobbyScene {
         roomSize.setFont(fNormal);
         roomSize.setFill(Color.WHITE);
         roomSizeComboBox.getItems().addAll("2", "3", "4", "5", "6");
-        roomSizeComboBox.setMaxSize(NORMAL_FONT_SIZE, NORMAL_FONT_SIZE);
         roomSizeComboBox.setStyle("-fx-focus-color: transparent;");;
         roomSizeBox.setSpacing(SPACING_BETWEEN_OBJECTS_IN_THE_SAME_GROUPS);
         roomSizeBox.setAlignment(Pos.CENTER);

@@ -22,19 +22,21 @@ public class NetworkMainMenu extends Parent {
         //final int offset = 400;
 
         //Create buttons
-        MenuButton btnCreateOfflineGame = new MenuButton( "Create an Offline Game" );
-        MenuButton btnCreateAGame = new MenuButton("Create an Online Game");
-        MenuButton btnJoinAGame = new MenuButton("Join an existing game");
-        MenuButton btnSettingsCredits = new MenuButton("Settings and Credits");
-        MenuButton btnQuit = new MenuButton("Quit Game");
+        MenuButton btnCreateOfflineGame = new MenuButton( "Create an Offline Game" ,paneMainMenu);
+        MenuButton btnCreateAGame = new MenuButton("Create an Online Game" ,paneMainMenu);
+        MenuButton btnJoinAGame = new MenuButton("Join an existing game" ,paneMainMenu);
+        MenuButton btnSettingsCredits = new MenuButton("Settings and Credits" ,paneMainMenu);
+        MenuButton btnQuit = new MenuButton("Quit Game" ,paneMainMenu);
         btnQuit.setOnMouseClicked(e->System.exit(0));
 
         /*btnCreateAGame.setOnMouseClicked(e->gameView.setScene(gameScene));*/
 
         SingleGameScene singleGameScene = new SingleGameScene();
+
         btnCreateOfflineGame.setOnMouseClicked(e-> {
             gameView.setScene(singleGameScene.getScene());
         });
+
         btnCreateAGame.setOnMouseClicked(e-> {
             try {
                 ServerLobbyScene serverLobbyScene = new ServerLobbyScene(gameView, root);
@@ -48,6 +50,14 @@ public class NetworkMainMenu extends Parent {
             try {
                 new PopUp("ASK_IP", paneMainMenu ,gameView, null, null);
             } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        btnSettingsCredits.setOnMouseClicked(e->{
+            try {
+                SettingsAndCredits settingsAndCredits = new SettingsAndCredits(gameView);
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
         });

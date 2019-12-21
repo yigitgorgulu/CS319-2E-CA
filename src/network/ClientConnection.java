@@ -1,5 +1,6 @@
 package network;
 
+import display.CivilizationSelectionScene;
 import display.networkDisplay.ClientGameScene;
 import javafx.beans.property.SimpleBooleanProperty;
 import network.requests.BuildRequest;
@@ -19,11 +20,15 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ClientConnection extends Connection {
     String name;
     String IPAddress;
     SimpleBooleanProperty connectionFailed;
+    Color color;
+    Civilization.CivType civType;
 
     public ClientConnection(Stage gameView, String name, String IPAddress, SimpleBooleanProperty connectionFailed) {
         super(gameView);
@@ -52,6 +57,23 @@ public class ClientConnection extends Connection {
             Player px = null;
             boolean playerAccepted = false;
             while(!playerAccepted) {
+                final CivilizationSelectionScene[] civSelection = new CivilizationSelectionScene[1];
+                CountDownLatch cc = new CountDownLatch(1);
+                Platform.runLater(new Runnable() {
+                    @Override public void run() {
+                        try {
+                            closePopUp();
+                            civSelection[0] = new CivilizationSelectionScene(gameView,cc);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                cc.await();
+                name = civSelection[0].getName();
+                color = civSelection[0].getColor();
+                civType = civSelection[0].getCivType();
+
                 px = new Player(Color.GREEN, Civilization.CivType.SPAIN, name);
                 PlayerInfo playerInfo = new PlayerInfo(px);
                 send(playerInfo);
@@ -74,11 +96,9 @@ public class ClientConnection extends Connection {
                     if(data instanceof Map) {
                         Platform.runLater(() -> {
                             try {
-
                                 ClientGameScene clientGameScene = new ClientGameScene(mapLatch, (Map)data, this, pl);
                                 gameView.setScene(clientGameScene.getScene());
                                 this.networkGameScene = clientGameScene;
-                                closePopUp();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

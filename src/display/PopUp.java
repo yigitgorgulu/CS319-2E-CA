@@ -111,7 +111,7 @@ public class PopUp {
         updateWaitingText(waiting, waitingTexts, hmPlayersArrived);
 
         VBox waitingText = new VBox();
-        MenuButton returnButton = new MenuButton("return");
+        MenuButton returnButton = new MenuButton("return" ,paneWillBeBlurredOut);
         returnButton.setOnMouseClicked(e -> {
             if (paneWillBeBlurredOut != null){
                 unblurBackground(paneWillBeBlurredOut);
@@ -178,13 +178,13 @@ public class PopUp {
         field.setMaxWidth(widthOfPopUp / 3);
         field.setStyle("-fx-focus-color: transparent;");
 
-        MenuButton exitButton = new MenuButton("Return");
+        MenuButton exitButton = new MenuButton("Return",paneWillBeBlurredOut);
         exitButton.setOnMouseClicked(e -> {
             close();
             unblurBackground(paneWillBeBlurredOut);
         });
         SimpleBooleanProperty connectionFailed = new SimpleBooleanProperty(false);
-        MenuButton joinButton = new MenuButton("Join");
+        MenuButton joinButton = new MenuButton("Join",paneWillBeBlurredOut);
         joinButton.setOnMouseClicked(e -> {
             if ((field.getText().matches("[0-9.]*") && field.getText().length() > 2) || field.getText().equals("localhost")) {
             }
