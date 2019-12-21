@@ -198,7 +198,7 @@ public class Game implements Serializable {
         if(currentPlayer.playDevelopmentCard(devCard) ) {
             switch(devCard) {
                 case KNIGHT:
-                    moveRobber(loc, true);
+                    //moveRobber(loc, true);
                     if ( largestArmyOwner == null && currentPlayer.getArmySize() >= 3 ){
                         largestArmyOwner = currentPlayer;
                         currentPlayer.incrementVictoryPoints(2);
