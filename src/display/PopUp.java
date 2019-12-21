@@ -1,6 +1,12 @@
 package display;
 
 import display.networkDisplay.ClientLobbyScene;
+import javafx.beans.InvalidationListener;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -187,22 +193,25 @@ public class PopUp {
             close();
             unblurBackground(paneWillBeBlurredOut);
         });
-
+        SimpleBooleanProperty connectionFailed = new SimpleBooleanProperty(false);
         MenuButton joinButton = new MenuButton("Join");
         joinButton.setOnMouseClicked(e->{
             if((field.getText().matches("[0-9.]*") && field.getText().length() > 2) || field.getText().equals("localhost") ){
+                }
                 try {
-                    ClientLobbyScene clientLobbyScene = new ClientLobbyScene(gameView,field.getText());
+                    connectionFailed.set(false);
+                    ClientLobbyScene clientLobbyScene = new ClientLobbyScene(gameView,field.getText(),connectionFailed);
                     clientLobbyScene.setPopUp(window);
-                    joinButton.setDisable(true);
                     joinButton.setOpacity(0.5);
-                    //field.setEditable(false);
                     field.setDisable(true);
+                    field.disableProperty().bind(connectionFailed.not());
+                    joinButton.disableProperty().bind(connectionFailed.not());
+                    joinButton.opacityProperty().bind(Bindings.when(connectionFailed).then(1).otherwise(0.5));
+                    typeInIP.textProperty().bind(Bindings.when(connectionFailed).then("Connection failed. Please check your connection status and IP.").otherwise("Trying to connect"));
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-            }
-        });
+            });
 
         HBox buttons = new HBox();
         buttons.getChildren().addAll(exitButton,joinButton);

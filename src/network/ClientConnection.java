@@ -1,6 +1,8 @@
 package network;
 
 import display.networkDisplay.ClientGameScene;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import network.requests.BuildRequest;
 import network.requests.EndTurnInfo;
 import network.requests.PlayerInfo;
@@ -22,11 +24,13 @@ import java.net.Socket;
 public class ClientConnection extends Connection {
     String name;
     String IPAddress;
+    SimpleBooleanProperty connectionFailed;
 
-    public ClientConnection(Stage gameView, String name, String IPAddress) {
+    public ClientConnection(Stage gameView, String name, String IPAddress, SimpleBooleanProperty connectionFailed) {
         super(gameView);
         this.name = name;
         this.IPAddress = IPAddress;
+        this.connectionFailed = connectionFailed;
     }
 
     @Override
@@ -45,6 +49,8 @@ public class ClientConnection extends Connection {
         ) {
 
             os = out;
+
+            //Player ınfolar doldur
 
             Player pl = new Player(Color.GREEN, Civilization.CivilizationEnum.SPAIN, name);
             PlayerInfo playerInfo = new PlayerInfo(pl);
@@ -112,6 +118,7 @@ public class ClientConnection extends Connection {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Problem");
+            connectionFailed.set(true);
         }
     }
 

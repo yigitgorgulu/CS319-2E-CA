@@ -44,7 +44,7 @@ public class NetworkMain extends Application {
         primaryStage.show();
     }
 
-    private Node getImgView() throws IOException {
+    public Node getImgView() throws IOException {
         InputStream is = Files.newInputStream(Paths.get("res/images/MainMenu/background.png"));
         Image img = new Image(is);
         is.close();

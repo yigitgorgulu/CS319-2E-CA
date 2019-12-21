@@ -6,21 +6,13 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4f3e89fd-e61b-4e79-85eb-6d15b3a69185" name="Default Changelist" comment="Added PopUp Class, Edited Server Lobby Scene">
-      <change afterPath="$PROJECT_DIR$/src/display/PopUp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="4f3e89fd-e61b-4e79-85eb-6d15b3a69185" name="Default Changelist" comment="End Turn Button Bug Fixed">
+      <change afterPath="$PROJECT_DIR$/src/display/CivilizationSelectionScene.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CS319-2E-CA.iml" beforeDir="false" afterPath="$PROJECT_DIR$/CS319-2E-CA.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/NetworkMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NetworkMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/display/MenuButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/MenuButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/display/PopUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/PopUp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/ClientLobbyScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/networkDisplay/ClientLobbyScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/LobbyScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/networkDisplay/LobbyScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/NetworkMainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/networkDisplay/NetworkMainMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/ServerLobbyScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/networkDisplay/ServerLobbyScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/map/MapButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/map/MapButton.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/network/ClientConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/ClientConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/network/Connection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/Connection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/network/ServerConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/ServerConnection.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,6 +28,7 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PUSH_AUTO_UPDATE" value="true" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="unstableGameScene" />
@@ -157,7 +150,7 @@
       <workItem from="1576590730076" duration="110000" />
       <workItem from="1576676079002" duration="11967000" />
       <workItem from="1576748172190" duration="9130000" />
-      <workItem from="1576775500125" duration="36642000" />
+      <workItem from="1576775500125" duration="48054000" />
     </task>
     <task id="LOCAL-00002" summary="Added display of dice.">
       <created>1574094483753</created>
@@ -278,7 +271,21 @@
       <option name="project" value="LOCAL" />
       <updated>1576760546945</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Added PopUp Class, Edited Server Lobby Scene">
+      <created>1576849954013</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1576849954013</updated>
+    </task>
+    <task id="LOCAL-00020" summary="End Turn Button Bug Fixed">
+      <created>1576936362214</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1576936362214</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -328,7 +335,8 @@
     <MESSAGE value="NetworkGameScene class created, base class for ClientGameScene and ServerGameScene. Shared functionality abstracted." />
     <MESSAGE value="LobbyScene class created as parent class for ServerLobbyScene and ClientLobbyScene. These two replace ServerScene and ClientScene." />
     <MESSAGE value="Added PopUp Class, Edited Server Lobby Scene" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added PopUp Class, Edited Server Lobby Scene" />
+    <MESSAGE value="End Turn Button Bug Fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="End Turn Button Bug Fixed" />
   </component>
   <component name="WindowStateProjectService">
     <state x="658" y="294" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1576525693489">
@@ -436,9 +444,54 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/network/ServerConnection.java</url>
-          <line>86</line>
-          <option name="timeStamp" value="8" />
+          <url>file://$PROJECT_DIR$/src/display/networkDisplay/ServerGameScene.java</url>
+          <line>48</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/display/networkDisplay/ServerGameScene.java</url>
+          <line>50</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/display/networkDisplay/ServerGameScene.java</url>
+          <line>49</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/display/networkDisplay/ServerGameScene.java</url>
+          <line>26</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/display/networkDisplay/ServerGameScene.java</url>
+          <line>28</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/display/networkDisplay/ServerGameScene.java</url>
+          <line>31</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/display/networkDisplay/ServerGameScene.java</url>
+          <line>30</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/display/networkDisplay/ServerGameScene.java</url>
+          <line>33</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/display/networkDisplay/ServerGameScene.java</url>
+          <line>34</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/display/networkDisplay/ServerGameScene.java</url>
+          <line>37</line>
+          <option name="timeStamp" value="23" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
