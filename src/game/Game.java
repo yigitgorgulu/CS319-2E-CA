@@ -23,7 +23,7 @@ public class Game implements Serializable {
     int die2 = 0;
     ArrayList<DevelopmentCards> developmentCards;
     Location loc = null;
-    Player e = null;
+    Player longestRoadOwner = null;
     Player largestArmyOwner = null;
 
     public Game(Map m, ArrayList<Player> p) {
@@ -76,7 +76,7 @@ public class Game implements Serializable {
 
     public void setDevelopmentCards(){ // creates development cards array list considering the # of players
         developmentCards = new ArrayList<>();
-        if ( noOfPlayers <= 5 ){
+        if ( noOfPlayers < 5 ){
             for ( int i = 0; i < 14; i++ )
                 developmentCards.add(DevelopmentCards.KNIGHT);
             for ( int i = 14; i < 19; i++)
@@ -88,7 +88,7 @@ public class Game implements Serializable {
             for ( int i = 23; i < 24; i++ )
                 developmentCards.add(DevelopmentCards.MONOPOLY);
         }
-        else if ( noOfPlayers >= 4 ) {
+        else if ( noOfPlayers >= 5 ) {
             for (int i = 0; i < 5; i++)
                 developmentCards.add(DevelopmentCards.VICTORY_POINT);
             for (int i = 5; i < 8; i++)
