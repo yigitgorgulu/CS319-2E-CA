@@ -2,7 +2,6 @@ package game;
 
 import game.map.Location;
 import game.map.Map;
-import game.map.MapTile;
 import game.player.Civilization;
 import game.player.DevelopmentCards;
 import game.player.Player;
@@ -27,6 +26,7 @@ public class Game implements Serializable {
     Player longestRoadOwner = null;
     Player largestArmyOwner = null;
     boolean canMoveRobber = false;
+    int doomsdayClock = 0;
 
     public Game(Map m, ArrayList<Player> p) {
         map = m;
@@ -135,42 +135,68 @@ public class Game implements Serializable {
         return false;
     }
 
-    public boolean getEvent(){ // within a game, an event can only occur once
+    public boolean checkEvent( int dice ){ // within a game, an event can only occur once
         if ( getDiceValue() == 12 ){
             Civilization.CivType type = currentPlayer.getCivilizationType();
-            if ( currentPlayer.getDiceCounter() != -1 )
-                currentPlayer.increaseDiceCounter();
-            if ( currentPlayer.getDiceCounter() > 2 ){
-                switch (type){
-                    case OTTOMANS:
-                        currentPlayer.resetSheep();
-                        /*(currentPlayer.getCivilization()).bereketMode();*/
-                        break;
-                    case TURKEY:
-                        break;
-                    case MAYA:
-                        for ( int i = 0; i < players.size(); i++)
-                            map.destroy(players.get(i));
-                        break;
-                    case SPAIN:
-                        if ( (largestArmyOwner != currentPlayer) && (largestArmyOwner != null) ){
+            switch (type){
+                case OTTOMANS:
+                case TURKEY:
+                    if( dice == 3) {
+                        currentPlayer.changeBereket(currentPlayer.resetSheep());
+                        return true;
+                    }
+                case MAYA:
+                    if(dice == 12) {
+                        doomsdayClock += 1;
+                        if( doomsdayClock == 1) {
+                            map.twinSheeps = true;
+                        }
+                        if( doomsdayClock == 2) {
+                            map.noCrops = true;
+                        }
+                        if( doomsdayClock == 3) {
+                            for (int i = 0; i < players.size(); i++)
+                                map.destroy(players.get(i));
+                            return true;
+                        }
+                    }
+                case SPAIN:
+                    if(dice == 2) {
+                        if ((largestArmyOwner != currentPlayer) && (largestArmyOwner != null)) {
                             largestArmyOwner.decreaseArmySize(1);
                             currentPlayer.increaseArmySize(1);
-                            if ( currentPlayer.getArmySize() > largestArmyOwner.getArmySize() ){
-                                largestArmyOwner = currentPlayer;
-                            }
+                            checkLargestArmy();
                         }
-                        break;
-                    case ENGLAND:
-                        Resource res = new Resource(0,0,0,0,3);
+                    }
+                    return true;
+                case ENGLAND:
+                    if(dice == 4) {
+                        Resource res = new Resource(0, 0, 0, 0, 3);
                         currentPlayer.addResource(res);
-                        break;
-                    case FRANCE:
+                        return true;
+                    }
+                case FRANCE:
+                    if( dice == 5 ) {
                         currentPlayer.resetResources();
                         currentPlayer.incrementVictoryPoints(1);
-                        break;
-                }
-                currentPlayer.resetDiceCounter();
+                        return true;
+                    }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public boolean checkLargestArmy() {
+        if( currentPlayer.getArmySize() >= 3) {
+            if (largestArmyOwner == null ) {
+                largestArmyOwner = currentPlayer;
+                currentPlayer.incrementVictoryPoints(2);
+                return true;
+            } else if (currentPlayer.getArmySize() > largestArmyOwner.getArmySize()) {
+                largestArmyOwner.decreaseVictoryPoints(2);
+                currentPlayer.incrementVictoryPoints(2);
+                largestArmyOwner = currentPlayer;
                 return true;
             }
         }
@@ -182,17 +208,9 @@ public class Game implements Serializable {
             switch(devCard) {
                 case KNIGHT:
                     canMoveRobber = true;
-                    if( currentPlayer.getArmySize() >= 3) {
-                        if (largestArmyOwner == null ) {
-                            largestArmyOwner = currentPlayer;
-                            currentPlayer.incrementVictoryPoints(2);
-                        } else if (currentPlayer.getArmySize() > largestArmyOwner.getArmySize()) {
-                            largestArmyOwner.decreaseVictoryPoints(2);
-                            currentPlayer.incrementVictoryPoints(2);
-                            largestArmyOwner = currentPlayer;
-                        }
-                        break;
-                    }
+                    currentPlayer.increaseArmySize(1);
+                    checkLargestArmy();
+                    break;
                 case MONOPOLY:
                     /*int add = ((players.get(i)).getRes()).monopolyDecrease(resourceType);
                     (currentPlayer.getRes()).monopolyIncrease(resourceType,add);*/
