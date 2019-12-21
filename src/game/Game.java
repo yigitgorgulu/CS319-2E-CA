@@ -188,6 +188,7 @@ public class Game implements Serializable {
                         break;
                 }
                 currentPlayer.resetDiceCounter();
+                return true; 
             }
         }
         return false;
