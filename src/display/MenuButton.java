@@ -19,6 +19,7 @@ public class MenuButton extends StackPane{
     public static final double RECTANGLE_HEIGHT = 30;
 
     public static Font fsmall;
+    private Rectangle bg;
 
     public MenuButton(String name) throws FileNotFoundException {
         fsmall = Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), 16);
@@ -26,7 +27,7 @@ public class MenuButton extends StackPane{
         text.setFont(fsmall);
         text.setFill(Color.WHITE);
 
-        Rectangle bg = new Rectangle(RECTANGLE_WIDTH,RECTANGLE_HEIGHT);
+        bg = new Rectangle(RECTANGLE_WIDTH,RECTANGLE_HEIGHT);
         bg.setOpacity(0.6);
         bg.setFill(Color.BLACK);
 
@@ -49,6 +50,15 @@ public class MenuButton extends StackPane{
         setOnMousePressed(e->{
             setEffect(drop);
         });
+
         setOnMouseReleased(e->setEffect(null));
+    }
+
+    public void setBackgroundColor(Color color){
+        bg.setFill(color);
+    }
+
+    public void setTextColor(Color color){
+        text.setFill(color);
     }
 }

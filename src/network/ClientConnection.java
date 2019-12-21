@@ -125,6 +125,7 @@ public class ClientConnection extends Connection {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Problem");
+            connectionFailed.set(true);
         }
     }
 

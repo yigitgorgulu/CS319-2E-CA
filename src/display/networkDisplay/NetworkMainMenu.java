@@ -46,7 +46,7 @@ public class NetworkMainMenu extends Parent {
 
         btnJoinAGame.setOnMouseClicked(e-> {
             try {
-                new PopUp("ASK_IP", paneMainMenu ,gameView, null);
+                new PopUp("ASK_IP", paneMainMenu ,gameView, null, null);
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             }

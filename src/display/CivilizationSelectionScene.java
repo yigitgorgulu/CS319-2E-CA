@@ -26,7 +26,7 @@ import java.nio.file.Paths;
 
 public class CivilizationSelectionScene {
 
-    Civilization.CivilizationEnum selectedCiv;
+    Civilization.CivType selectedCiv;
 
     public CivilizationSelectionScene(Stage gameview) throws IOException {
         super();
@@ -52,7 +52,7 @@ public class CivilizationSelectionScene {
         texts.setAlignment(Pos.CENTER);
         texts.setSpacing(50);
 
-        for(Civilization.CivilizationEnum e: Civilization.CivilizationEnum.values()){
+        for(Civilization.CivType e: Civilization.CivType.values()){
             StackPane civilizationBox = new StackPane();
             Rectangle backgroundForCivilizations = new Rectangle(widthOfACivBack,heightOfACivBack);
             backgroundForCivilizations.setOpacity(0.8);

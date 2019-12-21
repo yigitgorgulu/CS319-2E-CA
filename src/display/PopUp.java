@@ -1,22 +1,15 @@
 package display;
 
 import display.networkDisplay.ClientLobbyScene;
-import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
@@ -27,15 +20,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import network.Connection;
 import network.ServerConnection;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Stack;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -54,25 +44,23 @@ public class PopUp {
     private Double heightOfPopUp;
     private ServerConnection connection;
     private int i;
+    private SimpleBooleanProperty boolProperty;
 
     /**
-     *
-     * @param key
-     * PopUp Class has different pop-ups for different uses. Key is an identifier to be able to construct
-     * the one we want. Code has different switch and cases.
-     * @param paneWillBeBlurredOut
-     * The pane which needs to be blurred.
-     * @param stageItWillBeAdded
-     * Stage which pop up will be shown-on.
-     * @param connection
-     * Connection is the connection which is creatin in Server Lobby Scene. Necessary to get necessary data about players.
+     * @param key                  PopUp Class has different pop-ups for different uses. Key is an identifier to be able to construct
+     *                             the one we want. Code has different switch and cases.
+     * @param paneWillBeBlurredOut The pane which needs to be blurred.
+     * @param stageItWillBeAdded   Stage which pop up will be shown-on.
+     * @param connection           Connection is the connection which is creatin in Server Lobby Scene. Necessary to get necessary data about players.
+     * @param booleanProperty
      * @throws FileNotFoundException
      */
-    public PopUp(String key, Pane paneWillBeBlurredOut, Stage stageItWillBeAdded, ServerConnection connection) throws FileNotFoundException {
+    public PopUp(String key, Pane paneWillBeBlurredOut, Stage stageItWillBeAdded, ServerConnection connection, SimpleBooleanProperty booleanProperty) throws FileNotFoundException {
 
         this.gameView = stageItWillBeAdded;
         this.paneWillBeBlurredOut = paneWillBeBlurredOut;
         this.connection = connection;
+        this.boolProperty = booleanProperty;
 
         fLarge = Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), LARGE_FONT_SIZE);
         fNormal = Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), NORMAL_FONT_SIZE);
@@ -96,7 +84,7 @@ public class PopUp {
         //Blur the background, then constructing the pop-up
         blurBackground(paneWillBeBlurredOut);
 
-        switch (key){
+        switch (key) {
             case "ASK_IP":
                 askIP();
                 break;
@@ -118,21 +106,23 @@ public class PopUp {
         String[] waitingTexts = new String[4];
         fillTheWaitingTexts(waitingTexts);
 
-        Text hmPlayersArrived = new Text( "1/" + connection.getMaxPlayerCount());
+        Text hmPlayersArrived = new Text("1/" + connection.getMaxPlayerCount());
 
         updateWaitingText(waiting, waitingTexts, hmPlayersArrived);
 
         VBox waitingText = new VBox();
         MenuButton returnButton = new MenuButton("return");
-        returnButton.setOnMouseClicked(e->{
-            if(paneWillBeBlurredOut != null)
+        returnButton.setOnMouseClicked(e -> {
+            if (paneWillBeBlurredOut != null){
                 unblurBackground(paneWillBeBlurredOut);
+                boolProperty.set(false);
+            }
             close();
         });
         waitingText.setAlignment(Pos.CENTER);
         waitingText.getChildren().addAll(waiting, hmPlayersArrived);
         VBox buttonAndTexts = new VBox();
-        buttonAndTexts.getChildren().addAll(waitingText,returnButton);
+        buttonAndTexts.getChildren().addAll(waitingText, returnButton);
         buttonAndTexts.setSpacing(50);
         buttonAndTexts.setAlignment(Pos.CENTER);
 
@@ -145,6 +135,7 @@ public class PopUp {
 
     /**
      * fills the waiting texts array. This function was necessary to make waiting() more clear.
+     *
      * @param waitingTexts
      */
     private void fillTheWaitingTexts(String[] waitingTexts) {
@@ -155,12 +146,9 @@ public class PopUp {
     }
 
     /**
-     * @param waiting
-     * The text which will be updated every second.
-     * @param waitingTexts
-     * Array of "waiting for other players" which consist different dots.
-     * @param hmPlayersArrived
-     * information of how many players are connected so far
+     * @param waiting          The text which will be updated every second.
+     * @param waitingTexts     Array of "waiting for other players" which consist different dots.
+     * @param hmPlayersArrived information of how many players are connected so far
      */
     private void updateWaitingText(Text waiting, String[] waitingTexts, Text hmPlayersArrived) {
         ScheduledExecutorService exec = Executors.newScheduledThreadPool(1);
@@ -179,6 +167,7 @@ public class PopUp {
 
     /**
      * askIP is for Main Menu. when The user clicks on the join game button, it constructs this pop-up.
+     *
      * @throws FileNotFoundException
      */
     private void askIP() throws FileNotFoundException {
@@ -187,42 +176,43 @@ public class PopUp {
         TextField field = new TextField();
         field.setAlignment(Pos.CENTER);
         field.setMaxWidth(widthOfPopUp / 3);
+        field.setStyle("-fx-focus-color: transparent;");
 
         MenuButton exitButton = new MenuButton("Return");
-        exitButton.setOnMouseClicked(e->{
+        exitButton.setOnMouseClicked(e -> {
             close();
             unblurBackground(paneWillBeBlurredOut);
         });
         SimpleBooleanProperty connectionFailed = new SimpleBooleanProperty(false);
         MenuButton joinButton = new MenuButton("Join");
-        joinButton.setOnMouseClicked(e->{
-            if((field.getText().matches("[0-9.]*") && field.getText().length() > 2) || field.getText().equals("localhost") ){
-                }
-                try {
-                    connectionFailed.set(false);
-                    ClientLobbyScene clientLobbyScene = new ClientLobbyScene(gameView,field.getText(),connectionFailed);
-                    clientLobbyScene.setPopUp(window);
-                    joinButton.setOpacity(0.5);
-                    field.setDisable(true);
-                    field.disableProperty().bind(connectionFailed.not());
-                    joinButton.disableProperty().bind(connectionFailed.not());
-                    joinButton.opacityProperty().bind(Bindings.when(connectionFailed).then(1).otherwise(0.5));
-                    typeInIP.textProperty().bind(Bindings.when(connectionFailed).then("Connection failed. Please check your connection status and IP.").otherwise("Trying to connect"));
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            });
+        joinButton.setOnMouseClicked(e -> {
+            if ((field.getText().matches("[0-9.]*") && field.getText().length() > 2) || field.getText().equals("localhost")) {
+            }
+            try {
+                connectionFailed.set(false);
+                ClientLobbyScene clientLobbyScene = new ClientLobbyScene(gameView, field.getText(), connectionFailed);
+                clientLobbyScene.setPopUp(window);
+                joinButton.setOpacity(0.5);
+                field.setDisable(true);
+                field.disableProperty().bind(connectionFailed.not());
+                joinButton.disableProperty().bind(connectionFailed.not());
+                joinButton.opacityProperty().bind(Bindings.when(connectionFailed).then(1).otherwise(0.5));
+                typeInIP.textProperty().bind(Bindings.when(connectionFailed).then("Connection failed. Please check your connection status and IP.").otherwise("Trying to connect"));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
 
         HBox buttons = new HBox();
-        buttons.getChildren().addAll(exitButton,joinButton);
+        buttons.getChildren().addAll(exitButton, joinButton);
         buttons.setAlignment(Pos.CENTER);
         buttons.setSpacing(10);
 
         VBox layoutA = new VBox(10);
-        layoutA.getChildren().addAll(typeInIP,field, buttons);
+        layoutA.getChildren().addAll(typeInIP, field, buttons);
         layoutA.setAlignment(Pos.CENTER);
 
-        Stop[] stops = new Stop[] { new Stop(0, Color.BLACK), new Stop(1, Color.RED)};
+        Stop[] stops = new Stop[]{new Stop(0, Color.BLACK), new Stop(1, Color.RED)};
         LinearGradient lg1 = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, stops);
 
         scene = new Scene(layoutA);
@@ -234,8 +224,8 @@ public class PopUp {
 
     /**
      * Blurs the background pane
-     * @param pane
-     * pane which will be blurred
+     *
+     * @param pane pane which will be blurred
      * @throws FileNotFoundException
      */
     public void blurBackground(Pane pane) throws FileNotFoundException {
@@ -247,8 +237,8 @@ public class PopUp {
 
     /**
      * Unblurs the background pane
-     * @param pane
-     * pane which will be blurred
+     *
+     * @param pane pane which will be blurred
      */
     public void unblurBackground(Pane pane) {
         ColorAdjust adjustment = new ColorAdjust(0, 0, 0, 0);

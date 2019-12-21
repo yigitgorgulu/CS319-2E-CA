@@ -67,7 +67,9 @@ public class ServerConnection extends Connection {
 
             try {
 
+
                 Socket s = ss.accept();
+
                 ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
                 ObjectInputStream in = new ObjectInputStream(s.getInputStream());
                 currentConnectedClient++;

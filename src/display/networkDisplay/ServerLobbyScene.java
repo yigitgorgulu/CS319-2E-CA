@@ -3,6 +3,7 @@ package display.networkDisplay;
 import display.DefaultUISpecifications;
 import display.MenuButton;
 import display.PopUp;
+import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -73,6 +74,7 @@ public class ServerLobbyScene extends LobbyScene {
         //Creates the return and continue buttons. Gives necessary functionality to them and puts them in a HBox.
         display.MenuButton returnButton = new display.MenuButton("Return");
         display.MenuButton continueButton = new display.MenuButton("Continue");
+        continueButton.setOpacity(0.5);
         HBox returnContinueButtons = new HBox();
         createReturnAndContinueButtons(returnButton,continueButton,returnContinueButtons, classicButton, extendedButton,version,roomSizeComboBox,gameView,roomNameTextField, roomName, group, root);
 
@@ -88,19 +90,14 @@ public class ServerLobbyScene extends LobbyScene {
         returnButton.setOnMouseClicked(e->{
             gameView.setScene(root);
         });
-
-        //Set everything disabled on click.
+        SimpleBooleanProperty booleanProperty = new SimpleBooleanProperty(true);
+        //Set everything disabled on continue button click.
         continueButton.setOnMouseClicked(e->{
-            roomNameTextField.setDisable(true);
-            classicButton.setDisable(true);
-            extendedButton.setDisable(true);
-            roomSizeComboBox.setDisable(true);
-            returnButton.setDisable(true);
-
+            backgroundItems(booleanProperty, roomNameTextField,classicButton,extendedButton,roomSizeComboBox,returnButton);
             createAServer(gameView,roomName.getText(),version.getText().substring(9,version.getText().length()),Integer.parseInt(roomSizeComboBox.getValue()));
             try {
                 //Try to create a pop up which waits for other players, and updates itself accordingly.
-                waitingPopUp(gameView, group);
+                waitingPopUp(gameView, group, booleanProperty);
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             }
@@ -109,6 +106,7 @@ public class ServerLobbyScene extends LobbyScene {
         //This checks whether all necessary data is filled up. If it is full, continue button gets enabled.
         BooleanBinding booleanBind = roomNameTextField.textProperty().isEmpty().or(roomSizeComboBox.valueProperty().isNull());
         continueButton.disableProperty().bind(booleanBind);
+        continueButton.opacityProperty().bind(Bindings.when(booleanBind).then(0.5).otherwise(1));
 
         //Sets HBox for buttons
         returnContinueButtons.setAlignment(Pos.CENTER);
@@ -116,6 +114,12 @@ public class ServerLobbyScene extends LobbyScene {
         returnContinueButtons.setSpacing(100);
         returnContinueButtons.getChildren().addAll(returnButton,continueButton);
 
+    }
+
+    private void backgroundItems(SimpleBooleanProperty b, TextField roomNameTextField, MenuButton classicButton, MenuButton extendedButton, ComboBox<String> roomSizeComboBox, MenuButton returnButton) {
+        roomNameTextField.disableProperty().bind(b);
+        roomSizeComboBox.disableProperty().bind(b);
+        returnButton.disableProperty().bind(b);
     }
 
     private void createVersionButtonsAndSetListeners(VBox versionBox, Text version, HBox versionButtons, MenuButton classicButton, MenuButton extendedButton) throws FileNotFoundException {
@@ -129,6 +133,10 @@ public class ServerLobbyScene extends LobbyScene {
             version.setText("Version: Classic");
             classicButton.setOpacity(0.5);
             extendedButton.setOpacity(1.0);
+            classicButton.setBackgroundColor(Color.WHITE);
+            classicButton.setTextColor(Color.BLACK);
+            extendedButton.setBackgroundColor(Color.BLACK);
+            extendedButton.setTextColor(Color.WHITE);
         });
         extendedButton.setOnMousePressed(e->{
             extendedButton.setDisable(true);
@@ -136,6 +144,10 @@ public class ServerLobbyScene extends LobbyScene {
             version.setText("Version: Extended");
             extendedButton.setOpacity(0.5);
             classicButton.setOpacity(1.0);
+            extendedButton.setBackgroundColor(Color.WHITE);
+            extendedButton.setTextColor(Color.BLACK);
+            classicButton.setBackgroundColor(Color.BLACK);
+            classicButton.setTextColor(Color.WHITE);
         });
 
         versionButtons.getChildren().addAll(classicButton,extendedButton);
@@ -173,8 +185,8 @@ public class ServerLobbyScene extends LobbyScene {
         createAGame.setLineSpacing(12);
     }
 
-    private void waitingPopUp(Stage gameView, Pane group) throws FileNotFoundException {
-        popUp = new PopUp("WAITING", group,gameView, (ServerConnection) connection);
+    private void waitingPopUp(Stage gameView, Pane group, SimpleBooleanProperty booleanProperty) throws FileNotFoundException {
+        popUp = new PopUp("WAITING", group,gameView, (ServerConnection) connection, booleanProperty);
     }
 
     private void createAServer(Stage gameView, String roomName, String selectedVersion, int roomSize) {
