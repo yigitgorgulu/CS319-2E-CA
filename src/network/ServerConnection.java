@@ -90,10 +90,13 @@ public class ServerConnection extends Connection {
                     Serializable data;
 
                     System.out.println("AWAITING: " + client.id);
-                    if(!gameInit || client.player.equals(((ServerGameScene) networkGameScene).getGame().getCurrentPlayer())) {//)
-                            //|| serverGameScene.getGame().getCurrentPlayer().name.equals("server")) {
-                         data = (Serializable) client.in.readObject();
-                         System.out.println("AFTER AWAIT");
+                    if(!gameInit || client.player.equals(((ServerGameScene) networkGameScene).getGame().getCurrentPlayer())
+                            // To prevent infinite loop on servers turn. Increases game performance
+                            || (client.player.equals(((ServerGameScene) networkGameScene).getGame().getNextPlayer())
+                                            && ((ServerGameScene) networkGameScene).getGame().getCurrentPlayer().name.equals("server"))) {
+
+                        data = (Serializable) client.in.readObject();
+                        System.out.println("AFTER AWAIT");
                     }
                     else {
                         continue;

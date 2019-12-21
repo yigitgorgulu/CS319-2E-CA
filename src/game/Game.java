@@ -244,14 +244,12 @@ public class Game implements Serializable {
     }
 
     public void endTurn () {
-        int gameDir = 1;
         map.setInSettlingPhase(inSettlingPhase());
-        if ( gameTurns == noOfPlayers - 1 || gameTurns == 2 * noOfPlayers - 1 ) {
-            gameDir = 0;
-        } else if( gameTurns > noOfPlayers - 1 && gameTurns < 2 * noOfPlayers - 1 ) {
-            gameDir = -1;
-        }
-        gameTurns++;currentPlayerNo = (currentPlayerNo + gameDir + players.size() ) % players.size();
+
+        //calculateNextPlayerNo uses gameTurns. Therefore, line order is important.
+        currentPlayerNo = calculateNextPlayerNo();
+        gameTurns++;
+
         currentPlayer = players.get(currentPlayerNo);
         if ( !inSettlingPhase() ) {
             map.generateResource(rollDice());
@@ -271,6 +269,18 @@ public class Game implements Serializable {
         }
     }
 
+    private int calculateNextPlayerNo() {
+        int gameDir = 1;
+
+        if ( gameTurns == noOfPlayers - 1 || gameTurns == 2 * noOfPlayers - 1 ) {
+            gameDir = 0;
+        } else if( gameTurns > noOfPlayers - 1 && gameTurns < 2 * noOfPlayers - 1 ) {
+            gameDir = -1;
+        }
+
+        return (currentPlayerNo + gameDir + players.size() ) % players.size();
+    }
+
     public boolean inSettlingPhase () {
         return gameTurns < players.size() * 2;
     }
@@ -285,5 +295,9 @@ public class Game implements Serializable {
 
     public int getCurrentPlayerNo() {
         return currentPlayerNo;
+    }
+
+    public Player getNextPlayer() {
+        return players.get(calculateNextPlayerNo());
     }
 }
