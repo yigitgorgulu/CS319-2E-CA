@@ -197,6 +197,14 @@ public class Player implements Serializable {
     public boolean isBereket(){
         return civ.isBereket();
     }
+
+    public void resetResources(){
+        res.resetResources();
+    }
+
+    public void resetSheep(){
+        res.resetSheep();
+    }
     public int getDiceCounter(){
         return diceCounter;
     }

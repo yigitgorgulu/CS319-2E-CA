@@ -160,7 +160,7 @@ public class Game implements Serializable {
             if ( currentPlayer.getDiceCounter() > 2 ){
                 switch (type){
                     case OTTOMANS:
-                        (currentPlayer.getRes()).resetSheep();
+                        currentPlayer.resetSheep();
                         (currentPlayer.getCivilization()).bereketMode();
                         break;
                     case TURKEY:
@@ -173,8 +173,11 @@ public class Game implements Serializable {
                         break;
                     case ENGLAND:
                         Resource res = new Resource(0,0,0,0,3);
+                        currentPlayer.addResource(res);
                         break;
                     case FRANCE:
+                        currentPlayer.resetResources();
+                        currentPlayer.incrementVictoryPoints(1);
                         break;
                 }
                 currentPlayer.resetDiceCounter();

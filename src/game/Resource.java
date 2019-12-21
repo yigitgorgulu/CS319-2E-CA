@@ -149,7 +149,7 @@ public class Resource implements Serializable {
         return this.totalCount() == 0;
     }
 
-    int monopolyDecrease(int type) {
+    public int monopolyDecrease(int type) {
         int returnNo = 0;
         switch (type) {
             case 0:
@@ -187,7 +187,7 @@ public class Resource implements Serializable {
         return returnNo;
     }
 
-    void monopolyIncrease(int type, int count) {
+    public void monopolyIncrease(int type, int count) {
         switch (type) {
             case 0:
                 brick = brick + count;
@@ -206,5 +206,13 @@ public class Resource implements Serializable {
                 break;
             default:
         }
+    }
+
+    public void resetResources(){
+            brick = 0;
+            wood = 0;
+            sheep = 0;
+            wheat = 0;
+            ore = 0;
     }
 }
