@@ -205,6 +205,17 @@ public class Player implements Serializable {
     public void resetSheep(){
         res.resetSheep();
     }
+
+    public boolean decreaseArmySize(int no){
+        if ( armySize >= no ) {
+            armySize -= no;
+            return true;
+        }
+        return false;
+    }
+    public void increaseArmySize(int no){
+        armySize += no;
+    }
     public int getDiceCounter(){
         return diceCounter;
     }

@@ -170,6 +170,13 @@ public class Game implements Serializable {
                             map.destroy(players.get(i));
                         break;
                     case SPAIN:
+                        if ( (largestArmyOwner != currentPlayer) && (largestArmyOwner != null) ){
+                            largestArmyOwner.decreaseArmySize(1);
+                            currentPlayer.increaseArmySize(1);
+                            if ( currentPlayer.getArmySize() > largestArmyOwner.getArmySize() ){
+                                largestArmyOwner = currentPlayer;
+                            }
+                        }
                         break;
                     case ENGLAND:
                         Resource res = new Resource(0,0,0,0,3);
