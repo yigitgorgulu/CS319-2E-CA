@@ -138,7 +138,7 @@ public class ServerConnection extends Connection {
                         Player plrrx = new Player((PlayerInfo)data);
                         players.add(plrrx);
                         System.out.println("One player Added");
-                        client.os.writeObject(Requests.ADDED);
+                        client.os.writeObject(Requests.PLAYER_OK);
                         client.setPlayer(plrrx);
                     }
 
