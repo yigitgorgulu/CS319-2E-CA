@@ -119,7 +119,8 @@ public class PopUp {
         VBox waitingText = new VBox();
         MenuButton returnButton = new MenuButton("return");
         returnButton.setOnMouseClicked(e->{
-            unblurBackground(paneWillBeBlurredOut);
+            if(paneWillBeBlurredOut != null)
+                unblurBackground(paneWillBeBlurredOut);
             close();
         });
         waitingText.setAlignment(Pos.CENTER);
