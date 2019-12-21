@@ -18,13 +18,6 @@ public class Player implements Serializable {
     private Resource res;
     int armySize = 0;
     int roadLength = 0;
-    // cards numbers
-    int roadBuildingCards = 0;
-    int yearOfPlentyCards = 0;
-    int knightCards = 0;
-    int monopolyCards = 0;
-    int victoryPointCards = 0;
-    int pirateCards = 0;
     List<DevelopmentCards> devCards = new ArrayList<>();
 
     int victoryPoints = 0;
@@ -233,9 +226,6 @@ public class Player implements Serializable {
         return victoryPoints >= 10;
     }
     public int totalResource(){ return res.totalCount();}
-    public int getKnightCards(){return knightCards;}
     public int getArmySize(){return armySize;}
-    public int getMonopolyCards(){return monopolyCards;}
     public int getRoadLength(){return roadLength;}
-    public int getYearOfPlentyCards(){return yearOfPlentyCards;}
 }
