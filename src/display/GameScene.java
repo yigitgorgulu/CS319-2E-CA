@@ -54,6 +54,9 @@ public abstract class GameScene {
 
     double stretch = 1.0;
     protected Stage gameView;
+    private int dieNum1;
+    private int dieNum2;
+
     // constructors
     public GameScene(Stage gameView) throws IOException {
         this.gameView = gameView;
@@ -174,6 +177,8 @@ public abstract class GameScene {
 
     // methods
     protected void displayDice(int dieNum1, int dieNum2) {
+        this.dieNum1 = dieNum1;
+        this.dieNum2 = dieNum2;
         if ( root.getChildren().contains(diceBox) )
             root.getChildren().remove(diceBox);
         dice[0] = new Die(dieNum1);
@@ -182,6 +187,9 @@ public abstract class GameScene {
         diceBox.setTranslateX(200);
         diceBox.setTranslateY(200);
         root.getChildren().add(diceBox);
+        for( Pair t : tokens ) {
+            setTokenDisplay((MapToken)t.getKey(),(Location)t.getValue());
+        }
     }
 
     protected EventPopUp checkGameEvent(Game game) {
@@ -346,6 +354,11 @@ public abstract class GameScene {
         y = y + (differenceX / (2 * Math.sqrt(3))) * stretch;
         MapToken nextToken = null;
         //mt = new MapToken(radius, x, y, a.getNumber() );
+        if( dieNum1 + dieNum2 == mt.number ) {
+            mt.setFill(Color.LIGHTGREEN);
+        } else {
+            mt.setFill(Color.WHITE);
+        }
         mt.setCenterX(x);
         mt.setCenterY(y);
         mt.setRadius(radius);
