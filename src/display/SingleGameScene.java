@@ -11,6 +11,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import network.ServerConnection;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -53,6 +55,14 @@ public class SingleGameScene extends GameScene {
             updateDevCards(game.getCurrentPlayer());
             displayDice(game.getDie1(), game.getDie2());
             updatePlayerList();
+            if( game.eventTiggered ) {
+                Stage gameView;
+                try {
+                    EventPopUp popUp = new EventPopUp();
+                } catch (FileNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            }
         });
         buyDevCardButton.setOnAction(e -> {
             game.buyDevelopmentCard();
