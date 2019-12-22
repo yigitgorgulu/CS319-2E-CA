@@ -165,7 +165,7 @@ public class Map implements Serializable {
                         MapCorner cor = (MapCorner) e;
                         if( cor.player != null ) {
                             if( cor.type == MapCorner.Types.VILLAGE)
-                                continue;
+                                res.add(res);
                             if( cor.type == MapCorner.Types.CITY) {
                                 res.add(res);
                             }
