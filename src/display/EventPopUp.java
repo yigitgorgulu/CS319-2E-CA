@@ -22,16 +22,23 @@ public class EventPopUp {
     private static final double NORMAL_FONT_SIZE = 10.0;
     private static final double LARGE_FONT_SIZE = 5.0;
     Stage window;
+    String titleString = "";
+    String explanationString = "";
+    Font fLarge;
+    Font fNormal;
 
-    public EventPopUp( /*Stage stageItWillBeAdded*/ ) throws FileNotFoundException {
+    public EventPopUp( String titleString, String explanationString ) throws FileNotFoundException {
 
         /*this.gameView = stageItWillBeAdded;
         this.paneWillBeBlurredOut = paneWillBeBlurredOut;
         this.connection = connection;
         this.boolProperty = booleanProperty;*/
 
-        Font fLarge = Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), LARGE_FONT_SIZE);
-        Font fNormal = Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), NORMAL_FONT_SIZE);
+        this.titleString = titleString;
+        this.explanationString = explanationString;
+
+        fLarge = Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), LARGE_FONT_SIZE);
+        fNormal = Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), NORMAL_FONT_SIZE);
 
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
@@ -56,10 +63,10 @@ public class EventPopUp {
     }
 
     private void gameEvent() throws FileNotFoundException {
-        Text title = new Text("A game Event Has Occured");
-        Text explanation = new Text("I explain it here");
-        //title.setFont(fNormal);
-        //explanation.setFont(fNormal);
+        Text title = new Text(titleString);
+        Text explanation = new Text(explanationString);
+        title.setFont(fLarge);
+        explanation.setFont(fNormal);
 
         VBox waitingText = new VBox();
         Node paneWillBeBlurredOut;

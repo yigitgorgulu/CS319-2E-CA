@@ -26,6 +26,11 @@ public class Location implements Serializable {
     };
 
     public enum Types { CORNER, SIDE, TILE }
+
+    public Types getType() {
+        return type;
+    }
+
     Types type;
 
     Location() {

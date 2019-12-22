@@ -8,7 +8,7 @@ import network.requests.EndTurnInfo;
 import network.requests.PlayerInfo;
 import network.requests.Requests;
 import game.map.Map;
-import game.map.MapButton;
+import display.MapButton;
 import game.player.Civilization;
 import game.player.Player;
 import javafx.application.Platform;
@@ -21,7 +21,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class ClientConnection extends Connection {
     String name;
@@ -96,7 +95,7 @@ public class ClientConnection extends Connection {
                     if(data instanceof Map) {
                         Platform.runLater(() -> {
                             try {
-                                ClientGameScene clientGameScene = new ClientGameScene(mapLatch, (Map)data, this, pl);
+                                ClientGameScene clientGameScene = new ClientGameScene(mapLatch, (Map)data, gameView,this, pl);
                                 gameView.setScene(clientGameScene.getScene());
                                 this.networkGameScene = clientGameScene;
                             } catch (IOException e) {

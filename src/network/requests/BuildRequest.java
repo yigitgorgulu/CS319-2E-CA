@@ -1,6 +1,6 @@
 package network.requests;
 
-import game.map.MapButton;
+import display.MapButton;
 import game.map.MapElement;
 
 import java.io.Serializable;

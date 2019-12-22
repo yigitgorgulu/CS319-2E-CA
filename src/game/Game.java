@@ -27,6 +27,7 @@ public class Game implements Serializable {
     Player longestRoadOwner = null;
     Player largestArmyOwner = null;
     boolean canMoveRobber = false;
+
     int doomsdayClock = 0;
 
     public Game(Map m, ArrayList<Player> p) {
@@ -35,6 +36,10 @@ public class Game implements Serializable {
         currentPlayer = players.get(currentPlayerNo);
         noOfPlayers = p.size();
         setDevelopmentCards();
+    }
+
+    public int getDoomsdayClock() {
+        return doomsdayClock;
     }
 
     public ArrayList<Player> getPlayers() {

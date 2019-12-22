@@ -1,5 +1,7 @@
 package display.networkDisplay;
 
+import display.MapButton;
+import javafx.stage.Stage;
 import network.ClientConnection;
 import network.requests.Requests;
 import game.map.*;
@@ -9,8 +11,8 @@ import java.io.*;
 import java.util.concurrent.CountDownLatch;
 
 public class ClientGameScene extends NetworkGameScene {
-    public ClientGameScene(CountDownLatch mapLatch, Map map, ClientConnection connection, Player player) throws IOException {
-        super(connection);
+    public ClientGameScene(CountDownLatch mapLatch, Map map, Stage primaryStage, ClientConnection connection, Player player) throws IOException {
+        super(primaryStage, connection);
         this.player = player;
         this.map = map;
         addBackground();

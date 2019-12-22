@@ -2,9 +2,10 @@ package display.networkDisplay;
 
 import display.GameScene;
 import display.ResourceBox;
-import game.map.MapButton;
+import display.MapButton;
 import game.map.MapElement;
 import game.player.Player;
+import javafx.stage.Stage;
 import network.Connection;
 import network.requests.BuildRequest;
 import network.requests.PlayerInfo;
@@ -20,8 +21,8 @@ public abstract class NetworkGameScene extends GameScene {
     List<MapButton> mapButtonList;
 
     // constructors
-    public NetworkGameScene(Connection connection) throws IOException {
-        super();
+    public NetworkGameScene(Stage primaryStage,Connection connection) throws IOException {
+        super(primaryStage);
         mapButtonList = new ArrayList<>();
         this.connection = connection;
     }

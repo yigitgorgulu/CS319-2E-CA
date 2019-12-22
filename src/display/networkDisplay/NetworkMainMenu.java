@@ -32,7 +32,7 @@ public class NetworkMainMenu extends Parent {
 
         /*btnCreateAGame.setOnMouseClicked(e->gameView.setScene(gameScene));*/
 
-        SingleGameScene singleGameScene = new SingleGameScene();
+        SingleGameScene singleGameScene = new SingleGameScene(gameView);
 
         btnCreateOfflineGame.setOnMouseClicked(e-> {
             gameView.setScene(singleGameScene.getScene());

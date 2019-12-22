@@ -1,5 +1,7 @@
 package display.networkDisplay;
 
+import display.MapButton;
+import javafx.stage.Stage;
 import network.ServerConnection;
 import game.Game;
 import game.map.*;
@@ -12,8 +14,8 @@ import java.util.concurrent.CountDownLatch;
 public class ServerGameScene extends NetworkGameScene {
     Game game;
 
-    public ServerGameScene(ArrayList<Player> p, ServerConnection connection) throws IOException {
-        super(connection);
+    public ServerGameScene(ArrayList<Player> p, Stage primaryStage, ServerConnection connection) throws IOException {
+        super(primaryStage, connection);
         this.player = p.get(0);
         System.out.println("SERVER PLAYER COLOR:" + player.getColor().toString());
         map = new Map();
@@ -30,6 +32,7 @@ public class ServerGameScene extends NetworkGameScene {
 
         System.out.println("end turn done");
         System.out.println(game.getCurrentPlayer().name + "\n" + player.name);
+        checkGameEvent(game);
 
         if(game.getCurrentPlayer().equals(player)) {
             endTurnButton.setDisable(false);

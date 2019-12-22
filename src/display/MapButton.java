@@ -1,11 +1,18 @@
-package game.map;
+package display;
 
+import game.map.Buildable;
+import game.map.Location;
+import game.map.MapElement;
 import game.player.Player;
 import javafx.scene.shape.Circle;
 
 import java.io.Serializable;
 
 public class MapButton extends Circle implements Serializable {
+    public MapElement getMapElement() {
+        return me;
+    }
+
     private MapElement me;
 
     public MapButton(double x, double y, double r, MapElement me) {
@@ -28,13 +35,13 @@ public class MapButton extends Circle implements Serializable {
     }
 
     public int getXLoc() {
-        return me.getLocation().x;
+        return me.getLocation().getX();
     }
     public int getYLoc() {
-        return me.getLocation().y;
+        return me.getLocation().getY();
     }
     public Location.Types getLocType() {
-        return me.getLocation().type;
+        return me.getLocation().getType();
     }
 
 }
