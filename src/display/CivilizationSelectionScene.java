@@ -93,9 +93,16 @@ public class CivilizationSelectionScene {
                 civilizationBox.scaleYProperty().set(1.02);
             });
             civilizationBox.setOnMouseExited(event -> {
-                civilizationBox.setEffect(null);
-                civilizationBox.scaleXProperty().set(1);
-                civilizationBox.scaleYProperty().set(1);
+                boolean b = true;
+                try {
+                    b = !selectedCiv.name().equals(e.name());
+                }catch (NullPointerException m){
+                }
+                if(b){
+                    civilizationBox.setEffect(null);
+                    civilizationBox.scaleXProperty().set(1);
+                    civilizationBox.scaleYProperty().set(1);
+                }
             });
             civilizationBox.setOnMouseClicked(event -> {
                 selectedCiv = e;

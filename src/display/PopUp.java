@@ -5,12 +5,14 @@ import display.networkDisplay.ClientLobbyScene;
 import game.Sound;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.GaussianBlur;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
@@ -110,6 +112,15 @@ public class PopUp {
         volumeSliderForMusic.setMinWidth(40);
         volumeSliderForMusic.setValue(Sound.musicVolume * 100);
         volumeSliderForMusic.setStyle("-fx-focus-color: gray; ");
+        volumeSliderForMusic.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                volumeSliderForMusic.setValueChanging(true);
+                double value = (event.getX()/volumeSliderForMusic.getWidth())*volumeSliderForMusic.getMax();
+                volumeSliderForMusic.setValue(value);
+                volumeSliderForMusic.setValueChanging(false);
+            }
+        });
 
         VBox volumeSliderAndText = new VBox(10);
         volumeSliderAndText.setAlignment(Pos.CENTER);
@@ -124,6 +135,15 @@ public class PopUp {
         volumeSliderForSoundFX.setMinWidth(40);
         volumeSliderForSoundFX.setValue(Sound.soundFXVolume * 100);
         volumeSliderForSoundFX.setStyle("-fx-focus-color: gray; ");
+        volumeSliderForSoundFX.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                volumeSliderForSoundFX.setValueChanging(true);
+                double value = (event.getX()/volumeSliderForSoundFX.getWidth())*volumeSliderForSoundFX.getMax();
+                volumeSliderForSoundFX.setValue(value);
+                volumeSliderForSoundFX.setValueChanging(false);
+            }
+        });
 
         VBox fxSliderAndText = new VBox(10);
         fxSliderAndText.setSpacing(20);

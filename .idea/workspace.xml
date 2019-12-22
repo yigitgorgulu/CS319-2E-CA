@@ -6,10 +6,11 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4f3e89fd-e61b-4e79-85eb-6d15b3a69185" name="Default Changelist" comment="Added Credits :)">
+    <list default="true" id="4f3e89fd-e61b-4e79-85eb-6d15b3a69185" name="Default Changelist" comment="Edited Sound, added settings which control music and soundfx.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/display/SettingsAndCredits.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/Credits.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/display/networkDisplay/NetworkMainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/networkDisplay/NetworkMainMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/sound/selection.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/res/sound/selection.mp3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/display/CivilizationSelectionScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/CivilizationSelectionScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/display/PopUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/PopUp.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -64,6 +65,7 @@
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.tabs" />
     <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/src/network/ServerConnection.java" />
   </component>
@@ -155,7 +157,8 @@
       <workItem from="1576748172190" duration="9130000" />
       <workItem from="1576775500125" duration="36642000" />
       <workItem from="1576961464469" duration="2869000" />
-      <workItem from="1576964383443" duration="2143000" />
+      <workItem from="1576964383443" duration="3678000" />
+      <workItem from="1576970217764" duration="4807000" />
     </task>
     <task id="LOCAL-00002" summary="Added display of dice.">
       <created>1574094483753</created>
@@ -353,7 +356,21 @@
       <option name="project" value="LOCAL" />
       <updated>1576964937430</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Credits fix lol">
+      <created>1576966561785</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1576966561785</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Edited Sound, added settings which control music and soundfx.">
+      <created>1576972840918</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1576972840918</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -374,8 +391,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Added display of current player, resources of current player, centered(?) map. Turned initials of package names to lowercase." />
-    <MESSAGE value="Added display of dice." />
     <MESSAGE value="Moved end turn button next to resources." />
     <MESSAGE value="Added third player, also JAR file." />
     <MESSAGE value="Added JAR file." />
@@ -399,7 +414,9 @@
     <MESSAGE value="Events: For spain when event occurs, player gets one soldier from the owner of lo" />
     <MESSAGE value="Join background fixed. Continue Button opacity fixed." />
     <MESSAGE value="Added Credits :)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Credits :)" />
+    <MESSAGE value="Credits fix lol" />
+    <MESSAGE value="Edited Sound, added settings which control music and soundfx." />
+    <option name="LAST_COMMIT_MESSAGE" value="Edited Sound, added settings which control music and soundfx." />
   </component>
   <component name="WindowStateProjectService">
     <state x="658" y="294" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1576525693489">
