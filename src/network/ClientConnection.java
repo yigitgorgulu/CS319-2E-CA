@@ -15,10 +15,7 @@ import javafx.application.Platform;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.net.Socket;
 import java.util.concurrent.CountDownLatch;
 
@@ -112,7 +109,7 @@ public class ClientConnection extends Connection {
                             MapButton mb = ((BuildRequest)data).mapButton;
                             MapButton mapB = networkGameScene.findMapButton(mb);
                             Player builderPlayer = new Player(((BuildRequest)data).playerInfo);
-                            mapB.clientUpdate(builderPlayer);
+                            mapB.clientUpdate(builderPlayer, ((BuildRequest)data).getHasCity());
                             if(builderPlayer.equals(pl)) {
                                 System.out.println("UPDATING MY RES");
                                 networkGameScene.updateResourcesInTurn(builderPlayer);
@@ -133,6 +130,13 @@ public class ClientConnection extends Connection {
                                     networkGameScene.getPlayer().name);
                             if(new Player(endTurnInfo.getCurrentPlayerInfo()).equals(networkGameScene.getPlayer()))
                                 ((ClientGameScene) networkGameScene).enableEndTurn();
+                            if( endTurnInfo.getPopUp() != null ) {
+                                try {
+                                    ((ClientGameScene) networkGameScene).showPopUp(endTurnInfo.getPopUp());
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                         });
 
 

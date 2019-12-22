@@ -1,5 +1,6 @@
 package network;
 
+import display.EventPopUp;
 import display.networkDisplay.ServerGameScene;
 import network.requests.BuildRequest;
 import network.requests.EndTurnInfo;
@@ -13,10 +14,7 @@ import javafx.application.Platform;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -146,7 +144,13 @@ public class ServerConnection extends Connection {
 
                     else if(data.equals(Requests.END_TURN)) {
                         System.out.println("RECEIVED END TURN REQUEST:");
-                        Platform.runLater(() -> ((ServerGameScene) networkGameScene).endTurnProcess(endTurnCount));
+                        Platform.runLater(() -> {
+                            try {
+                                ((ServerGameScene) networkGameScene).endTurnProcess(endTurnCount);
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
+                        });
                         endTurnCount.await();
                         endTurnCount = new CountDownLatch(1);
                     }
@@ -169,6 +173,7 @@ public class ServerConnection extends Connection {
                             if (built) {
                                 ((BuildRequest)data).setPlayerInfo(new PlayerInfo(((ServerGameScene) networkGameScene)
                                         .getGame().getCurrentPlayer()));
+                                ((BuildRequest)data).setHasCity(mapB.hasCity());
                                 send(data);
                             }
                         }
@@ -182,12 +187,12 @@ public class ServerConnection extends Connection {
         }
     }
 
-    public void sendEndTurnInfo(Player currentPlayer, int die1, int die2) {
+    public void sendEndTurnInfo(Player currentPlayer, int die1, int die2, EventPopUp popUp) {
 
         try {
             for (Client client : clients) {
                 EndTurnInfo endTurnInfo = new EndTurnInfo(new PlayerInfo(currentPlayer),
-                        new PlayerInfo(client.player), die1, die2);
+                        new PlayerInfo(client.player), die1, die2, popUp);
 
                 client.os.writeObject(endTurnInfo);
             }

@@ -38,4 +38,5 @@ public class MapCorner implements MapElement, Buildable, Serializable {
         return type;
     }
 
+    public boolean hasCity() { return type.equals(Types.CITY);}
 }

@@ -1,5 +1,6 @@
 package display.networkDisplay;
 
+import display.EventPopUp;
 import display.MapButton;
 import javafx.stage.Stage;
 import network.ServerConnection;
@@ -25,24 +26,26 @@ public class ServerGameScene extends NetworkGameScene {
         displayDice(game.getDie1(), game.getDie2());
     }
 
-    public void endTurnProcess() {
+    public void endTurnProcess() throws FileNotFoundException {
         game.endTurn();
         updateResources(player);
         displayDice(game.getDie1(), game.getDie2());
 
         System.out.println("end turn done");
         System.out.println(game.getCurrentPlayer().name + "\n" + player.name);
-        checkGameEvent(game);
+        EventPopUp popUp = checkGameEvent(game);
 
         if(game.getCurrentPlayer().equals(player)) {
             endTurnButton.setDisable(false);
         }
 
-        ((ServerConnection)connection).sendEndTurnInfo(game.getCurrentPlayer(), game.getDie1(), game.getDie2());
+        ((ServerConnection)connection).sendEndTurnInfo(game.getCurrentPlayer(), game.getDie1(), game.getDie2(), popUp);
+        if( popUp != null )
+            popUp.initPopUp(gameView);
 
     }
 
-    public void endTurnProcess(CountDownLatch countDownLatch) {
+    public void endTurnProcess(CountDownLatch countDownLatch) throws FileNotFoundException {
         endTurnProcess();
         countDownLatch.countDown();
     }
@@ -51,7 +54,11 @@ public class ServerGameScene extends NetworkGameScene {
     protected void setupButtons() {
         endTurnButton.setOnMouseClicked(e->{
             endTurnButton.setDisable(true);
-            endTurnProcess();
+            try {
+                endTurnProcess();
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
         });
     }
 

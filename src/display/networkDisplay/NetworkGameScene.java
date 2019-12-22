@@ -1,5 +1,6 @@
 package display.networkDisplay;
 
+import display.EventPopUp;
 import display.GameScene;
 import display.ResourceBox;
 import display.MapButton;
@@ -10,6 +11,7 @@ import network.Connection;
 import network.requests.BuildRequest;
 import network.requests.PlayerInfo;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +23,8 @@ public abstract class NetworkGameScene extends GameScene {
     List<MapButton> mapButtonList;
 
     // constructors
-    public NetworkGameScene(Stage primaryStage,Connection connection) throws IOException {
-        super(primaryStage);
+    public NetworkGameScene(Stage gameView,Connection connection) throws IOException {
+        super(gameView);
         mapButtonList = new ArrayList<>();
         this.connection = connection;
     }
@@ -40,7 +42,9 @@ public abstract class NetworkGameScene extends GameScene {
     @Override
     protected void nonTileMouseClicked(MapButton mb, MapElement a) {
         try {
-            connection.send(new BuildRequest(a,mb, new PlayerInfo(player)));
+            BuildRequest buildRequest = new BuildRequest(a,mb, new PlayerInfo(player));
+            buildRequest.setHasCity(mb.hasCity());
+            connection.send(buildRequest);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -73,4 +77,8 @@ public abstract class NetworkGameScene extends GameScene {
     public Player getPlayer() {
         return this.player;
     }
+
+    public void showPopUp(EventPopUp popUp) throws FileNotFoundException {
+        popUp.initPopUp(gameView);
+    };
 }
