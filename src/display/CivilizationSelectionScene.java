@@ -5,10 +5,14 @@ import game.Sound;
 import game.player.Civilization;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
@@ -29,13 +33,16 @@ import javafx.scene.text.Text;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 public class CivilizationSelectionScene {
 
     Civilization.CivType selectedCiv = null;
     String name;
-    private Color selectedColor;
+    private Color selectedColor = Color.BLACK;
     private Font fnormal;
     private Font flarge;
     final int NORMAL_FONT_SIZE = (int)DefaultUISpecifications.SCREEN_WIDTH / 110;
@@ -46,14 +53,16 @@ public class CivilizationSelectionScene {
         double heightOfACivBack = DefaultUISpecifications.SCREEN_HEIGHT / 3;
         double widthOfACivBack = DefaultUISpecifications.SCREEN_WIDTH / 7;
 
-
-
         StackPane pane = new StackPane();
         fnormal = Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), NORMAL_FONT_SIZE);
         flarge = Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), LARGE_FONT_SIZE);
 
         DropShadow drop = new DropShadow(10, Color.WHITE);
         drop.setInput(new Glow());
+
+        Rectangle rectangle = new Rectangle(DefaultUISpecifications.SCREEN_WIDTH,DefaultUISpecifications.SCREEN_HEIGHT);
+        rectangle.setOpacity(0.2);
+
 
         HBox lineOne = new HBox();
         HBox lineTwo = new HBox();
@@ -74,13 +83,57 @@ public class CivilizationSelectionScene {
         texts.setAlignment(Pos.CENTER);
         texts.setSpacing(DefaultUISpecifications.SCREEN_HEIGHT / 140);
 
+        HBox textsAndColors = new HBox();
+        final ComboBox<String> colorNames = new ComboBox<>();
+        List<Color> colorlist = Arrays.asList(Color.BLACK,Color.BLUE,Color.ORANGE,Color.YELLOW,Color.RED,Color.GRAY,Color.GREEN);
+        ArrayList<Color> colors = new ArrayList<>();
+        colors.addAll(colorlist);
+
+        colorNames.getItems().addAll("Black", "Blue", "Orange", "Yellow", "Red", "Gray", "Green");
+        textsAndColors.getChildren().addAll(texts,colorNames);
+
+        colorNames.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
+        {
+            public void changed(ObservableValue<? extends String> ov,
+                                final String oldvalue, final String newvalue)
+            {
+                switch (newvalue){
+                    case "Black":
+                       selectedColor = Color.BLACK;
+                       break;
+                    case "Blue":
+                        selectedColor = Color.BLUE;
+                        break;
+                    case "Orange":
+                        selectedColor = Color.ORANGE;
+                        break;
+                    case "Yellow":
+                        selectedColor = Color.YELLOW;
+                        break;
+                    case "Red":
+                        selectedColor = Color.RED;
+                        break;
+                    case "Gray":
+                        selectedColor = Color.GRAY;
+                        break;
+                    case "Green":
+                        selectedColor = Color.GREEN;
+                        break;
+                }
+                rectangle.setFill(selectedColor);
+
+            }});
+
+        textsAndColors.setAlignment(Pos.CENTER);
+        textsAndColors.setSpacing(20);
+
         VBox textsAndSelectionText = new VBox(DefaultUISpecifications.SCREEN_HEIGHT / 100);
         Text youveSelected = new Text("");
         youveSelected.setFont(flarge);
         youveSelected.setFill(Color.WHITE);
 
         textsAndSelectionText.setAlignment(Pos.CENTER);
-        textsAndSelectionText.getChildren().addAll(texts,youveSelected);
+        textsAndSelectionText.getChildren().addAll(textsAndColors,youveSelected);
 
         StackPane[] civilizationBoxes = new StackPane[6];
         for(Civilization.CivType e: Civilization.CivType.values()){
@@ -160,7 +213,8 @@ public class CivilizationSelectionScene {
         continueToGame.disableProperty().bind(booleanBind);
         continueToGame.opacityProperty().bind(Bindings.when(booleanBind).then(0.5).otherwise(1));
         continueToGame.setOnMouseClicked(e->{
-
+            name = textFieldTypeYourName.getText();
+            cc.countDown();
         });
 
 
@@ -176,7 +230,8 @@ public class CivilizationSelectionScene {
 
         ImageView a = (ImageView) getBackgroundImage();
         a.setEffect(adjustment);
-        pane.getChildren().addAll(a,textsAndCivilizations);
+
+        pane.getChildren().addAll(a,rectangle,textsAndCivilizations);
 
         Scene scene = new Scene(pane);
         gameview.setScene(scene);

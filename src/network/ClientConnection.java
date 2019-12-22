@@ -71,10 +71,11 @@ public class ClientConnection extends Connection {
                 });
                 cc.await();
                 name = civSelection[0].getName();
+                System.out.println(name);
                 color = civSelection[0].getColor();
                 civType = civSelection[0].getCivType();
 
-                px = new Player(Color.GREEN, Civilization.CivType.SPAIN, name);
+                px = new Player(color, civType, name);
                 PlayerInfo playerInfo = new PlayerInfo(px);
                 send(playerInfo);
 

@@ -65,7 +65,7 @@ public class ServerLobbyScene extends LobbyScene {
         /*Creates the buttons for selection between classic and extended Catan versions. Puts buttons in a HBox,
         then puts them and "Version: " text to a VBox*/
         VBox versionBox = new VBox();
-        Text version = new Text("Version: Classic");
+        Text version = new Text("Version: Extended");
         HBox versionButtons = new HBox();
         Pane sounds = new Pane();
         sounds.setPrefSize(0,0);
@@ -127,18 +127,14 @@ public class ServerLobbyScene extends LobbyScene {
     private void createVersionButtonsAndSetListeners(VBox versionBox, Text version, HBox versionButtons, MenuButton classicButton, MenuButton extendedButton) throws FileNotFoundException {
         version.setFont(fNormal);
         version.setFill(Color.WHITE);
-        classicButton.setDisable(true);
-        classicButton.setOpacity(0.5);
+        extendedButton.setDisable(true);
+        extendedButton.setOpacity(0.5);
         classicButton.setOnMousePressed(e->{
             classicButton.setDisable(true);
             extendedButton.setDisable(false);
             version.setText("Version: Classic");
             classicButton.setOpacity(0.5);
             extendedButton.setOpacity(1.0);
-            classicButton.setBackgroundColor(Color.WHITE);
-            classicButton.setTextColor(Color.BLACK);
-            extendedButton.setBackgroundColor(Color.BLACK);
-            extendedButton.setTextColor(Color.WHITE);
         });
         extendedButton.setOnMousePressed(e->{
             extendedButton.setDisable(true);
@@ -146,10 +142,6 @@ public class ServerLobbyScene extends LobbyScene {
             version.setText("Version: Extended");
             extendedButton.setOpacity(0.5);
             classicButton.setOpacity(1.0);
-            extendedButton.setBackgroundColor(Color.WHITE);
-            extendedButton.setTextColor(Color.BLACK);
-            classicButton.setBackgroundColor(Color.BLACK);
-            classicButton.setTextColor(Color.WHITE);
         });
 
         versionButtons.getChildren().addAll(classicButton,extendedButton);
