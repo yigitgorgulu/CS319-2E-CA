@@ -49,6 +49,8 @@ public abstract class GameScene {
     List<Pair> tokens = new ArrayList<>();
     List<Pair> tokenInfos = new ArrayList<>();
     List<MapButton> mapButtons = new ArrayList<>();
+    VBox playerResourcesMenu;
+    Rectangle resourcesBackground;
 
     double stretch = 1.0;
     Stage gameView;
@@ -86,6 +88,7 @@ public abstract class GameScene {
         for( MapButton mb : mapButtons ) {
             setMapButtonDisplay(mb);
         }
+        setPlayerResourcesMenuPosition();
     }
 
     protected void createGameAndTiles() throws FileNotFoundException {
@@ -233,7 +236,7 @@ public abstract class GameScene {
         double heightOfRectangle = DefaultUISpecifications.SCREEN_HEIGHT / 7;
         double leftUpperCornerOfTheRectangleX = DefaultUISpecifications.SCREEN_WIDTH / 2 - widthOfRectangle / 2;
         double leftUpperCornerOfTheRectangleY = DefaultUISpecifications.SCREEN_HEIGHT - heightOfRectangle;
-        Rectangle resourcesBackground = new Rectangle(widthOfRectangle, heightOfRectangle);
+        resourcesBackground = new Rectangle(widthOfRectangle, heightOfRectangle);
         resourcesBackground.setTranslateX(leftUpperCornerOfTheRectangleX);
         resourcesBackground.setTranslateY(leftUpperCornerOfTheRectangleY - 20);
         resourcesBackground.setFill(Color.WHITESMOKE);
@@ -261,7 +264,19 @@ public abstract class GameScene {
         vBox.setTranslateY(leftUpperCornerOfTheRectangleY - 20);
 
         vBox.setPadding(new Insets(4,4,60,4));
+        playerResourcesMenu = vBox;
         root.getChildren().add(vBox);
+    }
+
+    void setPlayerResourcesMenuPosition() {
+        double widthOfRectangle = DefaultUISpecifications.SCREEN_WIDTH / 3;
+        double heightOfRectangle = DefaultUISpecifications.SCREEN_HEIGHT / 7;
+        double leftUpperCornerOfTheRectangleX = ( DefaultUISpecifications.SCREEN_WIDTH / 2 ) * stretch - widthOfRectangle / 2;
+        double leftUpperCornerOfTheRectangleY = ( gameView.getHeight() )  - heightOfRectangle;
+        playerResourcesMenu.setTranslateX(leftUpperCornerOfTheRectangleX);
+        playerResourcesMenu.setTranslateY(leftUpperCornerOfTheRectangleY - 20);
+        resourcesBackground.setTranslateX(leftUpperCornerOfTheRectangleX);
+        resourcesBackground.setTranslateY(leftUpperCornerOfTheRectangleY - 20);
     }
 
     protected abstract void createPlayerResourceBoxes() throws IOException;
