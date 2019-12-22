@@ -25,6 +25,7 @@ public class NetworkMainMenu extends Parent {
         MenuButton btnCreateOfflineGame = new MenuButton( "Create an Offline Game" ,paneMainMenu);
         MenuButton btnCreateAGame = new MenuButton("Create an Online Game" ,paneMainMenu);
         MenuButton btnJoinAGame = new MenuButton("Join an existing game" ,paneMainMenu);
+        MenuButton btnSettings = new MenuButton("Settings",paneMainMenu);
         MenuButton btnCredits = new MenuButton("Credits" ,paneMainMenu);
         MenuButton btnQuit = new MenuButton("Quit Game" ,paneMainMenu);
         btnQuit.setOnMouseClicked(e->System.exit(0));
@@ -54,6 +55,14 @@ public class NetworkMainMenu extends Parent {
             }
         });
 
+        btnSettings.setOnMouseClicked(e->{
+            try {
+                new PopUp("SETTINGS", paneMainMenu, gameView, null,null);
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
+
         btnCredits.setOnMouseClicked(e->{
             try {
                 Credits settingsAndCredits = new Credits(gameView,root);
@@ -62,7 +71,7 @@ public class NetworkMainMenu extends Parent {
             }
         });
         menu0.setAlignment(Pos.CENTER);
-        menu0.getChildren().addAll(btnCreateOfflineGame,btnCreateAGame,btnJoinAGame,btnCredits,btnQuit);
+        menu0.getChildren().addAll(btnCreateOfflineGame,btnCreateAGame,btnJoinAGame,btnSettings,btnCredits,btnQuit);
 
         //Rectangle bg = new Rectangle(SCREEN_WIDTH,SCREEN_HEIGHT);
         //bg.setFill(Color.GRAY);

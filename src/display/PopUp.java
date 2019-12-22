@@ -1,15 +1,19 @@
 package display;
 
+import com.sun.glass.ui.Menu;
 import display.networkDisplay.ClientLobbyScene;
+import game.Sound;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
@@ -91,7 +95,59 @@ public class PopUp {
             case "WAITING":
                 waiting();
                 break;
+            case "SETTINGS":
+                settings();
+                break;
         }
+    }
+
+    private void settings() throws FileNotFoundException {
+        Text textVolumeSliderForMusic = new Text("Volume");
+
+        Slider volumeSliderForMusic = new Slider();
+        volumeSliderForMusic.setPrefWidth( 2 * widthOfPopUp / 3);
+        volumeSliderForMusic.setMaxWidth(Region.USE_PREF_SIZE);
+        volumeSliderForMusic.setMinWidth(40);
+        volumeSliderForMusic.setValue(Sound.musicVolume * 100);
+        volumeSliderForMusic.setStyle("-fx-focus-color: gray; ");
+
+        VBox volumeSliderAndText = new VBox(10);
+        volumeSliderAndText.setAlignment(Pos.CENTER);
+        volumeSliderAndText.setSpacing(20);
+        volumeSliderAndText.getChildren().addAll(textVolumeSliderForMusic,volumeSliderForMusic);
+
+        Text textVolumeSliderForSoundFX = new Text("Sound FX");
+
+        Slider volumeSliderForSoundFX = new Slider();
+        volumeSliderForSoundFX.setPrefWidth(2 * widthOfPopUp / 3);
+        volumeSliderForSoundFX.setMaxWidth(Region.USE_PREF_SIZE);
+        volumeSliderForSoundFX.setMinWidth(40);
+        volumeSliderForSoundFX.setValue(Sound.soundFXVolume * 100);
+        volumeSliderForSoundFX.setStyle("-fx-focus-color: gray; ");
+
+        VBox fxSliderAndText = new VBox(10);
+        fxSliderAndText.setSpacing(20);
+        fxSliderAndText.setAlignment(Pos.CENTER);
+        fxSliderAndText.getChildren().addAll(textVolumeSliderForSoundFX,volumeSliderForSoundFX);
+
+        MenuButton returnButton = new MenuButton("Return",paneWillBeBlurredOut);
+        returnButton.setOnMouseClicked(e->{
+            close();
+        });
+
+
+        VBox allSettings = new VBox(20);
+        allSettings.setSpacing(20);
+        allSettings.setAlignment(Pos.CENTER);
+        allSettings.getChildren().addAll(volumeSliderAndText,fxSliderAndText,returnButton);
+
+        Sound.bgMusicControl(volumeSliderForMusic);
+        Sound.soundFXVolumeController(volumeSliderForSoundFX);
+
+
+        scene = new Scene(allSettings);
+        window.setScene(scene);
+        window.showAndWait();
     }
 
     /**
@@ -181,7 +237,6 @@ public class PopUp {
         MenuButton exitButton = new MenuButton("Return",paneWillBeBlurredOut);
         exitButton.setOnMouseClicked(e -> {
             close();
-            unblurBackground(paneWillBeBlurredOut);
         });
         SimpleBooleanProperty connectionFailed = new SimpleBooleanProperty(false);
         MenuButton joinButton = new MenuButton("Join",paneWillBeBlurredOut);
@@ -248,7 +303,7 @@ public class PopUp {
     }
 
     public void close() {
-        System.out.println("DFJKFKAS 250 POPUP");
         window.close();
+        unblurBackground(paneWillBeBlurredOut);
     }
 }

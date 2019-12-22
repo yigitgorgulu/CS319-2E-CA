@@ -10,7 +10,9 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -43,6 +45,9 @@ public class CivilizationSelectionScene {
         super();
         double heightOfACivBack = DefaultUISpecifications.SCREEN_HEIGHT / 3;
         double widthOfACivBack = DefaultUISpecifications.SCREEN_WIDTH / 7;
+
+
+
         StackPane pane = new StackPane();
         fnormal = Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), NORMAL_FONT_SIZE);
         flarge = Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), LARGE_FONT_SIZE);
@@ -62,6 +67,7 @@ public class CivilizationSelectionScene {
         typeYourNameText.setFill(Color.WHITE);
         TextField textFieldTypeYourName = new TextField();
         textFieldTypeYourName.setPrefSize(DefaultUISpecifications.SCREEN_WIDTH / 5, NORMAL_FONT_SIZE);
+        textFieldTypeYourName.setMaxWidth(DefaultUISpecifications.SCREEN_WIDTH / 5);
         textFieldTypeYourName.setStyle("-fx-focus-color: transparent;");
         textFieldTypeYourName.setAlignment(Pos.CENTER);
         texts.getChildren().addAll(typeYourNameText,textFieldTypeYourName);
@@ -87,11 +93,9 @@ public class CivilizationSelectionScene {
                 civilizationBox.scaleYProperty().set(1.02);
             });
             civilizationBox.setOnMouseExited(event -> {
-                if(!selectedCiv.equals(e)){
                 civilizationBox.setEffect(null);
                 civilizationBox.scaleXProperty().set(1);
                 civilizationBox.scaleYProperty().set(1);
-                }
             });
             civilizationBox.setOnMouseClicked(event -> {
                 selectedCiv = e;
@@ -161,7 +165,11 @@ public class CivilizationSelectionScene {
         textsAndCivilizations.setAlignment(Pos.CENTER);
         textsAndCivilizations.getChildren().addAll(textsAndSelectionText,vBoxCivilizations,buttons);
 
-        pane.getChildren().addAll(getBackgroundImage(),textsAndCivilizations);
+        ColorAdjust adjustment = new ColorAdjust(0, -0.5, -0.5, 0);
+
+        ImageView a = (ImageView) getBackgroundImage();
+        a.setEffect(adjustment);
+        pane.getChildren().addAll(a,textsAndCivilizations);
 
         Scene scene = new Scene(pane);
         gameview.setScene(scene);
