@@ -5,7 +5,7 @@ import network.requests.BuildRequest;
 import network.requests.EndTurnInfo;
 import network.requests.PlayerInfo;
 import network.requests.Requests;
-import game.map.MapButton;
+import display.MapButton;
 import game.map.MapElement;
 import game.player.Civilization;
 import game.player.Player;
@@ -117,7 +117,7 @@ public class ServerConnection extends Connection {
                                     System.out.println(plrr.name);
                                 }
                                 System.out.println("---------");
-                                ServerGameScene serverGameScene = new ServerGameScene(players, this);
+                                ServerGameScene serverGameScene = new ServerGameScene(players, gameView,this);
                                 closePopUp();
 
                                 gameView.setScene(serverGameScene.getScene());
