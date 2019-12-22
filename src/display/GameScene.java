@@ -193,9 +193,13 @@ public abstract class GameScene {
     }
 
     protected EventPopUp checkGameEvent(Game game) {
+        String title = "";
+        String explanation = "";
+        if( game.getCurrentPlayer().checkVictory() ) {
+            title = "victory";
+            explanation = "";
+        }
         if( game.eventTiggered ) {
-            String title = "";
-            String explanation = "";
             switch (game.getCurrentPlayer().getCivilizationType()) {
                 case OTTOMANS:
                 case TURKEY:
@@ -233,12 +237,14 @@ public abstract class GameScene {
                             "brought you one victory point closer to victory";
                     break;
             }
-            try {
+        }
+        try {
+            if( title != "" ) {
                 EventPopUp popUp = new EventPopUp(title, explanation);
                 return popUp;
-            } catch (FileNotFoundException ex) {
-                ex.printStackTrace();
             }
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
         }
         return null;
     }
