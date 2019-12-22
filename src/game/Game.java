@@ -241,13 +241,6 @@ public class Game implements Serializable {
     }
 
     public int rollDice() {
-        if ( currentPlayer.getPirateCounter() == 0 ){
-            Resource res = new Resource(0,0,0,0,0);
-            res.generateRandom();;
-            (currentPlayer.getRes()).add(res);
-            // pirate comes with new resources
-            currentPlayer.resetPirateCounter();
-        }
         for ( int i = 0; i < players.size(); i++ ) {
             if (players.get(i).getPirateCounter() > 0) {
                 players.get(i).decreasePirateCounter();
