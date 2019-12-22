@@ -166,6 +166,8 @@ public abstract class GameScene {
             mapButtons.add(mb);
             setMapButtonDisplay(mb);
             tileMouseClicked(mb, a);
+            mb.setFill(Color.GRAY);
+            mb.setOpacity(0.5);
             root.getChildren().add(mb);
         });
     }
@@ -379,8 +381,6 @@ public abstract class GameScene {
         mb.setCenterX(x);
         mb.setCenterY(y);
         mb.setRadius(r);
-        mb.setFill(Color.GRAY);
-        mb.setOpacity(0.5);
     }
 
     protected abstract void nonTileMouseClicked(MapButton mb, MapElement a);
