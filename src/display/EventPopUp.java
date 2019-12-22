@@ -9,6 +9,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -17,10 +18,12 @@ import network.ServerConnection;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class EventPopUp {
-    private static final double NORMAL_FONT_SIZE = 10.0;
-    private static final double LARGE_FONT_SIZE = 5.0;
+    private static final double NORMAL_FONT_SIZE = DefaultUISpecifications.SCREEN_WIDTH / 90;
+    private static final double LARGE_FONT_SIZE = DefaultUISpecifications.SCREEN_WIDTH / 95;
     Stage window;
     String titleString = "";
     String explanationString = "";
@@ -28,11 +31,6 @@ public class EventPopUp {
     Font fNormal;
 
     public EventPopUp( String titleString, String explanationString ) throws FileNotFoundException {
-
-        /*this.gameView = stageItWillBeAdded;
-        this.paneWillBeBlurredOut = paneWillBeBlurredOut;
-        this.connection = connection;
-        this.boolProperty = booleanProperty;*/
 
         this.titleString = titleString;
         this.explanationString = explanationString;
@@ -64,25 +62,28 @@ public class EventPopUp {
 
     private void gameEvent() throws FileNotFoundException {
         Text title = new Text(titleString);
+        title.setWrappingWidth(NORMAL_FONT_SIZE * 25);
+        title.setTextAlignment(TextAlignment.CENTER);
+
         Text explanation = new Text(explanationString);
+        explanation.setWrappingWidth(NORMAL_FONT_SIZE * 25);
+        explanation.setTextAlignment(TextAlignment.CENTER);
         title.setFont(fLarge);
         explanation.setFont(fNormal);
 
         VBox waitingText = new VBox();
-        Node paneWillBeBlurredOut;
-        Button returnButton = new Button("okay");
+        MenuButton returnButton = new MenuButton("Continue",waitingText);
         returnButton.setOnMouseClicked(e->{
             window.close();
         });
         waitingText.setAlignment(Pos.CENTER);
         waitingText.getChildren().addAll(title, explanation);
+        waitingText.setSpacing(20);
         VBox buttonAndTexts = new VBox();
         buttonAndTexts.getChildren().addAll(waitingText, returnButton);
         buttonAndTexts.setSpacing(50);
         buttonAndTexts.setAlignment(Pos.CENTER);
 
-        //Sets pop up to the window
-        /*root.add(this);*/
         Scene scene = new Scene(buttonAndTexts);
         window.setScene(scene);
         window.showAndWait();

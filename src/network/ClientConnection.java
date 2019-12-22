@@ -62,8 +62,8 @@ public class ClientConnection extends Connection {
                     @Override public void run() {
                         try {
                             closePopUp();
-                            civSelection[0] = new CivilizationSelectionScene(gameView,cc);
-                        } catch (IOException e) {
+                            civSelection[0] = new CivilizationSelectionScene(gameView,cc, 0, "MULTIPLAYER");
+                        } catch (IOException | InterruptedException e) {
                             e.printStackTrace();
                         }
                     }

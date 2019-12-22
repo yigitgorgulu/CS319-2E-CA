@@ -4,16 +4,21 @@ import game.Game;
 import game.map.*;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -38,13 +43,13 @@ public abstract class GameScene {
     protected Font font;
     protected ResourceBox[] resourceBoxes;
     protected Rectangle separatorRectangle;
-    protected Button endTurnButton;
-    protected Button buyDevCardButton;
+    protected MenuButton endTurnButton;
+    protected MenuButton buyDevCardButton;
     protected Label turnOfPlayer;
     protected Die[] dice;
     protected HBox diceBox;
     protected ListView<Button> devCardList = new ListView<Button>();
-    protected ListView<String> playerList = new ListView<>();
+    protected ListView<VBox> playerList = new ListView<>();
     List<Pair> tiles = new ArrayList<>();
     List<Pair> tokens = new ArrayList<>();
     List<Pair> tokenInfos = new ArrayList<>();
@@ -57,6 +62,7 @@ public abstract class GameScene {
     // constructors
     public GameScene(Stage gameView) throws IOException {
         this.gameView = gameView;
+        playerList.setEditable(false);
         root = new Group();
         resourceBoxes = new ResourceBox[5];
         dice = new Die[2];
@@ -190,41 +196,41 @@ public abstract class GameScene {
                 case OTTOMANS:
                 case TURKEY:
                     title = "Kurban Bayramı (Holiday Of Sacrifices)";
-                    explanation = "You sacrifice all your sheep but in return you will observe bereket (double resources in" +
-                            "resource production for a long time";
+                    explanation = "You sacrifice all your sheep but in return you will observe bereket.\n(double resources in" +
+                            "resource production for a long time)";
                     break;
                 case MAYA:
                     title = "The End Is Near";
                     if( game.getDoomsdayClock() == 1) {
                         explanation = "The foreseen apocalypse nears by as the god's roll a 12" +
-                                "from now on all sheep will born as tweens";
+                                "from now on all sheep will born as tweens.";
                     }
                     else if( game.getDoomsdayClock() == 2) {
-                        explanation = "DoomsDay is very close now. Because of the famines no crop generation will be possible " +
+                        explanation = "DoomsDay is very close now. Because of the famines no crop generation will be possible." +
                                 "from now on";
                         map.noCrops = true;
                     }
                     else if( game.getDoomsdayClock() == 3) {
-                        explanation = "Doomsday have arrived most of the settlements are ruined";
+                        explanation = "Doomsday have arrived most of the settlements are ruined.";
                     }
                     break;
                 case SPAIN:
                     title = "Siesta";
-                    explanation = "Knights of other colonies are impressed by your flexible working hours and want to join";
+                    explanation = "Knights of other colonies are impressed by your flexible working hours and want to join.";
                     break;
                 case ENGLAND:
                     title = "Colonialism+";
                     explanation = "A soft breeze of colonialism brings you some" +
-                            " ore from your other colonies";
+                            " ore from your other colonies.";
                     break;
                 case FRANCE:
                     title = "Le Revolution";
                     explanation = "A French Revolution has occured which destroyed all your resources but " +
-                            "brought you one victory point closer to victory";
+                            "brought you one victory point closer to victory.";
                     break;
             }
             try {
-                EventPopUp popUp = new EventPopUp(title, explanation);
+                new EventPopUp(title, explanation);
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             }
@@ -239,29 +245,46 @@ public abstract class GameScene {
         resourcesBackground = new Rectangle(widthOfRectangle, heightOfRectangle);
         resourcesBackground.setTranslateX(leftUpperCornerOfTheRectangleX);
         resourcesBackground.setTranslateY(leftUpperCornerOfTheRectangleY - 20);
-        resourcesBackground.setFill(Color.WHITESMOKE);
+
+        Stop[] stops = new Stop[] { new Stop(0, Color.WHITESMOKE), new Stop(30, Color.LIGHTGRAY)};
+        LinearGradient lg1 = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, stops);
+
+        resourcesBackground.setFill(lg1);
+
+        DropShadow drop = new DropShadow(5,Color.GRAY);
+        resourcesBackground.setEffect(drop);
+
         root.getChildren().add(resourcesBackground);
 
         createPlayerResourceBoxes();
-        separatorRectangle = new Rectangle(20,0);
+        separatorRectangle = new Rectangle(widthOfRectangle / 60,0);
 
-        endTurnButton = new Button("End Turn");
-        buyDevCardButton = new Button( "Buy Development Card");
+        endTurnButton = new MenuButton("End Turn",separatorRectangle);
+        buyDevCardButton = new MenuButton( "Buy Development Card",separatorRectangle);
         setupButtons();
+
+        VBox endTurnBuyDev = new VBox(5);
+        endTurnBuyDev.getChildren().addAll(endTurnButton,buyDevCardButton);
+        endTurnBuyDev.setAlignment(Pos.CENTER);
 
         HBox hBox = new HBox();
         for ( ResourceBox rb : resourceBoxes )
             hBox.getChildren().add(rb);
-        hBox.getChildren().addAll(separatorRectangle, endTurnButton, buyDevCardButton);
+        hBox.setMaxWidth(widthOfRectangle);
+        hBox.setAlignment(Pos.CENTER);
+        hBox.getChildren().addAll(separatorRectangle, endTurnBuyDev);
 
         turnOfPlayer = new Label("Turn of player 1");
-        turnOfPlayer.setFont(new Font("Calibri", 14));
-        turnOfPlayer.setTextFill(Color.BROWN);
+        turnOfPlayer.setFont(new Font("Calibri", 18));
+        turnOfPlayer.setTextFill(Color.BLACK);
 
         VBox vBox = new VBox();
         vBox.getChildren().addAll(turnOfPlayer, hBox);
-        vBox.setTranslateX(leftUpperCornerOfTheRectangleX);
+        vBox.setAlignment(Pos.CENTER);
+        vBox.setTranslateX(leftUpperCornerOfTheRectangleX + 30);
+        System.out.println(widthOfRectangle + " " + vBox.getWidth());
         vBox.setTranslateY(leftUpperCornerOfTheRectangleY - 20);
+        vBox.setMaxWidth(widthOfRectangle);
 
         vBox.setPadding(new Insets(4,4,60,4));
         playerResourcesMenu = vBox;

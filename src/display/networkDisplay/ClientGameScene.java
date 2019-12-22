@@ -28,7 +28,7 @@ public class ClientGameScene extends NetworkGameScene {
     @Override
     protected void setupButtons() {
         endTurnButton.setDisable(true);
-        endTurnButton.setOnAction(e->{
+        endTurnButton.setOnMouseClicked(e->{
             try {
                 System.out.println("SENDING END TURN REQUEST");
                 connection.send(Requests.END_TURN);

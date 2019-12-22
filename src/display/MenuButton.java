@@ -53,7 +53,10 @@ public class MenuButton extends StackPane{
 
         setOnMousePressed(e->{
             setEffect(drop);
-            Sound.menuButtonSound((Pane) pane);
+            try {
+                Sound.menuButtonSound((Pane) pane);
+            }catch (ClassCastException a){}
+
         });
 
         setOnMouseReleased(e->setEffect(null));

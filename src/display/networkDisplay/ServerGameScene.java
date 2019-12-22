@@ -49,7 +49,7 @@ public class ServerGameScene extends NetworkGameScene {
 
     @Override
     protected void setupButtons() {
-        endTurnButton.setOnAction(e->{
+        endTurnButton.setOnMouseClicked(e->{
             endTurnButton.setDisable(true);
             endTurnProcess();
         });

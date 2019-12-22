@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.ColorAdjust;
@@ -32,6 +33,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -51,7 +53,8 @@ public class PopUp {
     private ServerConnection connection;
     private int i;
     private SimpleBooleanProperty boolProperty;
-
+    private int noOfPlayers;
+    private CountDownLatch cc;
     /**
      * @param key                  PopUp Class has different pop-ups for different uses. Key is an identifier to be able to construct
      *                             the one we want. Code has different switch and cases.
@@ -66,7 +69,7 @@ public class PopUp {
         this.gameView = stageItWillBeAdded;
         this.paneWillBeBlurredOut = paneWillBeBlurredOut;
         this.connection = connection;
-        this.boolProperty = booleanProperty;
+        this.boolProperty = booleanProperty;;
 
         fLarge = Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), LARGE_FONT_SIZE);
         fNormal = Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), NORMAL_FONT_SIZE);
@@ -100,7 +103,47 @@ public class PopUp {
             case "SETTINGS":
                 settings();
                 break;
+            case "SINGLE_PLAYER":
+                singlePlayer();
+                break;
         }
+    }
+
+    private void singlePlayer() throws FileNotFoundException {
+        Text playerQuantity = new Text("There will be :");
+        final ComboBox<Integer> playerCount = new ComboBox<>();
+        playerCount.getItems().addAll(2,3,4,5,6);
+        Text playerQuantityContinues = new Text("players");
+        VBox playerStuff = new VBox(4);
+        playerStuff.getChildren().addAll(playerQuantity,playerCount,playerQuantityContinues);
+        playerStuff.setAlignment(Pos.CENTER);
+
+        MenuButton exitButton = new MenuButton("Return",paneWillBeBlurredOut);
+        exitButton.setOnMouseClicked(e -> {
+            close();
+        });
+        MenuButton joinButton = new MenuButton("Continue to Selection Scene",paneWillBeBlurredOut);
+        joinButton.setOnMouseClicked(e -> {
+            noOfPlayers = playerCount.getValue();
+            close();
+        });
+
+        HBox buttons = new HBox(5);
+        buttons.getChildren().addAll(exitButton,joinButton);
+        buttons.setAlignment(Pos.CENTER);
+
+        VBox all = new VBox();
+        all.getChildren().addAll(playerStuff,buttons);
+        all.setAlignment(Pos.CENTER);
+        all.setSpacing(20);
+
+        scene = new Scene(all);
+        window.setScene(scene);
+        window.showAndWait();
+    }
+
+    public static void continueToRun(CountDownLatch cc){
+        cc.countDown();
     }
 
 
@@ -326,5 +369,15 @@ public class PopUp {
     public void close() {
         window.close();
         unblurBackground(paneWillBeBlurredOut);
+    }
+
+
+
+    public int getPlayerCount() {
+        return noOfPlayers;
+    }
+
+    public void setCC(CountDownLatch cc) {
+        this.cc = cc;
     }
 }

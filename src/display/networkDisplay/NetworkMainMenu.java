@@ -1,6 +1,7 @@
 package display.networkDisplay;
 
 import display.*;
+import game.player.Player;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,11 +11,12 @@ import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
 
 public class NetworkMainMenu extends Parent {
     private Scene root;
     private Pane paneMainMenu;
-    public NetworkMainMenu(Stage gameView, Pane pane) throws IOException {
+    public NetworkMainMenu(Stage gameView, Pane pane) throws IOException, InterruptedException {
         this.paneMainMenu = pane;
         VBox menu0 = new VBox(15);
         menu0.setTranslateX(DefaultUISpecifications.SCREEN_WIDTH / 2 - MenuButton.RECTANGLE_WIDTH / 2);
@@ -32,10 +34,24 @@ public class NetworkMainMenu extends Parent {
 
         /*btnCreateAGame.setOnMouseClicked(e->gameView.setScene(gameScene));*/
 
-        SingleGameScene singleGameScene = new SingleGameScene(gameView);
+
 
         btnCreateOfflineGame.setOnMouseClicked(e-> {
-            gameView.setScene(singleGameScene.getScene());
+            SingleGameScene singleGameScene = null;
+            try {
+
+                //CountDownLatch cc = new CountDownLatch(1);
+                PopUp playerPopUp = new PopUp("SINGLE_PLAYER", paneMainMenu,gameView,null,null );
+                int numberOfPlayers = playerPopUp.getPlayerCount();
+                Player[] players = new Player[numberOfPlayers];
+
+                    CivilizationSelectionScene playerSelection = new CivilizationSelectionScene(gameView,null, numberOfPlayers, "SINGLE");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+            //gameView.setScene(singleGameScene.getScene());
         });
 
         btnCreateAGame.setOnMouseClicked(e-> {
