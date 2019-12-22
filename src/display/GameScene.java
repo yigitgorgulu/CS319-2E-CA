@@ -53,7 +53,7 @@ public abstract class GameScene {
     Rectangle resourcesBackground;
 
     double stretch = 1.0;
-    Stage gameView;
+    protected Stage gameView;
     // constructors
     public GameScene(Stage gameView) throws IOException {
         this.gameView = gameView;
@@ -184,7 +184,7 @@ public abstract class GameScene {
         root.getChildren().add(diceBox);
     }
 
-    protected void checkGameEvent(Game game) {
+    protected EventPopUp checkGameEvent(Game game) {
         if( game.eventTiggered ) {
             String title = "";
             String explanation = "";
@@ -227,10 +227,12 @@ public abstract class GameScene {
             }
             try {
                 EventPopUp popUp = new EventPopUp(title, explanation);
+                return popUp;
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             }
         }
+        return null;
     }
 
     protected void addPlayerResourcesMenu() throws IOException {

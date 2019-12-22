@@ -54,7 +54,14 @@ public class SingleGameScene extends GameScene {
             updateDevCards(game.getCurrentPlayer());
             displayDice(game.getDie1(), game.getDie2());
             updatePlayerList();
-            checkGameEvent(game);
+            EventPopUp popUp = checkGameEvent(game);
+            if( popUp != null ) {
+                try {
+                    popUp.initPopUp(gameView);
+                } catch (FileNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            }
         });
         buyDevCardButton.setOnAction(e -> {
             game.buyDevelopmentCard();

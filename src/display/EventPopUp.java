@@ -17,29 +17,27 @@ import network.ServerConnection;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 
-public class EventPopUp {
+public class EventPopUp implements Serializable {
     private static final double NORMAL_FONT_SIZE = 10.0;
     private static final double LARGE_FONT_SIZE = 5.0;
-    Stage window;
     String titleString = "";
     String explanationString = "";
-    Font fLarge;
-    Font fNormal;
 
     public EventPopUp( String titleString, String explanationString ) throws FileNotFoundException {
 
-        /*this.gameView = stageItWillBeAdded;
-        this.paneWillBeBlurredOut = paneWillBeBlurredOut;
-        this.connection = connection;
-        this.boolProperty = booleanProperty;*/
 
         this.titleString = titleString;
         this.explanationString = explanationString;
 
-        fLarge = Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), LARGE_FONT_SIZE);
-        fNormal = Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), NORMAL_FONT_SIZE);
 
+
+    }
+
+    public void initPopUp(Stage window) throws FileNotFoundException {
+        Font fLarge = Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), LARGE_FONT_SIZE);
+        Font fNormal = Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), NORMAL_FONT_SIZE);
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
 
@@ -58,11 +56,7 @@ public class EventPopUp {
 
         //Blur the background, then constructing the pop-up
         /*blurBackground(paneWillBeBlurredOut);*/
-        gameEvent();
 
-    }
-
-    private void gameEvent() throws FileNotFoundException {
         Text title = new Text(titleString);
         Text explanation = new Text(explanationString);
         title.setFont(fLarge);
@@ -71,8 +65,9 @@ public class EventPopUp {
         VBox waitingText = new VBox();
         Node paneWillBeBlurredOut;
         Button returnButton = new Button("okay");
+        Stage finalWindow = window;
         returnButton.setOnMouseClicked(e->{
-            window.close();
+            finalWindow.close();
         });
         waitingText.setAlignment(Pos.CENTER);
         waitingText.getChildren().addAll(title, explanation);
