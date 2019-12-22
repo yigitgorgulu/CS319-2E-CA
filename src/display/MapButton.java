@@ -2,6 +2,7 @@ package display;
 
 import game.map.Buildable;
 import game.map.Location;
+import game.map.MapCorner;
 import game.map.MapElement;
 import game.player.Player;
 import javafx.scene.shape.Circle;
@@ -25,13 +26,23 @@ public class MapButton extends Circle implements Serializable {
             /*this.setFill(Color.WHITESMOKE);*/
             this.setOpacity(0.7);
             Player p = ( (Buildable) me ).getPlayer();
-            this.setFill(p.getColor());
+
+            paintButton(hasCity(), p);
+
         }
     }
-    public void clientUpdate(Player player) {
+    public void clientUpdate(Player player, boolean hasCity) {
         this.setOpacity(0.7);
-        this.setFill(player.getColor());
+        paintButton(hasCity, player);
+    }
 
+    private void paintButton(boolean hasCity, Player player) {
+        if(hasCity) {
+            this.setFill(player.getColor().darker().darker());
+        }
+        else {
+            this.setFill(player.getColor());
+        }
     }
 
     public int getXLoc() {
@@ -42,6 +53,13 @@ public class MapButton extends Circle implements Serializable {
     }
     public Location.Types getLocType() {
         return me.getLocation().getType();
+    }
+
+    public boolean hasCity() {
+        if(me instanceof MapCorner) {
+            return (((MapCorner) me).hasCity());
+        }
+        return false;
     }
 
 }

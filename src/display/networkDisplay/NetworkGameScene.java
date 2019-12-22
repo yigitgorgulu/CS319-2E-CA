@@ -42,7 +42,9 @@ public abstract class NetworkGameScene extends GameScene {
     @Override
     protected void nonTileMouseClicked(MapButton mb, MapElement a) {
         try {
-            connection.send(new BuildRequest(a,mb, new PlayerInfo(player)));
+            BuildRequest buildRequest = new BuildRequest(a,mb, new PlayerInfo(player));
+            buildRequest.setHasCity(mb.hasCity());
+            connection.send(buildRequest);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

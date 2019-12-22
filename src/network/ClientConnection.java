@@ -109,7 +109,7 @@ public class ClientConnection extends Connection {
                             MapButton mb = ((BuildRequest)data).mapButton;
                             MapButton mapB = networkGameScene.findMapButton(mb);
                             Player builderPlayer = new Player(((BuildRequest)data).playerInfo);
-                            mapB.clientUpdate(builderPlayer);
+                            mapB.clientUpdate(builderPlayer, ((BuildRequest)data).getHasCity());
                             if(builderPlayer.equals(pl)) {
                                 System.out.println("UPDATING MY RES");
                                 networkGameScene.updateResourcesInTurn(builderPlayer);

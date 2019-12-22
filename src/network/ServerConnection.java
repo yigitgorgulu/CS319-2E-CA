@@ -173,6 +173,7 @@ public class ServerConnection extends Connection {
                             if (built) {
                                 ((BuildRequest)data).setPlayerInfo(new PlayerInfo(((ServerGameScene) networkGameScene)
                                         .getGame().getCurrentPlayer()));
+                                ((BuildRequest)data).setHasCity(mapB.hasCity());
                                 send(data);
                             }
                         }
