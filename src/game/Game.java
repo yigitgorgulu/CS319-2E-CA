@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Game implements Serializable {
+    public boolean eventTiggered;
     ArrayList<Player> players;
     private int currentPlayerNo = 0;
     Player currentPlayer;
@@ -136,8 +137,8 @@ public class Game implements Serializable {
     }
 
     public boolean checkEvent( int dice ){ // within a game, an event can only occur once
-        if ( getDiceValue() == 12 ){
             Civilization.CivType type = currentPlayer.getCivilizationType();
+            eventTiggered = true;
             switch (type){
                 case OTTOMANS:
                 case TURKEY:
@@ -145,45 +146,51 @@ public class Game implements Serializable {
                         currentPlayer.changeBereket(currentPlayer.resetSheep());
                         return true;
                     }
+                    break;
                 case MAYA:
                     if(dice == 12) {
                         doomsdayClock += 1;
                         if( doomsdayClock == 1) {
                             map.twinSheeps = true;
+                            return true;
                         }
-                        if( doomsdayClock == 2) {
+                        else if( doomsdayClock == 2) {
                             map.noCrops = true;
+                            return true;
                         }
-                        if( doomsdayClock == 3) {
+                        else if( doomsdayClock == 3) {
                             for (int i = 0; i < players.size(); i++)
                                 map.destroy(players.get(i));
                             return true;
                         }
                     }
+                    break;
                 case SPAIN:
                     if(dice == 2) {
                         if ((largestArmyOwner != currentPlayer) && (largestArmyOwner != null)) {
                             largestArmyOwner.decreaseArmySize(1);
                             currentPlayer.increaseArmySize(1);
                             checkLargestArmy();
+                            return true;
                         }
                     }
-                    return true;
+                    break;
                 case ENGLAND:
                     if(dice == 4) {
                         Resource res = new Resource(0, 0, 0, 0, 3);
                         currentPlayer.addResource(res);
                         return true;
                     }
+                    break;
                 case FRANCE:
                     if( dice == 5 ) {
                         currentPlayer.resetResources();
                         currentPlayer.incrementVictoryPoints(1);
                         return true;
                     }
-            }
-            return true;
+                    break;
         }
+        eventTiggered = false;
         return false;
     }
 
@@ -267,8 +274,9 @@ public class Game implements Serializable {
             map.generateResource(rollDice());
             roadsBuilt = 0;
             villagesBuilt = 0;
+            checkEvent(getDiceValue());
         }
-        if( inSettlingPhase() ) {
+        else if( inSettlingPhase() ) {
             roadsBuilt = -1;
             villagesBuilt = -1;
             map.setInSettlingPhase(true);

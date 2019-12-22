@@ -103,6 +103,7 @@ public class PopUp {
         }
     }
 
+
     private void settings() throws FileNotFoundException {
         Text textVolumeSliderForMusic = new Text("Volume");
 
