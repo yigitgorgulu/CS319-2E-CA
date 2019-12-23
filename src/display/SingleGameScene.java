@@ -93,7 +93,6 @@ public class SingleGameScene extends GameScene {
         mb.setOnMouseEntered(e->{
             if(game.buildCheck(a.getLocation())) {
                 mb.lightlyPaint(game.getCurrentPlayer());
-                System.out.println("CAN BUILD");
             }
         });
         mb.setOnMouseExited(e->{
@@ -135,10 +134,12 @@ public class SingleGameScene extends GameScene {
             namesAndCiv.getChildren().addAll(nameOfThePlayer,civOfThePlayer);
             namesAndCiv.setAlignment(Pos.CENTER_LEFT);
             Text vp = new Text((players[i].getVictoryPoints()) + " VP");
-            vp.setTextAlignment(TextAlignment.RIGHT);
-            all.getChildren().addAll(namesAndCiv,vp);
+            Text army = new Text((players[i].getArmySize() + "ARMY"));
+            vp.setTextAlignment(TextAlignment.LEFT);
+            army.setTextAlignment(TextAlignment.LEFT);
+            all.getChildren().addAll(namesAndCiv,vp, army);
             all.setAlignment(Pos.CENTER_LEFT);
-            all.setSpacing(40);
+            all.setSpacing(15);
             playerList.getItems().add(all);
         }
     }
