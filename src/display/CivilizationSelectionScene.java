@@ -48,7 +48,8 @@ public class CivilizationSelectionScene {
     final int LARGE_FONT_SIZE = (int)DefaultUISpecifications.SCREEN_WIDTH / 60;
     private Stage gameview;
     private Player[] players;
-    ListView<VBox> playersListView;
+    ListView<HBox> playersListView;
+    private String selectedColorString;
 
     public CivilizationSelectionScene(Stage gameview, CountDownLatch cc, int numberOfPlayers, String gametype) throws IOException, InterruptedException {
         super();
@@ -59,7 +60,8 @@ public class CivilizationSelectionScene {
 
         if(gametype.equals("SINGLE")) {
             playersListView = new ListView<>();
-            playersListView.setPrefSize(DefaultUISpecifications.SCREEN_WIDTH / 4, LARGE_FONT_SIZE * numberOfPlayers + 20);
+            playersListView.setPrefSize(DefaultUISpecifications.SCREEN_WIDTH / 4, NORMAL_FONT_SIZE * numberOfPlayers);
+            playersListView.setStyle(".list-cell:empty-fx-opacity: 0;");
             playersListView.setEditable(false);
         }
 
@@ -67,21 +69,21 @@ public class CivilizationSelectionScene {
         fnormal = Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), NORMAL_FONT_SIZE);
         flarge = Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), LARGE_FONT_SIZE);
 
-        DropShadow drop = new DropShadow(10, Color.WHITE);
-        drop.setInput(new Glow());
+        DropShadow drop = new DropShadow(5, Color.WHITE);
+        drop.setInput(new Glow(0.6));
 
         Rectangle rectangle = new Rectangle(DefaultUISpecifications.SCREEN_WIDTH,DefaultUISpecifications.SCREEN_HEIGHT);
-        rectangle.setOpacity(0.2);
+        rectangle.setOpacity(0.1);
 
 
         HBox lineOne = new HBox();
         HBox lineTwo = new HBox();
         VBox vBoxCivilizations = new VBox();
         VBox texts = new VBox();
-        VBox textsAndCivilizations = new VBox(DefaultUISpecifications.SCREEN_HEIGHT / 50);
+        VBox textsAndCivilizations = new VBox();
         int i = 0;
 
-        Text typeYourNameText = new Text("Please Type Your Name");
+        Text typeYourNameText = new Text("Please Type Your Name & Choose A Color");
         typeYourNameText.setFont(fnormal);
         typeYourNameText.setFill(Color.WHITE);
         TextField textFieldTypeYourName = new TextField();
@@ -98,11 +100,12 @@ public class CivilizationSelectionScene {
 
         HBox textsAndColors = new HBox();
         final ComboBox<String>[] colorNames = new ComboBox[]{new ComboBox<>()};
+        colorNames[0].setStyle("-fx-focus-color: transparent; -fx-border-color: transparent; -fx-alignment: center");
         List<Color> colorlist = Arrays.asList(Color.BLACK,Color.BLUE,Color.ORANGE,Color.YELLOW,Color.RED,Color.GRAY,Color.GREEN);
         ArrayList<Color> colors = new ArrayList<>();
         colors.addAll(colorlist);
 
-        colorNames[0].getItems().addAll("Black", "Blue", "Orange", "Yellow", "Red", "Gray", "Green");
+        colorNames[0].getItems().addAll("Black", "Blue", "Orange", "Yellow", "Red", "Purple", "Green");
         textsAndColors.getChildren().addAll(texts, colorNames[0]);
 
         colorNames[0].getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
@@ -113,24 +116,35 @@ public class CivilizationSelectionScene {
                 switch (newvalue){
                     case "Black":
                        selectedColor = Color.BLACK;
+                       selectedColorString = "Black";
                        break;
                     case "Blue":
                         selectedColor = Color.BLUE;
+                        selectedColorString = "Blue";
                         break;
                     case "Orange":
                         selectedColor = Color.ORANGE;
+                        selectedColorString = "Orange";
                         break;
                     case "Yellow":
                         selectedColor = Color.YELLOW;
+                        selectedColorString = "Yellow";
                         break;
                     case "Red":
                         selectedColor = Color.RED;
+                        selectedColorString = "Red";
                         break;
-                    case "Gray":
-                        selectedColor = Color.GRAY;
+                    case "Purple":
+                        selectedColor = Color.PURPLE;
+                        selectedColorString = "Purple";
                         break;
                     case "Green":
                         selectedColor = Color.GREEN;
+                        selectedColorString = "Green";
+                        break;
+                    default:
+                        selectedColor = Color.TRANSPARENT;
+                        selectedColorString = "";
                         break;
                 }
                 rectangle.setFill(selectedColor);
@@ -138,7 +152,7 @@ public class CivilizationSelectionScene {
             }});
 
         textsAndColors.setAlignment(Pos.CENTER);
-        textsAndColors.setSpacing(20);
+        textsAndColors.setSpacing(10);
 
         VBox textsAndSelectionText = new VBox(DefaultUISpecifications.SCREEN_HEIGHT / 100);
         Text youveSelected = new Text("");
@@ -146,7 +160,7 @@ public class CivilizationSelectionScene {
         youveSelected.setFill(Color.WHITE);
 
         textsAndSelectionText.setAlignment(Pos.CENTER);
-        textsAndSelectionText.getChildren().addAll(textsAndColors,youveSelected);
+        textsAndSelectionText.getChildren().addAll(textsAndColors);
 
         StackPane[] civilizationBoxes = new StackPane[6];
         for(Civilization.CivType e: Civilization.CivType.values()){
@@ -182,7 +196,8 @@ public class CivilizationSelectionScene {
                 civilizationBox.scaleYProperty().set(1.02);
                 selectedCiv = e;
                 Sound.coolSelection(pane);
-                youveSelected.setText(e.name());
+                youveSelected.setText(capitalizeFirstLetter(e.name()));
+                youveSelected.setEffect(new DropShadow(5, Color.WHITE));
             });
 
             MenuButton selectButton = new MenuButton(e.name(),pane);
@@ -212,7 +227,7 @@ public class CivilizationSelectionScene {
 
         vBoxCivilizations.setAlignment(Pos.CENTER);
         vBoxCivilizations.setSpacing(DefaultUISpecifications.SCREEN_WIDTH / 140);
-        vBoxCivilizations.getChildren().addAll(lineOne,lineTwo);
+        vBoxCivilizations.getChildren().addAll(youveSelected,lineOne,lineTwo);
 
         MenuButton returnBack = new MenuButton("Exit",pane);
         returnBack.setOnMouseClicked(e->{
@@ -227,6 +242,13 @@ public class CivilizationSelectionScene {
         continueToGame.opacityProperty().bind(Bindings.when(booleanBind).then(0.5).otherwise(1));
         continueToGame.setOnMouseClicked(e->{
             name = textFieldTypeYourName.getText();
+            try {
+                colorNames[0].getSelectionModel().clearSelection();
+                colorNames[0].getItems().remove(selectedColorString);
+            }catch (Exception ex){};
+
+
+
 
             if(gametype.equals("MULTI")) {
                 cc.countDown();
@@ -234,13 +256,17 @@ public class CivilizationSelectionScene {
                 if(currenti < numberOfPlayers - 1){
                     players[currenti] = new Player(selectedColor,selectedCiv,name);
                     System.out.println("CURRENT I IS " + currenti);
-                    VBox a = new VBox(3);
+                    HBox a = new HBox(3);
                     Text nameOfThePlayer = new Text(players[currenti].name);
+                    nameOfThePlayer.setText(nameOfThePlayer.getText() + " as");
                     Text civOfThePlayer = new Text(players[currenti].getCivilizationType().name());
+                    StringBuilder sb = new StringBuilder(civOfThePlayer.getText().toLowerCase());
+                    sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
+                    civOfThePlayer.setText(sb.toString());
                     a.getChildren().addAll(nameOfThePlayer,civOfThePlayer);
                     playersListView.getItems().add(a);
                     textFieldTypeYourName.setText("");
-                    selectedCiv = null;
+                    youveSelected.setText("");
                     currenti++;
                 } else{
                     try {
@@ -255,14 +281,14 @@ public class CivilizationSelectionScene {
             }
         });
 
+        playersListView.setStyle("-fx-control-inner-background: darkgray;-fx-text-fill: white;");
+        playersListView.setOpacity(0.7);
+
         VBox playerListBox = new VBox();
         playerListBox.getChildren().add(playersListView);
         playerListBox.setAlignment(Pos.CENTER_RIGHT);
 
-        DropShadow shadow = new DropShadow(25, Color.BLACK);
-        playerListBox.setEffect(shadow);
-
-        HBox buttons = new HBox(widthOfACivBack / 5);
+        HBox buttons = new HBox(widthOfACivBack / 8);
         buttons.setAlignment(Pos.CENTER);
 
         buttons.getChildren().addAll(returnBack,continueToGame, playerListBox);
@@ -270,6 +296,7 @@ public class CivilizationSelectionScene {
 
         textsAndCivilizations.setAlignment(Pos.CENTER);
         textsAndCivilizations.getChildren().addAll(textsAndSelectionText,vBoxCivilizations,buttons);
+        textsAndCivilizations.setSpacing(DefaultUISpecifications.SCREEN_HEIGHT / 40);
 
         ColorAdjust adjustment = new ColorAdjust(0, -0.5, -0.5, 0);
 
@@ -285,6 +312,12 @@ public class CivilizationSelectionScene {
         //}
         gameview.setScene(scene);
         gameview.show();
+    }
+
+    private String capitalizeFirstLetter(String name) {
+        StringBuilder sb = new StringBuilder(name);
+        sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
+        return sb.toString();
     }
 
     private Node getBackgroundImage() throws IOException {

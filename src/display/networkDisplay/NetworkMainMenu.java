@@ -37,18 +37,9 @@ public class NetworkMainMenu extends Parent {
 
 
         btnCreateOfflineGame.setOnMouseClicked(e-> {
-            SingleGameScene singleGameScene = null;
             try {
-
-                //CountDownLatch cc = new CountDownLatch(1);
-                PopUp playerPopUp = new PopUp("SINGLE_PLAYER", paneMainMenu,gameView,null,null );
-                int numberOfPlayers = playerPopUp.getPlayerCount();
-                Player[] players = new Player[numberOfPlayers];
-
-                    CivilizationSelectionScene playerSelection = new CivilizationSelectionScene(gameView,null, numberOfPlayers, "SINGLE");
+                new PopUp("SINGLE_PLAYER", paneMainMenu,gameView,null,null );
             } catch (IOException ex) {
-                ex.printStackTrace();
-            } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
             //gameView.setScene(singleGameScene.getScene());

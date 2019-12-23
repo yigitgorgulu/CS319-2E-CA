@@ -23,8 +23,8 @@ public class Player implements Serializable {
     int armySize = 0;
     int roadLength = 0;
     List<DevelopmentCards> devCards = new ArrayList<>();
-    int victoryPoints = 0;
-    int bereketLeft = 0;
+    private int victoryPoints = 0;
+    private int bereketLeft = 0;
 
     //int diceCounter = 0; // the event occurs if the needed # of dice comes 3 times
     private int pirateCounter = -1;
@@ -234,4 +234,5 @@ public class Player implements Serializable {
     public int totalResource(){ return res.totalCount();}
     public int getArmySize(){return armySize;}
     public int getRoadLength(){return roadLength;}
+    public int getVictoryPoints(){return victoryPoints;}
 }

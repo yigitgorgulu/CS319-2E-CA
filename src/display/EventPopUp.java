@@ -7,6 +7,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -23,8 +28,8 @@ import java.util.Random;
 import java.io.Serializable;
 
 public class EventPopUp implements Serializable {
-    private static final double NORMAL_FONT_SIZE = 10.0;
-    private static final double LARGE_FONT_SIZE = 5.0;
+    private static final double NORMAL_FONT_SIZE = DefaultUISpecifications.SCREEN_WIDTH / 100;
+    private static final double LARGE_FONT_SIZE = DefaultUISpecifications.SCREEN_WIDTH / 95;
     String titleString = "";
     String explanationString = "";
     Font fLarge;
@@ -64,7 +69,7 @@ public class EventPopUp implements Serializable {
         /*blurBackground(paneWillBeBlurredOut);*/
 
         Text title = new Text(titleString);
-        title.setWrappingWidth(NORMAL_FONT_SIZE * 25);
+        title.setWrappingWidth(NORMAL_FONT_SIZE * 28);
         title.setTextAlignment(TextAlignment.CENTER);
 
         Text explanation = new Text(explanationString);
@@ -72,6 +77,7 @@ public class EventPopUp implements Serializable {
         explanation.setTextAlignment(TextAlignment.CENTER);
         title.setFont(fLarge);
         explanation.setFont(fNormal);
+
 
         VBox waitingText = new VBox();
         MenuButton returnButton = new MenuButton("Continue",waitingText);
@@ -87,6 +93,14 @@ public class EventPopUp implements Serializable {
         buttonAndTexts.setSpacing(50);
         buttonAndTexts.setAlignment(Pos.CENTER);
 
+
+      /*  Rectangle bg = new Rectangle(widthOfPopUp,heightOfPopUp);
+        Stop[] stops = new Stop[] { new Stop(0, Color.WHITE), new Stop(1, Color.LIGHTGRAY)};
+        LinearGradient lg1 = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, stops);
+        bg.setFill(lg1);
+        Pane pane = new Pane();
+        pane.getChildren().addAll(bg,buttonAndTexts);
+*/
         Scene scene = new Scene(buttonAndTexts);
         window.setScene(scene);
         window.showAndWait();

@@ -4,16 +4,22 @@ import game.Game;
 import game.map.*;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -22,6 +28,7 @@ import javafx.util.Pair;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +51,7 @@ public abstract class GameScene {
     protected Die[] dice;
     protected HBox diceBox;
     protected ListView<Button> devCardList = new ListView<Button>();
-    protected ListView<String> playerList = new ListView<>();
+    protected ListView<HBox> playerList;
     List<Pair> tiles = new ArrayList<>();
     List<Pair> tokens = new ArrayList<>();
     List<Pair> tokenInfos = new ArrayList<>();
@@ -62,6 +69,7 @@ public abstract class GameScene {
         this.gameView = gameView;
         root = new Group();
         resourceBoxes = new ResourceBox[5];
+        playerList = new ListView<>();
         dice = new Die[2];
         ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) -> {
             System.out.println("Height: " + gameView.getHeight() + " Width: " + gameView.getWidth());
@@ -193,20 +201,24 @@ public abstract class GameScene {
     }
 
     protected EventPopUp checkGameEvent(Game game) {
+        String title = "";
+        String explanation = "";
+        if( game.getCurrentPlayer().checkVictory() ) {
+            title = "victory";
+            explanation = "";
+        }
         if( game.eventTiggered ) {
-            String title = "";
-            String explanation = "";
             switch (game.getCurrentPlayer().getCivilizationType()) {
                 case OTTOMANS:
                 case TURKEY:
                     title = "Kurban Bayramı (Holiday Of Sacrifices)";
-                    explanation = "You sacrifice all your sheep but in return you will observe bereket (double resources in" +
-                            "resource production for a long time";
+                    explanation = "You sacrifice all your sheep but in return, you will observe bereket.\n(double resources in " +
+                            "resource production for a long time.)";
                     break;
                 case MAYA:
                     title = "The End Is Near";
                     if( game.getDoomsdayClock() == 1) {
-                        explanation = "The foreseen apocalypse nears by as the god's roll a 12" +
+                        explanation = "The foreseen apocalypse nears by as the god's roll a 12 "+
                                 "from now on all sheep will born as tweens";
                     }
                     else if( game.getDoomsdayClock() == 2) {
@@ -233,12 +245,14 @@ public abstract class GameScene {
                             "brought you one victory point closer to victory";
                     break;
             }
-            try {
+        }
+        try {
+            if( title != "" ) {
                 EventPopUp popUp = new EventPopUp(title, explanation);
                 return popUp;
-            } catch (FileNotFoundException ex) {
-                ex.printStackTrace();
             }
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
         }
         return null;
     }
@@ -249,9 +263,11 @@ public abstract class GameScene {
         double leftUpperCornerOfTheRectangleX = DefaultUISpecifications.SCREEN_WIDTH / 2 - widthOfRectangle / 2;
         double leftUpperCornerOfTheRectangleY = DefaultUISpecifications.SCREEN_HEIGHT - heightOfRectangle;
         resourcesBackground = new Rectangle(widthOfRectangle, heightOfRectangle);
-        resourcesBackground.setTranslateX(leftUpperCornerOfTheRectangleX);
+        resourcesBackground.setTranslateX(leftUpperCornerOfTheRectangleX - 10);
         resourcesBackground.setTranslateY(leftUpperCornerOfTheRectangleY - 20);
-        resourcesBackground.setFill(Color.WHITESMOKE);
+        Stop[] stops = new Stop[] { new Stop(0, Color.WHITE), new Stop(1, Color.WHITESMOKE)};
+        LinearGradient lg1 = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, stops);
+        resourcesBackground.setFill(lg1);
         root.getChildren().add(resourcesBackground);
 
         createPlayerResourceBoxes();
@@ -266,12 +282,14 @@ public abstract class GameScene {
             hBox.getChildren().add(rb);
         hBox.getChildren().addAll(separatorRectangle, endTurnButton, buyDevCardButton);
 
-        turnOfPlayer = new Label("Turn of player 1");
+        turnOfPlayer = new Label("Starting...");
         turnOfPlayer.setFont(new Font("Calibri", 14));
         turnOfPlayer.setTextFill(Color.BROWN);
+        turnOfPlayer.setAlignment(Pos.CENTER);
 
         VBox vBox = new VBox();
         vBox.getChildren().addAll(turnOfPlayer, hBox);
+        vBox.setAlignment(Pos.CENTER);
         vBox.setTranslateX(leftUpperCornerOfTheRectangleX);
         vBox.setTranslateY(leftUpperCornerOfTheRectangleY - 20);
 
@@ -304,7 +322,18 @@ public abstract class GameScene {
     protected void createDevCardList() {
         root.getChildren().add(devCardList);
     }
-    protected void createPlayerList() { root.getChildren().add(playerList); }
+
+    protected void createPlayerList() {
+        VBox playerListBox = new VBox();
+        playerListBox.setPrefSize(200,DefaultUISpecifications.SCREEN_HEIGHT);
+        playerList.setStyle("-fx-control-inner-background: darkgray;-fx-text-fill: white;");
+        playerListBox.getChildren().add(playerList);
+        playerListBox.setAlignment(Pos.CENTER_LEFT);
+        DropShadow drop = new DropShadow(5, Color.BLACK);
+        drop.setInput(new Glow());
+        playerListBox.setEffect(drop);
+        root.getChildren().add(playerListBox);
+    }
 
 
     protected abstract void tileMouseClicked(MapButton mb, MapTile a);

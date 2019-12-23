@@ -110,22 +110,29 @@ public class PopUp {
     }
 
     private void singlePlayer() throws FileNotFoundException {
-        Text playerQuantity = new Text("There will be :");
+        Text playerQuantity = new Text("Number Of Players");
         final ComboBox<Integer> playerCount = new ComboBox<>();
         playerCount.getItems().addAll(2,3,4,5,6);
-        Text playerQuantityContinues = new Text("players");
-        VBox playerStuff = new VBox(4);
-        playerStuff.getChildren().addAll(playerQuantity,playerCount,playerQuantityContinues);
+        playerCount.setStyle("-fx-focus-color: transparent; -fx-border-color: transparent; -fx-alignment: center");
+        VBox playerStuff = new VBox(15);
+        playerStuff.getChildren().addAll(playerQuantity,playerCount);
         playerStuff.setAlignment(Pos.CENTER);
 
         MenuButton exitButton = new MenuButton("Return",paneWillBeBlurredOut);
         exitButton.setOnMouseClicked(e -> {
             close();
         });
-        MenuButton joinButton = new MenuButton("Continue to Selection Scene",paneWillBeBlurredOut);
+        MenuButton joinButton = new MenuButton("Continue",paneWillBeBlurredOut);
         joinButton.setOnMouseClicked(e -> {
             noOfPlayers = playerCount.getValue();
             close();
+            try {
+                new CivilizationSelectionScene(gameView,null,noOfPlayers,"SINGLE");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
         });
 
         HBox buttons = new HBox(5);

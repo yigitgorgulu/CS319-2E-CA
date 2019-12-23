@@ -10,12 +10,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -110,12 +115,22 @@ public class SingleGameScene extends GameScene {
 
 
     protected void updatePlayerList() {
+        playerList.getItems().clear();
         for(int i = 0; i < numberOfPlayers; i++){
-            VBox a = new VBox(3);
+            HBox all = new HBox(4);
+            VBox namesAndCiv = new VBox(3);
             Text nameOfThePlayer = new Text(players[i].name);
+            nameOfThePlayer.setTextAlignment(TextAlignment.LEFT);
             Text civOfThePlayer = new Text(players[i].getCivilizationType().name());
-            a.getChildren().addAll(nameOfThePlayer,civOfThePlayer);
-            playerList.getItems().add(a);
+            civOfThePlayer.setTextAlignment(TextAlignment.LEFT);
+            namesAndCiv.getChildren().addAll(nameOfThePlayer,civOfThePlayer);
+            namesAndCiv.setAlignment(Pos.CENTER_LEFT);
+            Text vp = new Text((players[i].getVictoryPoints()) + " VP");
+            vp.setTextAlignment(TextAlignment.RIGHT);
+            all.getChildren().addAll(namesAndCiv,vp);
+            all.setAlignment(Pos.CENTER_LEFT);
+            all.setSpacing(40);
+            playerList.getItems().add(all);
         }
     }
 
