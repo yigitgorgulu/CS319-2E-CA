@@ -78,7 +78,7 @@ public abstract class NetworkGameScene extends GameScene {
         return this.player;
     }
 
-    public void showPopUp(EventPopUp popUp) throws FileNotFoundException {
-        popUp.initPopUp(gameView);
+    public void showPopUp(EventPopUp popUp) throws IOException {
+        popUp.initPopUp(root,gameView);
     };
 }

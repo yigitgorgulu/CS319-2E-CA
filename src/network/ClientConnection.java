@@ -59,7 +59,7 @@ public class ClientConnection extends Connection {
                     @Override public void run() {
                         try {
                             closePopUp();
-                            civSelection[0] = new CivilizationSelectionScene(gameView,cc, 0, "MULTIPLAYER");
+                            civSelection[0] = new CivilizationSelectionScene(gameView,cc, 0, "MULTI");
                         } catch (IOException | InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -133,7 +133,7 @@ public class ClientConnection extends Connection {
                             if( endTurnInfo.getPopUp() != null ) {
                                 try {
                                     ((ClientGameScene) networkGameScene).showPopUp(endTurnInfo.getPopUp());
-                                } catch (FileNotFoundException e) {
+                                } catch (IOException e) {
                                     e.printStackTrace();
                                 }
                             }

@@ -71,8 +71,8 @@ public class SingleGameScene extends GameScene {
             EventPopUp popUp = checkGameEvent(game);
             if( popUp != null ) {
                 try {
-                    popUp.initPopUp(gameView);
-                } catch (FileNotFoundException ex) {
+                    popUp.initPopUp(root,gameView);
+                } catch (IOException ex) {
                     ex.printStackTrace();
                 }
             }
@@ -89,6 +89,15 @@ public class SingleGameScene extends GameScene {
             game.build(a.getLocation());
             mb.update();
             updateResources(game.getCurrentPlayer());
+        });
+        mb.setOnMouseEntered(e->{
+            if(game.buildCheck(a.getLocation())) {
+                mb.lightlyPaint(game.getCurrentPlayer());
+                System.out.println("CAN BUILD");
+            }
+        });
+        mb.setOnMouseExited(e->{
+                mb.removeLightlyPaint();
         });
     }
 

@@ -147,7 +147,7 @@ public class ServerConnection extends Connection {
                         Platform.runLater(() -> {
                             try {
                                 ((ServerGameScene) networkGameScene).endTurnProcess(endTurnCount);
-                            } catch (FileNotFoundException e) {
+                            } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         });

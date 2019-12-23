@@ -63,6 +63,8 @@ public class CivilizationSelectionScene {
             playersListView.setPrefSize(DefaultUISpecifications.SCREEN_WIDTH / 4, NORMAL_FONT_SIZE * numberOfPlayers);
             playersListView.setStyle(".list-cell:empty-fx-opacity: 0;");
             playersListView.setEditable(false);
+            playersListView.setStyle("-fx-control-inner-background: darkgray;-fx-text-fill: white;");
+            playersListView.setOpacity(0.7);
         }
 
         StackPane pane = new StackPane();
@@ -246,12 +248,9 @@ public class CivilizationSelectionScene {
                 colorNames[0].getSelectionModel().clearSelection();
                 colorNames[0].getItems().remove(selectedColorString);
             }catch (Exception ex){};
-
-
-
-
             if(gametype.equals("MULTI")) {
                 cc.countDown();
+
             }else if(gametype.equals("SINGLE")){
                 if(currenti < numberOfPlayers - 1){
                     players[currenti] = new Player(selectedColor,selectedCiv,name);
@@ -281,11 +280,9 @@ public class CivilizationSelectionScene {
             }
         });
 
-        playersListView.setStyle("-fx-control-inner-background: darkgray;-fx-text-fill: white;");
-        playersListView.setOpacity(0.7);
-
         VBox playerListBox = new VBox();
-        playerListBox.getChildren().add(playersListView);
+        if(gametype.equals("SINGLE"))
+            playerListBox.getChildren().add(playersListView);
         playerListBox.setAlignment(Pos.CENTER_RIGHT);
 
         HBox buttons = new HBox(widthOfACivBack / 8);

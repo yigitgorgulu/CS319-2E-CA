@@ -26,7 +26,7 @@ public class ServerGameScene extends NetworkGameScene {
         displayDice(game.getDie1(), game.getDie2());
     }
 
-    public void endTurnProcess() throws FileNotFoundException {
+    public void endTurnProcess() throws IOException {
         game.endTurn();
         updateResources(player);
         displayDice(game.getDie1(), game.getDie2());
@@ -41,11 +41,11 @@ public class ServerGameScene extends NetworkGameScene {
 
         ((ServerConnection)connection).sendEndTurnInfo(game.getCurrentPlayer(), game.getDie1(), game.getDie2(), popUp);
         if( popUp != null )
-            popUp.initPopUp(gameView);
+            popUp.initPopUp(root,gameView);
 
     }
 
-    public void endTurnProcess(CountDownLatch countDownLatch) throws FileNotFoundException {
+    public void endTurnProcess(CountDownLatch countDownLatch) throws IOException {
         endTurnProcess();
         countDownLatch.countDown();
     }
@@ -56,7 +56,7 @@ public class ServerGameScene extends NetworkGameScene {
             endTurnButton.setDisable(true);
             try {
                 endTurnProcess();
-            } catch (FileNotFoundException ex) {
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
         });

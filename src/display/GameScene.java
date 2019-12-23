@@ -46,8 +46,8 @@ public abstract class GameScene {
     protected Font font;
     protected ResourceBox[] resourceBoxes;
     protected Rectangle separatorRectangle;
-    protected Button endTurnButton;
-    protected Button buyDevCardButton;
+    protected MenuButton endTurnButton;
+    protected MenuButton buyDevCardButton;
     protected Label turnOfPlayer;
     protected Die[] dice;
     protected HBox diceBox;
@@ -137,7 +137,7 @@ public abstract class GameScene {
             setMapButtonDisplay(mb);
             mapButtons.add(mb);
             mb.setFill(Color.GRAY);
-            mb.setOpacity(0.5);
+            mb.setOpacity(0.0);
             nonTileMouseClicked(mb, a);
             root.getChildren().add(mb);
         });
@@ -247,7 +247,7 @@ public abstract class GameScene {
                     break;
             }
         }
-        if ( title != "" && game.getCurrentPlayer().getPirateCounter() <= 0 ){
+        /*if ( title != "" && game.getCurrentPlayer().getPirateCounter() <= 0 ){
             Resource res = new Resource(0,0,0,0,0);
             res.generateRandom();;
             (game.getCurrentPlayer().getRes()).add(res);
@@ -255,13 +255,13 @@ public abstract class GameScene {
             game.getCurrentPlayer().resetPirateCounter();
             title = "pirate";
             explanation = "hurrah";
-        }
+        }*/
         try {
             if( title != "" ) {
-                EventPopUp popUp = new EventPopUp(title, explanation);
+                EventPopUp popUp = new EventPopUp(root,title, explanation , game.getCurrentPlayer().getCivilizationType());
                 return popUp;
             }
-        } catch (FileNotFoundException ex) {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
         return null;
@@ -275,7 +275,8 @@ public abstract class GameScene {
         resourcesBackground = new Rectangle(widthOfRectangle, heightOfRectangle);
         resourcesBackground.setTranslateX(leftUpperCornerOfTheRectangleX - 10);
         resourcesBackground.setTranslateY(leftUpperCornerOfTheRectangleY - 20);
-        Stop[] stops = new Stop[] { new Stop(0, Color.WHITE), new Stop(1, Color.WHITESMOKE)};
+        resourcesBackground.setTranslateY(leftUpperCornerOfTheRectangleY - 20);
+        Stop[] stops = new Stop[] { new Stop(0, Color.WHITE), new Stop(1, Color.LIGHTGRAY)};
         LinearGradient lg1 = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, stops);
         resourcesBackground.setFill(lg1);
         root.getChildren().add(resourcesBackground);
@@ -283,14 +284,18 @@ public abstract class GameScene {
         createPlayerResourceBoxes();
         separatorRectangle = new Rectangle(20,0);
 
-        endTurnButton = new Button("End Turn");
-        buyDevCardButton = new Button( "Buy Development Card");
+        endTurnButton = new MenuButton("End Turn",root);
+        buyDevCardButton = new MenuButton( "Buy Development Card",root);
         setupButtons();
 
         HBox hBox = new HBox();
         for ( ResourceBox rb : resourceBoxes )
             hBox.getChildren().add(rb);
-        hBox.getChildren().addAll(separatorRectangle, endTurnButton, buyDevCardButton);
+
+        VBox buttons = new VBox(10);
+        buttons.getChildren().addAll(endTurnButton,buyDevCardButton);
+
+        hBox.getChildren().addAll(separatorRectangle, buttons);
 
         turnOfPlayer = new Label("Starting...");
         turnOfPlayer.setFont(new Font("Calibri", 14));

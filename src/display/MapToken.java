@@ -32,7 +32,7 @@ public class MapToken extends Circle {
         no.setTextAlignment(TextAlignment.CENTER);
         no.setFont(font);
         this.setFill(Color.WHITESMOKE);
-        this.setOpacity(0.7);
+        this.setOpacity(0);
         hBox = new HBox();
         hBox.setAlignment(Pos.CENTER);
         hBox.setSpacing(3);

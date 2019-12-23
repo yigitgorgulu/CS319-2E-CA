@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import game.Game;
 import game.player.Civilization;
 import game.player.Player;
 import game.Resource;
@@ -131,6 +132,18 @@ public class Map implements Serializable {
             if(canRoad) {
                 //System.out.println(roadLength(loc, new ArrayList<>(), currentPlayer));
             }
+            return true;
+        }
+        return false;
+    }
+
+    public boolean buildCheck(Location loc, Player currentPlayer) {
+        MapElement me = getMapElement( loc );
+        boolean canSettle = loc.type == Location.Types.CORNER && noAdjacentSettlements(me)
+                && ( inSettlingPhase || isConnected(me, currentPlayer) );
+        boolean canRoad = loc.type == Location.Types.SIDE && isConnected(me, currentPlayer);
+        if( canSettle || canRoad )
+        {
             return true;
         }
         return false;

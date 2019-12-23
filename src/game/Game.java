@@ -117,7 +117,8 @@ public class Game implements Serializable {
                 ( ((cost == Player.Actions.BUILD_ROAD && roadsBuilt < 0)
                         || (cost == Player.Actions.BUILD_VILLAGE && villagesBuilt < 0)) );
         boolean paidSettle = currentPlayer.canAfford(cost) && !inSettlingPhase();
-        if ( paidSettle || freeSettle) {
+
+        if (freeSettle || paidSettle) {
             if (map.build(loc, currentPlayer)) {
                 if (paidSettle) {
                     currentPlayer.payForAction(cost);
@@ -139,6 +140,18 @@ public class Game implements Serializable {
             }
         }
         return false;
+    }
+
+    public boolean buildCheck(Location loc) {
+        Player.Actions cost = map.getCost(loc);
+        boolean freeSettle =
+                ( ((cost == Player.Actions.BUILD_ROAD && roadsBuilt < 0)
+                        || (cost == Player.Actions.BUILD_VILLAGE && villagesBuilt < 0)) );
+        boolean paidSettle = currentPlayer.canAfford(cost) && !inSettlingPhase();
+        if(freeSettle || paidSettle)
+            return map.buildCheck(loc,currentPlayer);
+        else
+            return false;
     }
 
     public boolean checkEvent( int dice ){ // within a game, an event can only occur once

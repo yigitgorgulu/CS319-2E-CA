@@ -5,6 +5,7 @@ import game.map.Location;
 import game.map.MapCorner;
 import game.map.MapElement;
 import game.player.Player;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 import java.io.Serializable;
@@ -24,13 +25,24 @@ public class MapButton extends Circle implements Serializable {
     public void update() {
         if( !me.isEmpty() ){
             /*this.setFill(Color.WHITESMOKE);*/
-            this.setOpacity(0.7);
+            this.setOpacity(1);
             Player p = ( (Buildable) me ).getPlayer();
 
             paintButton(hasCity(), p);
 
         }
     }
+
+    public void darken(){
+        if(me.isEmpty())
+            this.setOpacity(1);
+    }
+
+    public void lighten(){
+        if(me.isEmpty())
+            this.setOpacity(0);
+    }
+
     public void clientUpdate(Player player, boolean hasCity) {
         this.setOpacity(0.7);
         paintButton(hasCity, player);
@@ -62,4 +74,15 @@ public class MapButton extends Circle implements Serializable {
         return false;
     }
 
+    public void lightlyPaint(Player player) {
+        if(me.isEmpty()){
+            this.setFill(player.getColor());
+            this.setOpacity(0.4);
+        }
+    }
+
+    public void removeLightlyPaint() {
+        if(me.isEmpty())
+            this.setFill(Color.TRANSPARENT);
+    }
 }
