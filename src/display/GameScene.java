@@ -1,6 +1,7 @@
 package display;
 
 import game.Game;
+import game.Resource;
 import game.map.*;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
@@ -245,6 +246,15 @@ public abstract class GameScene {
                             "brought you one victory point closer to victory";
                     break;
             }
+        }
+        if ( title != "" && game.getCurrentPlayer().getPirateCounter() <= 0 ){
+            Resource res = new Resource(0,0,0,0,0);
+            res.generateRandom();;
+            (game.getCurrentPlayer().getRes()).add(res);
+            // pirate comes with new resources
+            game.getCurrentPlayer().resetPirateCounter();
+            title = "pirate";
+            explanation = "hurrah";
         }
         try {
             if( title != "" ) {
