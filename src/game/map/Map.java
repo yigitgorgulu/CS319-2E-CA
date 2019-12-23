@@ -177,8 +177,9 @@ public class Map implements Serializable {
                     for( MapElement e : els) {
                         MapCorner cor = (MapCorner) e;
                         if( cor.player != null ) {
-                            if( cor.type == MapCorner.Types.VILLAGE)
-                                continue;
+                            if( cor.type == MapCorner.Types.VILLAGE) {
+                                //do nothing
+                            }
                             if( cor.type == MapCorner.Types.CITY) {
                                 res.add(res);
                             }
@@ -192,8 +193,8 @@ public class Map implements Serializable {
                                 res.multiply(new Resource(2,2,2,2,2));
                                 cor.player.changeBereket(-1);
                             }
+                            cor.player.addResource(res);
                         }
-                        cor.player.addResource(res);
                     }
                 }
             }
