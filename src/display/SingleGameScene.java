@@ -134,7 +134,7 @@ public class SingleGameScene extends GameScene {
             namesAndCiv.getChildren().addAll(nameOfThePlayer,civOfThePlayer);
             namesAndCiv.setAlignment(Pos.CENTER_LEFT);
             Text vp = new Text((players[i].getVictoryPoints()) + " VP");
-            Text army = new Text((players[i].getArmySize() + "ARMY"));
+            Text army = new Text((players[i].getArmySize() + "AS"));
             vp.setTextAlignment(TextAlignment.LEFT);
             army.setTextAlignment(TextAlignment.LEFT);
             all.getChildren().addAll(namesAndCiv,vp, army);
