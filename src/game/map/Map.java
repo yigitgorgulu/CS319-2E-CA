@@ -178,7 +178,7 @@ public class Map implements Serializable {
                         MapCorner cor = (MapCorner) e;
                         if( cor.player != null ) {
                             if( cor.type == MapCorner.Types.VILLAGE)
-                                res.add(res);
+                                continue;
                             if( cor.type == MapCorner.Types.CITY) {
                                 res.add(res);
                             }
@@ -193,11 +193,7 @@ public class Map implements Serializable {
                                 cor.player.changeBereket(-1);
                             }
                         }
-                        // bereket mode for ottomans
-                        /*if ( (cor.player).isBereket() ) {
-                            Resource addition = new Resource(1,0,0,1,0);
-                            cor.player.addResource(addition);
-                        }*/
+                        cor.player.addResource(res);
                     }
                 }
             }
