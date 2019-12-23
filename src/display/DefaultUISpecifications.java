@@ -8,7 +8,7 @@ public class DefaultUISpecifications {
     public static double SCREEN_WIDTH = 1000;
     public static double SCREEN_HEIGHT = 1000;
 
-    public void setScreenDimensions(Stage stage) {
+    public static void setScreenDimensions(Stage stage) {
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 
         SCREEN_HEIGHT = primaryScreenBounds.getHeight();

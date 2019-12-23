@@ -1,8 +1,12 @@
 package display;
 
+import game.Sound;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -15,18 +19,19 @@ import java.io.FileNotFoundException;
 
 public class MenuButton extends StackPane{
     private Text text;
-    protected static final double RECTANGLE_WIDTH = 200;
-    protected static final double RECTANGLE_HEIGHT = 30;
+    public static final double RECTANGLE_WIDTH = 200;
+    public static final double RECTANGLE_HEIGHT = 30;
 
     public static Font fsmall;
+    private Rectangle bg;
 
-    public MenuButton(String name) throws FileNotFoundException {
+    public MenuButton(String name, Node pane) throws FileNotFoundException {
         fsmall = Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), 16);
         text = new Text(name);
         text.setFont(fsmall);
         text.setFill(Color.WHITE);
 
-        Rectangle bg = new Rectangle(RECTANGLE_WIDTH,RECTANGLE_HEIGHT);
+        bg = new Rectangle(RECTANGLE_WIDTH,RECTANGLE_HEIGHT);
         bg.setOpacity(0.6);
         bg.setFill(Color.BLACK);
 
@@ -43,10 +48,25 @@ public class MenuButton extends StackPane{
             text.setFill(Color.WHITE);
         });
 
-        DropShadow drop = new DropShadow(50, Color.WHITE);
+        DropShadow drop = new DropShadow(15, Color.WHITE);
         drop.setInput(new Glow());
 
-        setOnMousePressed(e->setEffect(drop));
+        setOnMousePressed(e->{
+            setEffect(drop);
+            try {
+                Sound.menuButtonSound((Pane) pane);
+            }catch (ClassCastException a){}
+
+        });
+
         setOnMouseReleased(e->setEffect(null));
+    }
+
+    public void setBackgroundColor(Color color){
+        bg.setFill(color);
+    }
+
+    public void setTextColor(Color color){
+        text.setFill(color);
     }
 }

@@ -1,39 +1,50 @@
 package game.player;
 import game.Resource;
 
-public class Civilization {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Civilization implements Serializable {
     Resource roadCost;
     Resource villageCost;
     Resource cityCost;
     Resource devCardCost;
+    CivType civType;
+    List<CivBonus> civBonuses= new ArrayList<>();
 
-    Civilization(CivilizationEnum civilization) {
-        if(civilization.equals(CivilizationEnum.OTTOMANS)) {
-            roadCost = new Resource(1, 1, 0, 0, 0);
-            villageCost = new Resource(1, 1, 1, 1, 0);
-            cityCost = new Resource(0, 0, 0, 2, 3);
-            devCardCost = new Resource(0, 1, 0, 1, 1);
-        }
-        else if(civilization.equals(CivilizationEnum.SPAIN)) {
-            roadCost = new Resource(1, 0, 0, 0, 1);
-            villageCost = new Resource(1, 1, 0, 2, 0);
-            cityCost = new Resource(2, 0, 0, 0, 3);
-            devCardCost = new Resource(0, 0, 1, 0, 2);
-        }
-        else if(civilization.equals(CivilizationEnum.GB)) {
-            roadCost = new Resource(0, 2, 0, 0, 0);
-            villageCost = new Resource(0, 1, 1, 1, 1);
-            cityCost = new Resource(2, 0, 0, 0, 2);
-            devCardCost = new Resource(1, 0, 1, 1, 0);
-        }
-        else if(civilization.equals(CivilizationEnum.MAYA)) {
-            roadCost = new Resource(1, 1, 0, 1, 1);
-            villageCost = new Resource(0, 1, 1, 1, 0);
-            cityCost = new Resource(0, 2, 0, 1, 3);
-            devCardCost = new Resource(0, 2, 1, 0, 0);
+    Civilization(CivType civ){
+        roadCost = new Resource(1,1,0,0,0);
+        villageCost = new Resource(1,1,1,1,0);
+        cityCost = new Resource(0,0,1,2,3);
+        devCardCost = new Resource(0,0,1,1,1);
+        civType = civ;
+
+        switch(civ) {
+            case OTTOMANS:
+                villageCost.substract(new Resource(0,0,0,1,0));
+                break;
+            case ENGLAND:
+                devCardCost.add(new Resource(1,0,0,0,0));
+                cityCost.substract(new Resource(0,0,1,0,0));
+                break;
+            case FRANCE:
+                villageCost.substract(new Resource(0,1,0,0,0));
+                break;
+            case MAYA:
+                roadCost.add(new Resource(0,0,1,0,0));
+            case SPAIN:
+                roadCost.substract(new Resource(1,0,0,0,0));
+                roadCost.add(new Resource(0,1,0,0,0));
+                break;
         }
     }
 
-    public enum CivilizationEnum {SPAIN, OTTOMANS, GB, MAYA};
+    public boolean hasBonus( CivBonus c ) {
+        return civBonuses.contains(c);
+    }
+
+    public enum CivType {OTTOMANS, ENGLAND, FRANCE, MAYA, SPAIN, TURKEY};
+    public enum CivBonus {HOLIDAY_OF_SACRIFICE, DOOMSDAY};
 
 }

@@ -3,10 +3,11 @@ package game.map;
 import display.DefaultUISpecifications;
 
 import java.awt.geom.Point2D;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Location {
+public class Location implements Serializable {
     int x;
     int y;
 
@@ -25,6 +26,11 @@ public class Location {
     };
 
     public enum Types { CORNER, SIDE, TILE }
+
+    public Types getType() {
+        return type;
+    }
+
     Types type;
 
     Location() {

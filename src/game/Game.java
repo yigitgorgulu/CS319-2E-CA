@@ -2,27 +2,33 @@ package game;
 
 import game.map.Location;
 import game.map.Map;
+import game.player.Civilization;
 import game.player.DevelopmentCards;
 import game.player.Player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Game {
+public class Game implements Serializable {
+    public boolean eventTiggered;
     ArrayList<Player> players;
     private int currentPlayerNo = 0;
     Player currentPlayer;
     int noOfPlayers;
     public int gameTurns = 0;
-    boolean builtRoad = false;
-    boolean builtVillage = false;
+    int roadsBuilt = -1;
+    int villagesBuilt = -1;
     Map map;
     int die1 = 0;
     int die2 = 0;
     ArrayList<DevelopmentCards> developmentCards;
-    Player longestRoadOwner;
-    Player largestArmyOwner;
-    Location robber; // default ayarlanmali
+    Location loc = null;
+    Player longestRoadOwner = null;
+    Player largestArmyOwner = null;
+    boolean canMoveRobber = false;
+
+    int doomsdayClock = 0;
 
     public Game(Map m, ArrayList<Player> p) {
         map = m;
@@ -30,6 +36,14 @@ public class Game {
         currentPlayer = players.get(currentPlayerNo);
         noOfPlayers = p.size();
         setDevelopmentCards();
+    }
+
+    public int getDoomsdayClock() {
+        return doomsdayClock;
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
     }
 
     public int getDie1() {
@@ -40,14 +54,16 @@ public class Game {
         return die2;
     }
 
-    public void moveRobber(Location loc){
-        if ( currentPlayer.playKnightCard() ){
-            robber.setX(loc.getX());
-            robber.setY(loc.getY());
-        }
-    }
+    public boolean moveRobber(Location loc) {
+        if( !canMoveRobber )
+            return false;
+        System.out.println(loc);
+        map.setRoberLocation(loc);
+        canMoveRobber = false;
+        return true;
+    }// steal one card from one of the robber-adj players -NOT ADDED YET
 
-    public void setDevelopmentCards(){
+    public void setDevelopmentCards(){ // creates development cards array list considering the # of players
         developmentCards = new ArrayList<>();
         if ( noOfPlayers < 5 ){
             for ( int i = 0; i < 14; i++ )
@@ -58,8 +74,10 @@ public class Game {
                 developmentCards.add(DevelopmentCards.ROAD_BUILDING);
             for ( int i = 21; i < 23; i++ )
                 developmentCards.add(DevelopmentCards.YEAR_OF_PLENTY);
+            for ( int i = 23; i < 24; i++ )
+                developmentCards.add(DevelopmentCards.MONOPOLY);
         }
-        else if ( noOfPlayers > 4 ) {
+        else if ( noOfPlayers >= 5 ) {
             for (int i = 0; i < 5; i++)
                 developmentCards.add(DevelopmentCards.VICTORY_POINT);
             for (int i = 5; i < 8; i++)
@@ -68,8 +86,21 @@ public class Game {
                 developmentCards.add(DevelopmentCards.ROAD_BUILDING);
             for (int i = 28; i < 31; i++)
                 developmentCards.add(DevelopmentCards.YEAR_OF_PLENTY);
+            for ( int i = 31; i < 31; i++ )
+                developmentCards.add(DevelopmentCards.MONOPOLY);
         }
+        Collections.shuffle(developmentCards);
         shuffleDevelopmentCards(20);
+    }
+
+    public boolean buyDevelopmentCard(){ // assigns the DC on the top to the currentPlayer if it is affordable
+        if ( !inSettlingPhase() && currentPlayer.canAfford(Player.Actions.BUY_DEV_CARD) ){
+            currentPlayer.addDevelopmentCard(developmentCards.get(0));
+            developmentCards.remove(0);
+            currentPlayer.payForAction(Player.Actions.BUY_DEV_CARD);
+            return true;
+        }
+        return false;
     }
 
     public void shuffleDevelopmentCards(int time){
@@ -82,26 +113,138 @@ public class Game {
 
     public boolean build(Location loc) {
         Player.Actions cost = map.getCost(loc);
-        boolean settle = inSettlingPhase() &&
-                ( ((cost == Player.Actions.BUILD_ROAD && !builtRoad)
-                        || (cost == Player.Actions.BUILD_VILLAGE && !builtVillage)) );
-        if ( ( currentPlayer.canAfford(cost) && !inSettlingPhase() ) || settle) {
+        boolean freeSettle =
+                ( ((cost == Player.Actions.BUILD_ROAD && roadsBuilt < 0)
+                        || (cost == Player.Actions.BUILD_VILLAGE && villagesBuilt < 0)) );
+        boolean paidSettle = currentPlayer.canAfford(cost) && !inSettlingPhase();
+
+        if (freeSettle || paidSettle) {
             if (map.build(loc, currentPlayer)) {
-                if (!settle)
-                    currentPlayer.makeAction(cost);
+                if (paidSettle) {
+                    currentPlayer.payForAction(cost);
+                }
                 if( cost == Player.Actions.BUILD_VILLAGE ) {
-                    builtVillage = true;
+                    villagesBuilt += 1;
+                    currentPlayer.incrementVictoryPoints(1);
+                }
+                if( cost == Player.Actions.BUILD_CITY) {
+                    currentPlayer.incrementVictoryPoints(1);
                 }
                 if( cost == Player.Actions.BUILD_ROAD ) {
-                    builtRoad = true;
-                } else {
-                    if(currentPlayer.checkVictory()) {
-                        System.out.println( currentPlayer.name + " Won");
-                    }
-                    currentPlayer.incrementVictoryPoints(1);
+                    roadsBuilt += 1;
+                }
+                if(currentPlayer.checkVictory()) {
+                    System.out.println(currentPlayer.name + " Won");
                 }
                 return true;
             }
+        }
+        return false;
+    }
+
+    public boolean buildCheck(Location loc) {
+        Player.Actions cost = map.getCost(loc);
+        boolean freeSettle =
+                ( ((cost == Player.Actions.BUILD_ROAD && roadsBuilt < 0)
+                        || (cost == Player.Actions.BUILD_VILLAGE && villagesBuilt < 0)) );
+        boolean paidSettle = currentPlayer.canAfford(cost) && !inSettlingPhase();
+        if(freeSettle || paidSettle)
+            return map.buildCheck(loc,currentPlayer);
+        else
+            return false;
+    }
+
+    public boolean checkEvent( int dice ){ // within a game, an event can only occur once
+            Civilization.CivType type = currentPlayer.getCivilizationType();
+            eventTiggered = true;
+            switch (type){
+                case OTTOMANS:
+                case TURKEY:
+                    if( dice == 3) {
+                        currentPlayer.changeBereket(currentPlayer.resetSheep());
+                        return true;
+                    }
+                    break;
+                case MAYA:
+                    if(dice == 12) {
+                        doomsdayClock += 1;
+                        if( doomsdayClock == 1) {
+                            map.twinSheeps = true;
+                            return true;
+                        }
+                        else if( doomsdayClock == 2) {
+                            map.noCrops = true;
+                            return true;
+                        }
+                        else if( doomsdayClock == 3) {
+                            for (int i = 0; i < players.size(); i++)
+                                map.destroy(players.get(i));
+                            return true;
+                        }
+                    }
+                    break;
+                case SPAIN:
+                    if(dice == 2) {
+                        if ((largestArmyOwner != currentPlayer) && (largestArmyOwner != null)) {
+                            largestArmyOwner.decreaseArmySize(1);
+                            currentPlayer.increaseArmySize(1);
+                            checkLargestArmy();
+                            return true;
+                        }
+                    }
+                    break;
+                case ENGLAND:
+                    if(dice == 4) {
+                        Resource res = new Resource(0, 0, 0, 0, 3);
+                        currentPlayer.addResource(res);
+                        return true;
+                    }
+                    break;
+                case FRANCE:
+                    if( dice == 5 ) {
+                        currentPlayer.resetResources();
+                        currentPlayer.incrementVictoryPoints(1);
+                        return true;
+                    }
+                    break;
+        }
+        eventTiggered = false;
+        return false;
+    }
+
+    public boolean checkLargestArmy() {
+        if( currentPlayer.getArmySize() >= 3) {
+            if (largestArmyOwner == null ) {
+                largestArmyOwner = currentPlayer;
+                currentPlayer.incrementVictoryPoints(2);
+                return true;
+            } else if (currentPlayer.getArmySize() > largestArmyOwner.getArmySize()) {
+                largestArmyOwner.decreaseVictoryPoints(2);
+                currentPlayer.incrementVictoryPoints(2);
+                largestArmyOwner = currentPlayer;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean playDevelopmentCard(DevelopmentCards devCard) {
+        if(currentPlayer.playDevelopmentCard(devCard) ) {
+            switch(devCard) {
+                case KNIGHT:
+                    canMoveRobber = true;
+                    currentPlayer.increaseArmySize(1);
+                    checkLargestArmy();
+                    break;
+                case MONOPOLY:
+                    /*int add = ((players.get(i)).getRes()).monopolyDecrease(resourceType);
+                    (currentPlayer.getRes()).monopolyIncrease(resourceType,add);*/
+                    break;
+                case ROAD_BUILDING:
+                    roadsBuilt = Math.min(roadsBuilt-2,-2);
+                    break;
+            }
+            return true;
         }
         return false;
     }
@@ -111,35 +254,67 @@ public class Game {
     }
 
     public int rollDice() {
+        for ( int i = 0; i < players.size(); i++ ) {
+            if (players.get(i).getPirateCounter() > 0) {
+                players.get(i).decreasePirateCounter();
+            }
+        }
         die1 = (int) (Math.random() * 6 + 1);
         die2 = (int) (Math.random() * 6 + 1);
+        if( getDiceValue() == 7) {
+            for (int i = 0; i < players.size(); i++) {
+                boolean remove = (players.get(i)).totalResource() > 7;
+                if (remove) {
+                    players.get(i).looseResource(players.get(i).totalResource() / 2);
+                }
+            }
+            canMoveRobber = true;
+        }
         return getDiceValue();
     }
 
     public void endTurn () {
-        int gameDir = 1;
         map.setInSettlingPhase(inSettlingPhase());
-        if (inReverseSettlingPhase()) {
+
+        //calculateNextPlayerNo uses gameTurns. Therefore, line order is important.
+        currentPlayerNo = calculateNextPlayerNo();
+        gameTurns++;
+
+        currentPlayer = players.get(currentPlayerNo);
+        if ( !inSettlingPhase() ) {
+            map.generateResource(rollDice());
+            roadsBuilt = 0;
+            villagesBuilt = 0;
+            checkEvent(getDiceValue());
+        }
+        else if( inSettlingPhase() ) {
+            roadsBuilt = -1;
+            villagesBuilt = -1;
+            map.setInSettlingPhase(true);
+        }
+        if ( endOfSettlingPhase() ) {
+            roadsBuilt = 0;
+            villagesBuilt = 0;
+            map.generateResource(1);
+            map.setInSettlingPhase(false);
+        }
+        canMoveRobber = false;
+    }
+
+    private int calculateNextPlayerNo() {
+        int gameDir = 1;
+
+        if ( gameTurns == noOfPlayers - 1 || gameTurns == 2 * noOfPlayers - 1 ) {
+            gameDir = 0;
+        } else if( gameTurns > noOfPlayers - 1 && gameTurns < 2 * noOfPlayers - 1 ) {
             gameDir = -1;
         }
-        gameTurns++;
-        System.out.println(gameTurns);
-        currentPlayerNo = (currentPlayerNo + gameDir + players.size() ) % players.size();
-        currentPlayer = players.get(currentPlayerNo);
-        if ( !inSettlingPhase() )
-            map.generateResource(rollDice());
-        if ( endOfSettlingPhase() )
-            map.generateResource(1);
-        builtRoad = false;
-        builtVillage = false;
+
+        return (currentPlayerNo + gameDir + players.size() ) % players.size();
     }
 
     public boolean inSettlingPhase () {
-        return gameTurns <= players.size();
-    }
-
-    public boolean inReverseSettlingPhase() {
-        return gameTurns > players.size() && gameTurns <= players.size() * 2;
+        return gameTurns < players.size() * 2;
     }
 
     public boolean endOfSettlingPhase() {
@@ -152,5 +327,9 @@ public class Game {
 
     public int getCurrentPlayerNo() {
         return currentPlayerNo;
+    }
+
+    public Player getNextPlayer() {
+        return players.get(calculateNextPlayerNo());
     }
 }

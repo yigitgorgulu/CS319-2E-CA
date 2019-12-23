@@ -1,15 +1,19 @@
 package game.map;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import game.Game;
+import game.player.Civilization;
 import game.player.Player;
 import game.Resource;
 
 
-public class Map {
+public class Map implements Serializable {
     MapElement[][] corners;
     MapElement[][] sides;
     MapElement[][] tiles;
@@ -18,10 +22,16 @@ public class Map {
             new Point(0,1), new Point(1,1), new Point( 1, 0), new Point(0, -1),
             new Point(-1,-1), new Point(-1,0)
     ));
+    public boolean twinSheeps = false;
+    public boolean noCrops = false;
 
     boolean inSettlingPhase = true;
 
 
+    @Override
+    public String toString() {
+        return "Map";
+    }
 
     public Map() {
         generateMap( 3);
@@ -56,7 +66,7 @@ public class Map {
             }
         }
         ArrayList<MapTile.Types> tileStack = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 20; i++) {
             if( i < 3 ) {
                 tileStack.add(MapTile.Types.MOUNTAIN);
                 tileStack.add(MapTile.Types.HILL);
@@ -87,8 +97,10 @@ public class Map {
         MapTile currTile;
         while( !numberTokens.isEmpty() ) {
             currTile = (MapTile) getMapElement( currLoc );
-            if ( currTile.type == MapTile.Types.DESERT )
+            if ( currTile.type == MapTile.Types.DESERT ) {
+                robber = currTile.getLocation();
                 currTile.number = 0;
+            }
             else
                 currTile.number = numberTokens.remove(0);
                 MapTile nextTile = (MapTile) getMapElement(currLoc.translated(dir.x, dir.y));
@@ -104,11 +116,11 @@ public class Map {
         inSettlingPhase = b;
     }
 
+
     private Point getNextDirection( Point p ) {
         int i = directions.indexOf( p );
         return directions.get( ( i + 1 ) % directions.size() );
     }
-
     public boolean build(Location loc, Player currentPlayer) {
         MapElement me = getMapElement( loc );
         boolean canSettle = loc.type == Location.Types.CORNER && noAdjacentSettlements(me)
@@ -118,9 +130,39 @@ public class Map {
         {
             ( (Buildable) me).build( currentPlayer );
             if(canRoad) {
-                System.out.println(roadLength(loc, new ArrayList<>(), currentPlayer));
+                //System.out.println(roadLength(loc, new ArrayList<>(), currentPlayer));
             }
             return true;
+        }
+        return false;
+    }
+
+    public boolean buildCheck(Location loc, Player currentPlayer) {
+        MapElement me = getMapElement( loc );
+        boolean canSettle = loc.type == Location.Types.CORNER && noAdjacentSettlements(me)
+                && ( inSettlingPhase || isConnected(me, currentPlayer) );
+        boolean canRoad = loc.type == Location.Types.SIDE && isConnected(me, currentPlayer);
+        if( canSettle || canRoad )
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean destroy(Player player){
+        for( int y  = 0; y < corners.length; y++ ) {
+            for (int x = 0; x < corners[y].length; x++) {
+                if (((corners[y][x]).getLocation()).type == Location.Types.CORNER) {
+                    Location loc = (corners[y][x]).getLocation();
+                    MapCorner mc = new MapCorner(loc);
+                    if ( !mc.isEmpty() && player.getCivilizationType() != Civilization.CivType.TURKEY ){
+                        if ( mc.type == MapCorner.Types.CITY ){
+                            mc.type = MapCorner.Types.EMPTY;
+                            return true;
+                        }
+                    }
+                }
+            }
         }
         return false;
     }
@@ -129,18 +171,29 @@ public class Map {
         for( MapElement[] t : tiles ) {
             for( MapElement tx : t ) {
                 MapTile tile = (MapTile) tx;
-                if( tile != null && ( tile.number == dice || dice == 1 ) ) {
+                if( tile != null && ( tile.number == dice || dice == 1 ) && tile.getLocation() != robber) {
                     List<MapElement> els = getMapElement(tile.loc.getAdjacentCorners());
                     Resource res = tile.getResource();
                     for( MapElement e : els) {
                         MapCorner cor = (MapCorner) e;
                         if( cor.player != null ) {
-                            if( cor.type == MapCorner.Types.VILLAGE)
-                                cor.player.addResource( res );
-                            if( cor.type == MapCorner.Types.CITY) {
-                                cor.player.addResource( res );
-                                cor.player.multiplyResource( res );
+                            if( cor.type == MapCorner.Types.VILLAGE) {
+                                //do nothing
                             }
+                            if( cor.type == MapCorner.Types.CITY) {
+                                res.add(res);
+                            }
+                            if( twinSheeps ) {
+                                res.multiply(new Resource(1,1,2,1,1));
+                            }
+                            if( noCrops ) {
+                                res.multiply(new Resource(1,1,1,0,1));
+                            }
+                            if( cor.player.isBereketli() ) {
+                                res.multiply(new Resource(2,2,2,2,2));
+                                cor.player.changeBereket(-1);
+                            }
+                            cor.player.addResource(res);
                         }
                     }
                 }
@@ -281,5 +334,10 @@ public class Map {
             }
         }
         return res;
+    }
+
+    public void setRoberLocation(Location loc ){
+        robber.setY(loc.getY());
+        robber.setX(loc.getX());
     }
 }
