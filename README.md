@@ -20,4 +20,5 @@ Settlers of Catan is a turn-based game in which the players discover the new fou
   <li>Final Report First Iteration: https://docs.google.com/document/d/1892Gukbt8nnvteYPZRGCENUkUpM4WvmbxEtItES7Fcg/edit#</li>
   <li>Analysis Report Second Iteration: https://docs.google.com/document/d/1GFhDMpkxPSeQj-dn1LIpqwNFc5gRUauplHVETBuyD3k/edit?usp=sharing</li>
   <li>Design Report Second Iteration: https://docs.google.com/document/d/10B154nVQG6y_jv1BuAQ9AI7SEa-sYvwJMWMaINMPRgg/edit#</li>
+  <li>Final Report Second Iteration: https://docs.google.com/document/d/1gjxzIAu1wd7ETOEb1xXe86MKzEIV3kRmMYeQ0MhkITo/edit?usp=sharing</li>
 </ul>
