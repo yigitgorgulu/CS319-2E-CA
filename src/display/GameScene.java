@@ -396,7 +396,6 @@ public abstract class GameScene {
         double y = loc.getRawDisplayPosition().getY() * stretch;
         x = x + ( differenceX / 2 * stretch );
         y = y + (differenceX / (2 * Math.sqrt(3))) * stretch;
-        MapToken nextToken = null;
         //mt = new MapToken(radius, x, y, a.getNumber() );
         if( dieNum1 + dieNum2 == mt.number ) {
             mt.setFill(Color.LIGHTGREEN);
@@ -406,6 +405,7 @@ public abstract class GameScene {
         mt.setCenterX(x);
         mt.setCenterY(y);
         mt.setRadius(radius);
+        mt.setOpacity(1.0);
     }
 
     protected void setTokenInfoDisplay(VBox vBox, Location loc) {

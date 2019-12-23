@@ -22,6 +22,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -76,6 +77,9 @@ public class SingleGameScene extends GameScene {
                     ex.printStackTrace();
                 }
             }
+            /*for( Pair t : tokens ) {
+                setTokenDisplay((MapToken) t.getKey(), (Location) t.getValue());
+            }*/
         });
         buyDevCardButton.setOnMouseClicked(e -> {
             game.buyDevelopmentCard();

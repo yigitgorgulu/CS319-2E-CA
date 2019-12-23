@@ -115,42 +115,43 @@ public class CivilizationSelectionScene {
             public void changed(ObservableValue<? extends String> ov,
                                 final String oldvalue, final String newvalue)
             {
-                switch (newvalue){
-                    case "Black":
-                       selectedColor = Color.BLACK;
-                       selectedColorString = "Black";
-                       break;
-                    case "Blue":
-                        selectedColor = Color.BLUE;
-                        selectedColorString = "Blue";
-                        break;
-                    case "Orange":
-                        selectedColor = Color.ORANGE;
-                        selectedColorString = "Orange";
-                        break;
-                    case "Yellow":
-                        selectedColor = Color.YELLOW;
-                        selectedColorString = "Yellow";
-                        break;
-                    case "Red":
-                        selectedColor = Color.RED;
-                        selectedColorString = "Red";
-                        break;
-                    case "Purple":
-                        selectedColor = Color.PURPLE;
-                        selectedColorString = "Purple";
-                        break;
-                    case "Green":
-                        selectedColor = Color.GREEN;
-                        selectedColorString = "Green";
-                        break;
-                    default:
-                        selectedColor = Color.TRANSPARENT;
-                        selectedColorString = "";
-                        break;
+                if( newvalue != null ) {
+                    switch (newvalue) {
+                        case "Black":
+                            selectedColor = Color.BLACK;
+                            selectedColorString = "Black";
+                            break;
+                        case "Blue":
+                            selectedColor = Color.BLUE;
+                            selectedColorString = "Blue";
+                            break;
+                        case "Orange":
+                            selectedColor = Color.ORANGE;
+                            selectedColorString = "Orange";
+                            break;
+                        case "Yellow":
+                            selectedColor = Color.YELLOW;
+                            selectedColorString = "Yellow";
+                            break;
+                        case "Red":
+                            selectedColor = Color.RED;
+                            selectedColorString = "Red";
+                            break;
+                        case "Purple":
+                            selectedColor = Color.PURPLE;
+                            selectedColorString = "Purple";
+                            break;
+                        case "Green":
+                            selectedColor = Color.GREEN;
+                            selectedColorString = "Green";
+                            break;
+                        default:
+                            selectedColor = Color.TRANSPARENT;
+                            selectedColorString = "";
+                            break;
+                    }
+                    rectangle.setFill(selectedColor);
                 }
-                rectangle.setFill(selectedColor);
-
             }});
 
         textsAndColors.setAlignment(Pos.CENTER);
