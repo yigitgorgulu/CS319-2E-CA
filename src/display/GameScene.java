@@ -86,7 +86,7 @@ public abstract class GameScene {
     }
 
     public void updateSize(Stage stage) throws IOException {
-        stretch = Math.min( gameView.getWidth() / DefaultUISpecifications.SCREEN_WIDTH
+        stretch = Math.min( gameView.getWidth() / DefaultUISpecifications.SCREEN_WIDTH * 1.2
                 , gameView.getHeight() / DefaultUISpecifications.SCREEN_HEIGHT );
         for( Pair t : tiles ) {
             setTileDisplay((ImageView)t.getKey(), (MapElement) t.getValue() );
@@ -258,7 +258,7 @@ public abstract class GameScene {
         }*/
         try {
             if( title != "" ) {
-                EventPopUp popUp = new EventPopUp(root,title, explanation , game.getCurrentPlayer().getCivilizationType());
+                EventPopUp popUp = new EventPopUp(title, explanation , game.getCurrentPlayer().getCivilizationType());
                 return popUp;
             }
         } catch (IOException ex) {
