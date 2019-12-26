@@ -33,28 +33,22 @@ public class EventPopUp implements Serializable {
     private static final double LARGE_FONT_SIZE = DefaultUISpecifications.SCREEN_WIDTH / 95;
     String titleString;
     String explanationString = "";
-    Font fLarge;
-    Font fNormal;
     Civilization.CivType civType;
-    Group group;
 
-    public EventPopUp(Group group, String titleString, String explanationString, Civilization.CivType civilizationType) throws IOException {
-        this.group = group;
+
+
+    public EventPopUp(String titleString, String explanationString, Civilization.CivType civType) throws IOException {
         this.titleString = titleString;
         this.explanationString = explanationString;
-        this.civType = civilizationType;
-
-        fLarge = Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), LARGE_FONT_SIZE);
-        fNormal = Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), NORMAL_FONT_SIZE);
-
+        this.civType = civType;
     }
 
-    public void initPopUp(Group group, Stage window) throws IOException {
+    public void initPopUp(Group group, Stage window ) throws IOException {
         Font fLarge = Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), LARGE_FONT_SIZE);
         Font fNormal = Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), NORMAL_FONT_SIZE);
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
-        blurBackground(group);
+        //blurBackground(group);
         double widthOfPopUp = DefaultUISpecifications.SCREEN_WIDTH / 4.16;
         double heightOfPopUp = DefaultUISpecifications.SCREEN_HEIGHT / 1.8;
         Rectangle bg = new Rectangle(widthOfPopUp,heightOfPopUp);
@@ -104,11 +98,8 @@ public class EventPopUp implements Serializable {
         buttonAndTexts.setAlignment(Pos.CENTER);
 
         StackPane pane = new StackPane();
-
-        if(getImg(civType) != null)
+        if ( civType != null )
             bg.setFill(new ImagePattern(getImg(civType)));
-        else
-            bg.setFill(Color.WHITESMOKE);
 
         pane.getChildren().addAll(bg, buttonAndTexts);
         Scene scene = new Scene(pane);
@@ -181,7 +172,7 @@ public class EventPopUp implements Serializable {
 
     public void close(Stage window) {
         window.close();
-        unblurBackground(group);
+        //unblurBackground(group);
     }
 
 

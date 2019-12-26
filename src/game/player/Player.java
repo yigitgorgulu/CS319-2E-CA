@@ -198,7 +198,7 @@ public class Player implements Serializable {
     }
 
     public boolean isBereketli(){
-        return bereketLeft >= 0;
+        return bereketLeft >= 1;
     }
 
     public void resetResources(){
