@@ -18,7 +18,7 @@ public class ServerGameScene extends NetworkGameScene {
     public ServerGameScene(ArrayList<Player> p, Stage primaryStage, ServerConnection connection) throws IOException {
         super(primaryStage, connection);
         this.player = p.get(0);
-        System.out.println("SERVER PLAYER COLOR:" + player.getColor().toString());
+
         map = new Map();
         addBackground();
         createGameAndTiles(p);
@@ -31,8 +31,6 @@ public class ServerGameScene extends NetworkGameScene {
         updateResources(player);
         displayDice(game.getDie1(), game.getDie2());
 
-        System.out.println("end turn done");
-        System.out.println(game.getCurrentPlayer().name + "\n" + player.name);
         EventPopUp popUp = checkGameEvent(game);
 
         if(game.getCurrentPlayer().equals(player)) {
@@ -70,8 +68,6 @@ public class ServerGameScene extends NetworkGameScene {
     @Override
     protected void nonTileMouseClicked(MapButton mb, MapElement a) {
         mb.setOnMouseClicked(e -> {
-            System.out.println(player.name);
-            System.out.println(game.getCurrentPlayer().name);
             if( game.getCurrentPlayer().equals(player)) {
                 boolean built = game.build(a.getLocation());
                 mb.update();

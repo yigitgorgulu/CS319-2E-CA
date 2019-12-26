@@ -16,6 +16,7 @@ import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
@@ -53,6 +54,7 @@ public abstract class GameScene {
     protected HBox diceBox;
     protected ListView<Button> devCardList = new ListView<Button>();
     protected ListView<HBox> playerList;
+    protected VBox lists;
     List<Pair> tiles = new ArrayList<>();
     List<Pair> tokens = new ArrayList<>();
     List<Pair> tokenInfos = new ArrayList<>();
@@ -64,6 +66,7 @@ public abstract class GameScene {
     protected Stage gameView;
     private int dieNum1;
     private int dieNum2;
+    Pane pane;
 
     // constructors
     public GameScene(Stage gameView) throws IOException {
@@ -73,13 +76,14 @@ public abstract class GameScene {
         playerList = new ListView<>();
         dice = new Die[2];
         ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) -> {
-            System.out.println("Height: " + gameView.getHeight() + " Width: " + gameView.getWidth());
             try {
                 updateSize(gameView);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         };
+
+
 
         gameView.widthProperty().addListener(stageSizeListener);
         gameView.heightProperty().addListener(stageSizeListener);
@@ -178,8 +182,8 @@ public abstract class GameScene {
             mapButtons.add(mb);
             setMapButtonDisplay(mb);
             tileMouseClicked(mb, a);
-            mb.setFill(Color.GRAY);
-            mb.setOpacity(0.5);
+            /*mb.setFill(Color.GRAY);
+            mb.setOpacity(0.5);*/
             root.getChildren().add(mb);
         });
     }
@@ -193,8 +197,8 @@ public abstract class GameScene {
         dice[0] = new Die(dieNum1);
         dice[1] = new Die(dieNum2);
         diceBox = new HBox(dice[0], dice[1]);
-        diceBox.setTranslateX(200);
-        diceBox.setTranslateY(200);
+        diceBox.setTranslateX(250);
+        diceBox.setTranslateY(250);
         root.getChildren().add(diceBox);
         for( Pair t : tokens ) {
             setTokenDisplay((MapToken)t.getKey(),(Location)t.getValue());
@@ -330,24 +334,28 @@ public abstract class GameScene {
 
     protected void addBackground() {
         Rectangle bg = new Rectangle(DefaultUISpecifications.SCREEN_WIDTH, DefaultUISpecifications.SCREEN_HEIGHT);
-        bg.setFill(Color.LIGHTSKYBLUE);
+        Stop[] stops = new Stop[] { new Stop(0, Color.LIGHTSKYBLUE), new Stop(1, Color.SKYBLUE.darker())};
+        LinearGradient lg1 = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, stops);
+        bg.setFill(lg1);
         root.getChildren().add(bg);
     }
 
-    protected void createDevCardList() {
-        root.getChildren().add(devCardList);
+    protected VBox createDevCardList() {
+        VBox devCardListBox = new VBox();
+        devCardListBox.setPrefSize(200,DefaultUISpecifications.SCREEN_HEIGHT);
+        devCardList.setStyle("-fx-control-inner-background: darkgray;-fx-text-fill: white;");
+        devCardListBox.getChildren().add(devCardList);
+        devCardListBox.setAlignment(Pos.CENTER_LEFT);
+        return devCardListBox;
     }
 
-    protected void createPlayerList() {
+    protected VBox createPlayerList() {
         VBox playerListBox = new VBox();
         playerListBox.setPrefSize(200,DefaultUISpecifications.SCREEN_HEIGHT);
         playerList.setStyle("-fx-control-inner-background: darkgray;-fx-text-fill: white;");
         playerListBox.getChildren().add(playerList);
         playerListBox.setAlignment(Pos.CENTER_LEFT);
-        DropShadow drop = new DropShadow(5, Color.BLACK);
-        drop.setInput(new Glow());
-        playerListBox.setEffect(drop);
-        root.getChildren().add(playerListBox);
+        return playerListBox;
     }
 
 
@@ -399,13 +407,15 @@ public abstract class GameScene {
         //mt = new MapToken(radius, x, y, a.getNumber() );
         if( dieNum1 + dieNum2 == mt.number ) {
             mt.setFill(Color.LIGHTGREEN);
+            mt.setOpacity(0.7);
         } else {
             mt.setFill(Color.WHITE);
+            mt.setOpacity(0.4);
         }
         mt.setCenterX(x);
         mt.setCenterY(y);
         mt.setRadius(radius);
-        mt.setOpacity(1.0);
+        mt.setOpacity(0.4);
     }
 
     protected void setTokenInfoDisplay(VBox vBox, Location loc) {
@@ -447,5 +457,10 @@ public abstract class GameScene {
     public Scene getScene(){
         scene = new Scene(root);
         return scene;
+    }
+
+    public Pane getPane(){
+        new Pane(root);
+        return pane;
     }
 }

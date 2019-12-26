@@ -30,7 +30,6 @@ public class ClientGameScene extends NetworkGameScene {
         endTurnButton.setDisable(true);
         endTurnButton.setOnMouseClicked(e->{
             try {
-                System.out.println("SENDING END TURN REQUEST");
                 connection.send(Requests.END_TURN);
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -52,10 +51,6 @@ public class ClientGameScene extends NetworkGameScene {
 
     @Override
     public void updateResources(Player player, String playerName) {
-        System.out.println(player.name);
-        System.out.println("Brick, Ore, Wood, Sheep, Wheat"  + player.getBrick() + " "
-                +player.getOre()+ " " +  player.getWood() + " " + player.getSheep() + " " +
-                + player.getWheat());
         this.player = player;
         super.updateResources(player, playerName);
     }

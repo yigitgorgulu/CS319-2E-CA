@@ -39,10 +39,8 @@ public class ServerConnection extends Connection {
         this.playerCount = playerCount;
         clients = new Client[playerCount - 1];
         players = new ArrayList<>();
-        System.out.println("ADDED OTTOMANS");
         players.add(new Player(Color.RED, Civilization.CivType.OTTOMANS, "server"));
-        System.out.println(players.get(0).name);
-    }
+}
 
     @Override
     public void send(Serializable data) throws Exception {
@@ -72,13 +70,10 @@ public class ServerConnection extends Connection {
                 ObjectInputStream in = new ObjectInputStream(s.getInputStream());
                 currentConnectedClient++;
 
-                System.out.println("Someting Happened");
-
                 clients[playerCount] = new Client(s, out, in);
 
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println("Problem");
             }
             playerCount++;
         }
@@ -88,15 +83,12 @@ public class ServerConnection extends Connection {
             for (Client client : clients) {
                 try {
                     Serializable data;
-
-                    System.out.println("AWAITING: " + client.id);
                     if(!gameInit || client.player.equals(((ServerGameScene) networkGameScene).getGame().getCurrentPlayer())
                             // To prevent infinite loop on servers turn. Increases game performance
                             || (client.player.equals(((ServerGameScene) networkGameScene).getGame().getNextPlayer())
                                             && ((ServerGameScene) networkGameScene).getGame().getCurrentPlayer().name.equals("server"))) {
 
                         data = (Serializable) client.in.readObject();
-                        System.out.println("AFTER AWAIT");
                     }
                     else {
                         continue;
@@ -109,12 +101,9 @@ public class ServerConnection extends Connection {
 
                         Platform.runLater(() -> {
                             try {
-
-                                System.out.println("Players:");
                                 for (Player plrr: players) {
-                                    System.out.println(plrr.name);
+
                                 }
-                                System.out.println("---------");
                                 ServerGameScene serverGameScene = new ServerGameScene(players, gameView,this);
                                 closePopUp();
 
@@ -137,13 +126,11 @@ public class ServerConnection extends Connection {
                     else if(data instanceof PlayerInfo) {
                         Player plrrx = new Player((PlayerInfo)data);
                         players.add(plrrx);
-                        System.out.println("One player Added");
                         client.os.writeObject(Requests.PLAYER_OK);
                         client.setPlayer(plrrx);
                     }
 
                     else if(data.equals(Requests.END_TURN)) {
-                        System.out.println("RECEIVED END TURN REQUEST:");
                         Platform.runLater(() -> {
                             try {
                                 ((ServerGameScene) networkGameScene).endTurnProcess(endTurnCount);
@@ -160,8 +147,6 @@ public class ServerConnection extends Connection {
                         MapButton mb = ((BuildRequest)data).mapButton;
                         Player ply = new Player(((BuildRequest)data).playerInfo);
 
-                        System.out.println("RECEIVED BUILD REQUEST BY:");
-                        System.out.println(ply.name);
 
                         if(((ServerGameScene) networkGameScene).getGame().getCurrentPlayer().equals(ply)) {
                             boolean built = ((ServerGameScene) networkGameScene).getGame().build(a.getLocation());
@@ -177,7 +162,6 @@ public class ServerConnection extends Connection {
                                 send(data);
                             }
                         }
-                        System.out.println("DONE BUILD");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -19,11 +19,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,21 +37,44 @@ public class SingleGameScene extends GameScene {
     int numberOfPlayers;
     Game game;
     Player[] players;
+    Font fsmall;
 
     public SingleGameScene(Stage primaryStage, Player[] players, int numberOfPlayers) throws IOException, InterruptedException {
         super(primaryStage);
         map = new Map();
         this.numberOfPlayers = numberOfPlayers;
-        System.out.println(numberOfPlayers);
+        fsmall = Font.loadFont(new FileInputStream(new File("res/MinionPro-BoldCn.otf")), 25);
 
         this.players = players;
         addBackground();
         createGameAndTiles();
         addPlayerResourcesMenu();
-        createDevCardList();
-        createPlayerList();
+
+        Text playerListText = new Text("Player List");
+        playerListText.setFont(fsmall);
+        playerListText.setFill(Color.WHITE);
+
+        Text devCardListText = new Text("Development Cards");
+        devCardListText.setFont(fsmall);
+        devCardListText.setFill(Color.WHITE);
+        Rectangle liner = new Rectangle(200, 35);
+        liner.setFill(Color.TRANSPARENT);
+        Rectangle liner2 = new Rectangle(200, 35);
+        liner2.setFill(Color.TRANSPARENT);
+        lists = new VBox(5);
+        lists.getChildren().addAll(liner,playerListText,createPlayerList(),liner2,devCardListText,createDevCardList());
+        //lists.getChildren().add(createDevCardList());
+        lists.setAlignment(Pos.CENTER);
+        lists.setPrefSize(200,DefaultUISpecifications.SCREEN_HEIGHT * 6 / 7);
+        lists.setSpacing(1);
+        root.getChildren().add(lists);
+
         updatePlayerList();
         displayDice(game.getDie1(), game.getDie2());
+    }
+
+    protected void createLists(VBox lists, VBox devCardList, VBox playerList){
+
     }
 
     @Override
@@ -91,8 +117,16 @@ public class SingleGameScene extends GameScene {
     protected void nonTileMouseClicked(MapButton mb, MapElement a) {
         mb.setOnMouseClicked(e -> {
             game.build(a.getLocation());
+            if(game.checkVictory()) {
+                try {
+                    new EventPopUp(root,game.getCurrentPlayer()+ " WON","Congratulations!",null);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
             mb.update();
             updateResources(game.getCurrentPlayer());
+            updateDevCards(game.getCurrentPlayer());
         });
         mb.setOnMouseEntered(e->{
             if(game.buildCheck(a.getLocation())) {
@@ -149,11 +183,11 @@ public class SingleGameScene extends GameScene {
     }
 
     private void updateDevCards(Player player) {
-        ObservableList<String> devCardNames = FXCollections.observableArrayList();
+        devCardList.getItems().clear();
         ObservableList<Button> devCardButtons = FXCollections.observableArrayList();
         List<DevelopmentCards> devCards = player.getDevelopmentCards();
         for( DevelopmentCards d : devCards ) {
-            Button button = new Button(""+d);
+            Button button = new Button(""+d.name());
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {

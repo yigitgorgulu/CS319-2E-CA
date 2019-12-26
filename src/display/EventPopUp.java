@@ -105,7 +105,10 @@ public class EventPopUp implements Serializable {
 
         StackPane pane = new StackPane();
 
-        bg.setFill(new ImagePattern(getImg(civType)));
+        if(getImg(civType) != null)
+            bg.setFill(new ImagePattern(getImg(civType)));
+        else
+            bg.setFill(Color.WHITESMOKE);
 
         pane.getChildren().addAll(bg, buttonAndTexts);
         Scene scene = new Scene(pane);

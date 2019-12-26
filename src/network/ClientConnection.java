@@ -40,9 +40,6 @@ public class ClientConnection extends Connection {
 
     @Override
     public void run() {
-
-        System.out.println("Something Happened");
-
         try (Socket s = new Socket(IPAddress, 31923);
              ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
              ObjectInputStream in = new ObjectInputStream(s.getInputStream())
@@ -67,7 +64,6 @@ public class ClientConnection extends Connection {
                 });
                 cc.await();
                 name = civSelection[0].getName();
-                System.out.println(name);
                 color = civSelection[0].getColor();
                 civType = civSelection[0].getCivType();
 
@@ -75,7 +71,7 @@ public class ClientConnection extends Connection {
                 PlayerInfo playerInfo = new PlayerInfo(px);
                 send(playerInfo);
 
-                System.out.println("YAAAY");
+
                 Requests playerAcceptedResult = (Requests) in.readObject();
                 if(playerAcceptedResult.equals(Requests.PLAYER_OK)) {
                     send(Requests.GAME_INIT);
@@ -89,7 +85,6 @@ public class ClientConnection extends Connection {
 
                 try {
                     Serializable data = (Serializable) in.readObject();
-                    System.out.println(data.toString());
                     if(data instanceof Map) {
                         Platform.runLater(() -> {
                             try {
@@ -111,7 +106,6 @@ public class ClientConnection extends Connection {
                             Player builderPlayer = new Player(((BuildRequest)data).playerInfo);
                             mapB.clientUpdate(builderPlayer, ((BuildRequest)data).getHasCity());
                             if(builderPlayer.equals(pl)) {
-                                System.out.println("UPDATING MY RES");
                                 networkGameScene.updateResourcesInTurn(builderPlayer);
                             }
                         });
@@ -125,9 +119,6 @@ public class ClientConnection extends Connection {
                             ((ClientGameScene) networkGameScene).displayDice(endTurnInfo.getDie1(), endTurnInfo.getDie2());
 
                             networkGameScene.updateResources(new Player(endTurnInfo.getPlayerInfo()),endTurnInfo.getCurrentPlayerInfo().name);
-                            System.out.println(endTurnInfo.getCurrentPlayerInfo().name + "\n" +
-                                    endTurnInfo.getPlayerInfo().name + "\n" +
-                                    networkGameScene.getPlayer().name);
                             if(new Player(endTurnInfo.getCurrentPlayerInfo()).equals(networkGameScene.getPlayer()))
                                 ((ClientGameScene) networkGameScene).enableEndTurn();
                             if( endTurnInfo.getPopUp() != null ) {
@@ -148,7 +139,7 @@ public class ClientConnection extends Connection {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Problem");
+
             connectionFailed.set(true);
         }
     }

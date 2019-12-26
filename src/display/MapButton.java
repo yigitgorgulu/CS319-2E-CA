@@ -20,11 +20,11 @@ public class MapButton extends Circle implements Serializable {
     public MapButton(double x, double y, double r, MapElement me) {
         super( x, y, r );
         this.me = me;
+        this.setOpacity(0.1);
     }
 
     public void update() {
         if( !me.isEmpty() ){
-            /*this.setFill(Color.WHITESMOKE);*/
             this.setOpacity(1);
             Player p = ( (Buildable) me ).getPlayer();
 
@@ -44,13 +44,14 @@ public class MapButton extends Circle implements Serializable {
     }
 
     public void clientUpdate(Player player, boolean hasCity) {
-        this.setOpacity(0.7);
+        this.setOpacity(1);
         paintButton(hasCity, player);
     }
 
     private void paintButton(boolean hasCity, Player player) {
         if(hasCity) {
             this.setFill(player.getColor().darker().darker());
+            this.setRadius(this.getRadius() + 2);
         }
         else {
             this.setFill(player.getColor());

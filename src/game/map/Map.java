@@ -129,9 +129,6 @@ public class Map implements Serializable {
         if( canSettle || canRoad )
         {
             ( (Buildable) me).build( currentPlayer );
-            if(canRoad) {
-                //System.out.println(roadLength(loc, new ArrayList<>(), currentPlayer));
-            }
             return true;
         }
         return false;

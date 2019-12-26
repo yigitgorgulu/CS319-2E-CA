@@ -57,7 +57,7 @@ public class Game implements Serializable {
     public boolean moveRobber(Location loc) {
         if( !canMoveRobber )
             return false;
-        System.out.println(loc);
+
         map.setRoberLocation(loc);
         canMoveRobber = false;
         return true;
@@ -133,10 +133,7 @@ public class Game implements Serializable {
                 if( cost == Player.Actions.BUILD_ROAD ) {
                     roadsBuilt += 1;
                 }
-                if(currentPlayer.checkVictory()) {
-                    System.out.println(currentPlayer.name + " Won");
-                }
-                return true;
+            return true;
             }
         }
         return false;
@@ -331,5 +328,12 @@ public class Game implements Serializable {
 
     public Player getNextPlayer() {
         return players.get(calculateNextPlayerNo());
+    }
+
+    public boolean checkVictory() {
+        if(currentPlayer.checkVictory()) {
+            return true;
+        }
+        return false;
     }
 }

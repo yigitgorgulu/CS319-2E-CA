@@ -255,7 +255,6 @@ public class CivilizationSelectionScene {
             }else if(gametype.equals("SINGLE")){
                 if(currenti < numberOfPlayers - 1){
                     players[currenti] = new Player(selectedColor,selectedCiv,name);
-                    System.out.println("CURRENT I IS " + currenti);
                     HBox a = new HBox(3);
                     Text nameOfThePlayer = new Text(players[currenti].name);
                     nameOfThePlayer.setText(nameOfThePlayer.getText() + " as");
