@@ -54,7 +54,7 @@ public class Player implements Serializable {
 
     public Player(Color c, Civilization.CivType civType, String name) {
         color = c;
-        res = new Resource( 0, 0, 0, 0, 0);
+        res = new Resource( 5, 5, 5, 5, 5);
         civ = new Civilization(civType);
         this.name = name;
     }

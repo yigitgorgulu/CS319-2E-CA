@@ -117,13 +117,6 @@ public class SingleGameScene extends GameScene {
     protected void nonTileMouseClicked(MapButton mb, MapElement a) {
         mb.setOnMouseClicked(e -> {
             game.build(a.getLocation());
-            if(game.checkVictory()) {
-                try {
-                    new EventPopUp(root,game.getCurrentPlayer()+ " WON","Congratulations!",null);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
             mb.update();
             updateResources(game.getCurrentPlayer());
             updateDevCards(game.getCurrentPlayer());

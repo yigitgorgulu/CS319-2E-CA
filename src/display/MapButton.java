@@ -48,12 +48,14 @@ public class MapButton extends Circle implements Serializable {
         paintButton(hasCity, player);
     }
 
+    boolean isBig = false;
     private void paintButton(boolean hasCity, Player player) {
-        if(hasCity) {
+        if(hasCity && !isBig) {
             this.setFill(player.getColor().darker().darker());
             this.setRadius(this.getRadius() + 2);
+            isBig = true;
         }
-        else {
+        if(!hasCity){
             this.setFill(player.getColor());
         }
     }

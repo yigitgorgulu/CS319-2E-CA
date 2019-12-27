@@ -407,7 +407,7 @@ public abstract class GameScene {
         //mt = new MapToken(radius, x, y, a.getNumber() );
         if( dieNum1 + dieNum2 == mt.number ) {
             mt.setFill(Color.LIGHTGREEN);
-            mt.setOpacity(0.7);
+            mt.setOpacity(1.0);
         } else {
             mt.setFill(Color.WHITE);
             mt.setOpacity(0.4);

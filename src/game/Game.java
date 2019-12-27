@@ -258,15 +258,15 @@ public class Game implements Serializable {
         }
         die1 = (int) (Math.random() * 6 + 1);
         die2 = (int) (Math.random() * 6 + 1);
-        if( getDiceValue() == 7) {
-            for (int i = 0; i < players.size(); i++) {
+        /*if( getDiceValue() == 7) {
+           for (int i = 0; i < players.size(); i++) {
                 boolean remove = (players.get(i)).totalResource() > 7;
                 if (remove) {
                     players.get(i).looseResource(players.get(i).totalResource() / 2);
                 }
             }
             canMoveRobber = true;
-        }
+        }*/
         return getDiceValue();
     }
 
